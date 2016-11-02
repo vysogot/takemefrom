@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  factory :place do
-    game_id ""
+  factory :place, aliases: [:beginning] do
+    game
     content "MyString"
   end
 end

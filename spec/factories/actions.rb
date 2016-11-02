@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :action do
-    game_id ""
-    source_id ""
-    target_id ""
+    game
+    source factory: :place
+    target factory: :place
     content "MyString"
   end
 end
