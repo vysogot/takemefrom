@@ -41,6 +41,7 @@ group :development, :test do
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
   gem 'byebug', platform: :mri
+  #gem 'rails-controller-testing'
 end
 
 group :development do

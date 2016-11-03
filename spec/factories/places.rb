@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :place, aliases: [:beginning] do
     game
-    content "MyString"
+    sequence(:content) { |i| "Place #{i} content" }
   end
 end

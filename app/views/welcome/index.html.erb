@@ -1,12 +1,12 @@
 <h1 id="title">Take me from</h1>
 <p>Take me from one place to another</p>
 
-<% #if true %>
-  <p class="choice"><a href="/places/gameBeginning">Play</a></p>
-  <p class="choice"><a href="/games/gameId">Redesign</a></p>
-<% #end %>
-  <p class="choice"><a href="/games">Browse</a></p>
-  <p class="choice"><a href="/games/new">Create</a>
+<% if @game %>
+  <p class="choice"><%= link_to 'Play', place_path(@game.beginning) %></p>
+  <p class="choice"><%= link_to 'Redesign', game_path(@game) %></p>
+<% end %>
+  <p class="choice"><%= link_to 'Browse', games_path %></p>
+  <p class="choice"><%= link_to 'Create', new_game_path %></p>
 <% if current_user %>
   <p class="choice"><%= link_to "Log out", destroy_user_session_path, method: :delete %>
 <% else %>

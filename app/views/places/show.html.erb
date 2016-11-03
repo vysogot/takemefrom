@@ -1,0 +1,12 @@
+<p id="notice"><%= notice %></p>
+
+<p><%= @place.content %></p>
+
+<ul>
+  <% @place.actions.each do |action| %>
+    <li><%= link_to action.content, place_path(action.target) %></li>
+  <% end %>
+</ul>
+
+<%= link_to 'Edit', edit_place_path(@place) %> |
+<%= link_to 'Back', places_path %>

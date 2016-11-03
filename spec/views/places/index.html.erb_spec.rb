@@ -1,0 +1,22 @@
+require 'rails_helper'
+
+RSpec.describe "places/index", type: :view do
+  before(:each) do
+    assign(:places, [
+      Place.create!(
+        :content => "Content",
+        :game_id => ""
+      ),
+      Place.create!(
+        :content => "Content",
+        :game_id => ""
+      )
+    ])
+  end
+
+  it "renders a list of places" do
+    render
+    assert_select "tr>td", :text => "Content".to_s, :count => 2
+    assert_select "tr>td", :text => "".to_s, :count => 2
+  end
+end
