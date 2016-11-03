@@ -27,7 +27,7 @@ class Game < ApplicationRecord
     actions.as_json(only:
       [:id, :source_id, :target_id, :content]).each do |entry|
         new_edges << { data: {
-          "edge-id" => entry["id"].to_s,
+          "edgeId" => entry["id"].to_s,
           "source" => entry["source_id"].to_s,
           "target" => entry["target_id"].to_s,
           "content" => entry["content"].to_s
