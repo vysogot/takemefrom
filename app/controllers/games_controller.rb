@@ -19,6 +19,9 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
+    @nodes = @game.places_for_graph
+    @edges = @game.actions_for_graph
+    render layout: false
   end
 
   # POST /games
@@ -69,6 +72,6 @@ class GamesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def game_params
-      params.fetch(:game, {})
+      params.require(:game).permit(:name, :slug, :user_id, :beginning_id)
     end
 end

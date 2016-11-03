@@ -18,20 +18,18 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe GamesController, type: :controller, skip: true do
+RSpec.describe GamesController, type: :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Game. As you add validations to Game, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    { user_id: 1, name: "name", slug: "slug", beginning_id: 1 }
+    skip("Add a hash of attributes valid for your model")
   }
 
   let(:invalid_attributes) {
-    { }
+    skip("Add a hash of attributes invalid for your model")
   }
-
-  let(:record) { }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -40,7 +38,6 @@ RSpec.describe GamesController, type: :controller, skip: true do
 
   describe "GET #index" do
     it "assigns all games as @games" do
-      FactoryGirl.create(:user, id: 1)
       game = Game.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(assigns(:games)).to eq([game])

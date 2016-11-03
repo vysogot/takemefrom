@@ -5,7 +5,8 @@ class Place < ApplicationRecord
 
   def add_destination(action_content, destination_content)
     destination = Place.create(game: game, content: destination_content)
-    Action.create(source: self, target: destination, content: action_content)
+    Action.create(game: self.game, source: self,
+      target: destination, content: action_content)
     destination
   end
 end

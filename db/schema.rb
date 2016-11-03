@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 20161103052956) do
 
   create_table "actions", force: :cascade do |t|
+    t.integer  "game_id"
     t.integer  "source_id"
     t.integer  "target_id"
     t.string   "content"
