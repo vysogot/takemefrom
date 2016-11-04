@@ -1,8 +1,8 @@
 FactoryGirl.define do
-  factory :action do
+  factory :choice do
     game
     source factory: :place
     target factory: :place
-    sequence(:content) { |i| "Action content #{i}" }
+    sequence(:content) { |i| "Choice content #{i}" }
   end
 end

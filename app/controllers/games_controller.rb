@@ -20,7 +20,7 @@ class GamesController < ApplicationController
   # GET /games/1/edit
   def edit
     @nodes = @game.places_for_graph
-    @edges = @game.actions_for_graph
+    @edges = @game.choices_for_graph
     render layout: false
   end
 

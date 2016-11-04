@@ -1,10 +1,8 @@
-<p id="notice"><%= notice %></p>
-
 <p><%= @place.content %></p>
 
 <ul>
-  <% @place.actions.each do |action| %>
-    <li><%= link_to action.content, place_path(action.target) %></li>
+  <% @place.choices.each do |choice| %>
+    <li><%= link_to choice.content, place_path(choice.target) %></li>
   <% end %>
 </ul>
 

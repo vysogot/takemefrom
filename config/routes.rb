@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :choices
+  resources :actions
   resources :places
   resources :games
   devise_for :users

@@ -1,7 +1,7 @@
 class Game < ApplicationRecord
   has_one :beginning, class_name: "Place"
   has_many :places
-  has_many :actions
+  has_many :choices
   belongs_to :user
 
   after_create :create_beginning
