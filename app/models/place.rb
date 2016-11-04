@@ -8,4 +8,8 @@ class Place < ApplicationRecord
       target: destination, content: choice_content)
     destination
   end
+
+  def dead_end?
+    choices.empty?
+  end
 end

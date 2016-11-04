@@ -22,9 +22,9 @@ class Game < ApplicationRecord
     new_nodes
   end
 
-  def actions_for_graph
+  def choices_for_graph
     new_edges = []
-    actions.as_json(only:
+    choices.as_json(only:
       [:id, :source_id, :target_id, :content]).each do |entry|
         new_edges << { data: {
           "edgeId" => entry["id"].to_s,

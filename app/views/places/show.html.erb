@@ -1,10 +1,18 @@
-<p><%= @place.content %></p>
+<p id="content"><%= @place.content %></p>
 
-<ul>
-  <% @place.choices.each do |choice| %>
-    <li><%= link_to choice.content, place_path(choice.target) %></li>
-  <% end %>
-</ul>
+<% @place.choices.each do |choice| %>
+  <p class="choice"><%= link_to choice.content, place_path(choice.target) %></p>
+<% end %>
 
-<%= link_to 'Edit', edit_place_path(@place) %> |
-<%= link_to 'Back', places_path %>
+<% if @place.dead_end? %>
+  <p class="choice">There is nothing you can do here.
+    <%= link_to 'Go back', :back %>.
+  </p>
+  <p class="choice"><%= link_to 'Go home', root_path %>.</p>
+<% end %>
+
+<% if current_user && current_user.id == @place.game.user_id %>
+  <p id="redesign">
+    <%= link_to 'Redesign this place', game_path(@place.game) %>
+  </p>
+<% end %>
