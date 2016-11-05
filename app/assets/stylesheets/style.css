@@ -8,14 +8,12 @@ ul li { margin-bottom: 1em; }
 h1, h2 { margin: 0; padding: 0.25em;}
 
 #container { margin: 0 auto;
-  border-bottom: 1px solid gray;
   background-color: #fff; }
 
 #content { background-color: #fff; }
 .choice { background-color: #eee; }
-.lastChoice { margin-top: 2em;
-  border-top: 1px solid gray;
-  border-bottom: 0; }
+#contribute, #editPlace { margin-top: 2em;
+  border-top: 1px solid gray; }
 #title { display: none; }
 
 #cy {

@@ -109,13 +109,13 @@
           edge = evt.cyTarget;
 
           actionUpdate(
-            edge.data('edgeId'),
+            edge.data('id'),
             edge.data('content'));
 
           resetStyle();
 
           cy.style()
-            .selector('edge#' + edge.data('edgeId'))
+            .selector('edge#' + edge.data('id'))
             .style('line-color', '#4CAD55')
             .style('target-arrow-color', '#4CAD55').update();
         });

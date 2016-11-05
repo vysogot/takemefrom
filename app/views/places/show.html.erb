@@ -1,7 +1,9 @@
 <p id="content"><%= @place.content %></p>
 
 <% @place.choices.each do |choice| %>
-  <p class="choice"><%= link_to choice.content, place_path(choice.target) %></p>
+  <p class="choice">
+    <%= link_to choice.content, place_path(choice.target) %>
+  </p>
 <% end %>
 
 <% if @place.dead_end? %>
@@ -12,7 +14,7 @@
 <% end %>
 
 <% if current_user && current_user.id == @place.game.user_id %>
-  <p id="redesign">
+  <p id="editPlace">
     <%= link_to 'Redesign this place', game_path(@place.game) %>
   </p>
 <% end %>
