@@ -51,7 +51,8 @@ function actionUpdate(actionId, content) {
 
 function addNewPlace(fromPlaceId) {
   $.ajax({
-    url: "/places/create/" + fromPlaceId
+    url: "/places?fromPlaceId=" + fromPlaceId,
+    method: 'POST'
   }).done(function(response) {
     nodes.push({ data: response.newNode });
     edges.push({ data: response.newEdge })

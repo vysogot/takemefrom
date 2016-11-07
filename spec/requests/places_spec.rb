@@ -8,8 +8,26 @@ RSpec.describe "Places", type: :request do
 
       visit place_path(choice1.source)
 
-      expect has_link? choice1.content
-      expect has_link? choice2.content
+      assert has_link? choice1.content
+      assert has_link? choice2.content
+    end
+  end
+
+  describe "shows redesign link properly" do
+    before do
+      @user = FactoryGirl.create(:user)
+      @game = FactoryGirl.create(:game, user: @user)
+    end
+
+    it "displays redesign link to the owner" do
+      sign_in @user
+      visit place_path(@game.beginning)
+      assert has_link? "Redesign this place", href: edit_game_path(@game)
+    end
+
+    it "does not display redesign link to not owner" do
+      visit place_path(@game.beginning)
+      assert has_no_link? "Redesign this place", href: edit_game_path(@game)
     end
   end
 end

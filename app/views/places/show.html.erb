@@ -15,6 +15,6 @@
 
 <% if current_user && current_user.id == @place.game.user_id %>
   <p id="editPlace">
-    <%= link_to 'Redesign this place', game_path(@place.game) %>
+    <%= link_to 'Redesign this place', edit_game_path(@place.game) %>
   </p>
 <% end %>

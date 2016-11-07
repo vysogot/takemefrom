@@ -1,6 +1,8 @@
-<h1>Editing Place</h1>
+<p id="content">Editing Place</p>
 
-<%= render 'form', place: @place %>
+<div class="content">
+  <%= render 'form', place: @place %>
+</div>
 
-<%= link_to 'Show', @place %> |
-<%= link_to 'Back', places_path %>
+<p class="choice"><%= link_to 'Show', @place %></p>
+<p class="choice"><%= link_to 'Back', places_path %></p>
