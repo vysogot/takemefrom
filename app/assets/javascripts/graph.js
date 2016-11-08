@@ -45,10 +45,11 @@ function placeUpdate(placeId, content, isDestroyable) {
   });
 }
 
-function actionUpdate(actionId, content) {
+function choiceUpdate(choiceId, content) {
+  choiceId = choiceId.replace( /^edge\-/g, '');
   $('#theBox').html(
-    '<a id="remove" href="/actions/'+actionId+'/destroy" onclick="return confirm(\'Are you sure?\')">Remove</a>' +
-    '<form action="/actions/'+actionId+'/update" method="post">' +
+    '<a id="remove" href="/choices/'+choiceId+'/destroy" onclick="return confirm(\'Are you sure?\')">Remove</a>' +
+    '<form choice="/choices/'+choiceId+'/update" method="put">' +
       '<br/><textarea name="content">' + content + '</textarea><br />' +
       '<input type="submit" value="Submit" /> ' +
     '</form>'
@@ -69,7 +70,7 @@ function addNewPlace(fromPlaceId) {
 
 function addNewEdge(fromPlaceId, toPlaceId) {
   $.ajax({
-    url: "/actions/create/" + fromPlaceId + '/' + toPlaceId
+    url: "/choices/create/" + fromPlaceId + '/' + toPlaceId
   }).done(function(response) {
     edges.push({ data: response.newEdge })
     makeGraph();
