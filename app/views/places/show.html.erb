@@ -8,12 +8,12 @@
 
 <% if @place.dead_end? %>
   <p class="choice">There is nothing you can do here.
-    <%= link_to 'Go back', :back %>.
+    <%= link_to 'Go back', :back %>
   </p>
-  <p class="choice"><%= link_to 'Go home', root_path %>.</p>
+  <p class="choice"><%= link_to 'Go home', root_path %></p>
 <% end %>
 
-<% if current_user && current_user.id == @place.game.user_id %>
+<% if @place.editable?(current_user) %>
   <p id="editPlace">
     <%= link_to 'Redesign this place', edit_game_path(@place.game) %>
   </p>

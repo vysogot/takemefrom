@@ -1,8 +1,10 @@
 Rails.application.routes.draw do
-  resources :choices
-  resources :actions
-  resources :places
-  resources :games
+  resources :places, only: [:show]
+  authenticate :user do
+    resources :games
+    resources :choices
+    resources :places, except: [:show]
+  end
   devise_for :users
   get 'welcome/index'
 

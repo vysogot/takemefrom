@@ -10,6 +10,10 @@ class Game < ApplicationRecord
     Place.create(game: self, content: "The beginning of #{name}...")
   end
 
+  def editable?(user)
+    user && user.id == user_id
+  end
+
   def places_for_graph
     new_nodes = []
     places.as_json(only:

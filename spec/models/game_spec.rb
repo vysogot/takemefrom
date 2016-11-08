@@ -7,4 +7,12 @@ RSpec.describe Game, type: :model do
     expect(game.beginning).to be_a(Place)
     expect(game.beginning).to eq(place)
   end
+
+  it "can be edited by the owner" do
+    game = FactoryGirl.create(:game)
+    other_user = FactoryGirl.create(:user)
+
+    expect(game.editable?(game.user)).to be_truthy
+    expect(game.editable?(other_user)).to be_falsy
+  end
 end

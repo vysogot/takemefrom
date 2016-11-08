@@ -14,4 +14,12 @@ RSpec.describe Place, type: :model do
     expect(place.choices.count).to eq(0)
     expect(place.dead_end?).to be_truthy
   end
+
+  it "can be edited by the game owner" do
+    place = FactoryGirl.create(:place)
+    other_user = FactoryGirl.create(:user)
+
+    expect(place.editable?(place.game.user)).to be_truthy
+    expect(place.editable?(other_user)).to be_falsy
+  end
 end

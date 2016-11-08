@@ -12,4 +12,8 @@ class Place < ApplicationRecord
   def dead_end?
     choices.empty?
   end
+
+  def editable?(user)
+    game.editable?(user)
+  end
 end

@@ -1,3 +1,4 @@
+<div class="content">
 <%= form_for(game) do |f| %>
   <% if game.errors.any? %>
     <div id="error_explanation">
@@ -12,26 +13,12 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :name %>
+    <%= f.label :name %><br />
     <%= f.text_field :name %>
-  </div>
-
-  <div class="field">
-    <%= f.label :slug %>
-    <%= f.text_field :slug %>
-  </div>
-
-  <div class="field">
-    <%= f.label :user_id %>
-    <%= f.text_field :user_id %>
-  </div>
-
-  <div class="field">
-    <%= f.label :beginning_id %>
-    <%= f.text_field :beginning_id %>
   </div>
 
   <div class="actions">
     <%= f.submit %>
   </div>
 <% end %>
+</div>
