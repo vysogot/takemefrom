@@ -1,3 +1,9 @@
+$.ajaxSetup({
+  headers: {
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+  }
+});
+
 function placeUpdate(placeId, content, isDestroyable) {
   removeLink = "";
   if (!isDestroyable) {
@@ -51,7 +57,8 @@ function actionUpdate(actionId, content) {
 
 function addNewPlace(fromPlaceId) {
   $.ajax({
-    url: "/places?fromPlaceId=" + fromPlaceId,
+    url: "/places",
+    data: "place[from_place_id]=" + fromPlaceId,
     method: 'POST'
   }).done(function(response) {
     nodes.push({ data: response.newNode });
