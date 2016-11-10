@@ -24,8 +24,8 @@ class PlacesController < ApplicationController
   # POST /places
   # POST /places.json
   def create
-    place = Place.find(place_params[:from_place_id])
-    @place = place.add_destination("New choice", "New place")
+    @origin = Place.find(place_params[:from_place_id])
+    @choice, @place = @origin.add_destination("New choice", "New place")
 
     respond_to do |format|
       if @place.save
@@ -55,6 +55,7 @@ class PlacesController < ApplicationController
   # DELETE /places/1
   # DELETE /places/1.json
   def destroy
+    raise "hel"
     @place.destroy
     respond_to do |format|
       format.html { redirect_to places_url, notice: 'Place was successfully destroyed.' }

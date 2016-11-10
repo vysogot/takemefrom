@@ -7,7 +7,7 @@ $.ajaxSetup({
 function placeUpdate(placeId, content, isDestroyable) {
   removeLink = "";
   if (!isDestroyable) {
-    removeLink = '<a id="remove" href="/places/'+placeId+'/destroy" onclick="return confirm(\'Are you sure?\')">Remove</a>'
+    removeLink = '<a id="remove" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="/places/' + placeId + '">Destroy</a>'
   }
 
   $('#theBox').html(
@@ -59,20 +59,24 @@ function choiceUpdate(choiceId, content) {
 function addNewPlace(fromPlaceId) {
   $.ajax({
     url: "/places",
-    data: "place[from_place_id]=" + fromPlaceId,
+    data: { "place[from_place_id]": fromPlaceId },
+    dataType: 'json',
     method: 'POST'
   }).done(function(response) {
     nodes.push({ data: response.newNode });
-    edges.push({ data: response.newEdge })
+    edges.push({ data: response.newEdge });
     makeGraph();
   });
 }
 
 function addNewEdge(fromPlaceId, toPlaceId) {
   $.ajax({
-    url: "/choices/create/" + fromPlaceId + '/' + toPlaceId
+    url: "/choices",
+    data: { "choice[source_id]": fromPlaceId, "choice[target_id]": toPlaceId },
+    dataType: 'json',
+    method: 'POST'
   }).done(function(response) {
-    edges.push({ data: response.newEdge })
+    edges.push({ data: response.newEdge });
     makeGraph();
   });
 }

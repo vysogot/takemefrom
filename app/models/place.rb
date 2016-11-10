@@ -4,9 +4,9 @@ class Place < ApplicationRecord
 
   def add_destination(choice_content, destination_content)
     destination = Place.create(game: game, content: destination_content)
-    Choice.create(game: self.game, source: self,
-      target: destination, content: choice_content)
-    destination
+    choice = Choice.create(game: self.game, source: self,
+                           target: destination, content: choice_content)
+    [choice, destination]
   end
 
   def dead_end?

@@ -1,7 +1,14 @@
 # json.extract! place, :id, :content, :game_id, :created_at, :updated_at
 # json.url place_url(place, format: :json)
-# newNode: { id: place.id, content: destination.content },
-#newEdge: { source: req.params.fromPlaceId,
-#           target: newPlace._id,
-#           content: newAction.content,
-#           id: newAction._id }}
+
+json.newNode do
+  json.id @place.id
+  json.content @place.content
+end
+
+json.newEdge do
+  json.source @origin.id
+  json.target @place.id
+  json.content @choice.content
+  json.edgeId @choice.id
+end
