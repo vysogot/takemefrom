@@ -55,12 +55,13 @@ class PlacesController < ApplicationController
   # DELETE /places/1
   # DELETE /places/1.json
   def destroy
-    raise "hel"
+    game = @place.game
     @place.destroy
-    respond_to do |format|
-      format.html { redirect_to places_url, notice: 'Place was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    #respond_to do |format|
+    #  format.html { redirect_to edit_game_url(game), notice: 'Place was successfully destroyed.' }
+    #  format.json { render json: "" }
+    #end
+    redirect_to edit_game_url(game), notice: 'Place was successfully destroyed.'
   end
 
   private

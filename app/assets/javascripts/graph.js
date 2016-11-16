@@ -1,6 +1,7 @@
 $.ajaxSetup({
   headers: {
-    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+    dataType: 'json'
   }
 });
 
@@ -73,7 +74,6 @@ function addNewEdge(fromPlaceId, toPlaceId) {
   $.ajax({
     url: "/choices",
     data: { "choice[source_id]": fromPlaceId, "choice[target_id]": toPlaceId },
-    dataType: 'json',
     method: 'POST'
   }).done(function(response) {
     edges.push({ data: response.newEdge });
