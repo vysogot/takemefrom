@@ -15,7 +15,7 @@ function placeUpdate(placeId, content, isDestroyable) {
     '<a href="javascript:setConnection(\''+placeId+'\');">Connect</a> ' +
      removeLink + '<form>' +
     '<br/><textarea name="content" id="content">' + content + '</textarea><br />' +
-    '<input type="button" value="Submit" id="submit" /> ' +
+    '<input data-turbolinks="false" type="button" value="Submit" id="submit" /> ' +
     '<a href="/places/'+placeId+'">Play</a></form>'
   );
 
@@ -27,9 +27,9 @@ function placeUpdate(placeId, content, isDestroyable) {
   $("#submit").click(function() {
     content = $('#content').val();
     $.ajax({
-      type: "POST",
-      url: '/places/' + placeId + '/update',
-      data: { content: content }
+      url: '/places/' + placeId,
+      data: { "place[content]": content },
+      method: 'PUT'
     }).done(function(response) {
 
       newContent = response.updatedNodeContent;
