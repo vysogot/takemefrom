@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "landing page", :type => :request do
 
   before do
-    @user = FactoryGirl.create(:user)
-    @game = FactoryGirl.create(:game, name: "Simple game")
+    @user = FactoryBot.create(:user)
+    @game = FactoryBot.create(:game, name: "Simple game")
   end
 
   it "shows right links to a guest" do

@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe "Places", type: :request do
   describe "shows place" do
     it "displays choice links" do
-      choice1 = FactoryGirl.create(:choice)
-      choice2 = FactoryGirl.create(:choice, source: choice1.source)
+      choice1 = FactoryBot.create(:choice)
+      choice2 = FactoryBot.create(:choice, source: choice1.source)
 
       visit place_path(choice1.source)
 
@@ -15,8 +15,8 @@ RSpec.describe "Places", type: :request do
 
   describe "shows redesign link properly" do
     before do
-      @user = FactoryGirl.create(:user)
-      @game = FactoryGirl.create(:game, user: @user)
+      @user = FactoryBot.create(:user)
+      @game = FactoryBot.create(:game, user: @user)
     end
 
     it "displays redesign link to the owner" do
