@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 20161104084901) do
 
-  create_table "choices", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "choices", id: :serial, force: :cascade do |t|
     t.integer "game_id"
     t.integer "source_id"
     t.integer "target_id"
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 20161104084901) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "games", force: :cascade do |t|
+  create_table "games", id: :serial, force: :cascade do |t|
     t.string "name"
     t.string "slug"
     t.integer "user_id"
@@ -30,14 +33,14 @@ ActiveRecord::Schema.define(version: 20161104084901) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "places", force: :cascade do |t|
+  create_table "places", id: :serial, force: :cascade do |t|
     t.string "content"
     t.integer "game_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", id: :serial, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
