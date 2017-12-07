@@ -4,7 +4,7 @@
   - Guide your customers to a best fitting product.
 
 ### Where to play?
-takemefrom.com
+introspekcja.pl/game
 
 ### How to contribute?
 Check the issues, pull request. Game is now in a pre-alpha stage.
