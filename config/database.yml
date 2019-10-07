@@ -2,6 +2,10 @@ default: &default
   adapter: postgresql
   pool: 5
   timeout: 5000
+  host: localhost
+  user: takemefrom_user
+  password: password
+  port: 5496
 
 development:
   <<: *default
@@ -13,7 +17,7 @@ test: &test
 
 production:
   <<: *default
-  database: takemefrom_production 
+  database: takemefrom_production
 
 cucumber:
   <<: *test

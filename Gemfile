@@ -18,6 +18,7 @@ gem 'coffee-rails', '~> 4.2'
 # Use devise for user authentication
 gem 'devise'
 
+gem 'nokogiri', '1.10.4'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
