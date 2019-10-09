@@ -2,11 +2,13 @@
 
 <div class="content">
 <% @games.each do |game| %>
+  <div>
     <%= link_to game.name, place_path(game.beginning) %>
     <% if game.editable?(current_user) %>
       | <%= link_to 'Edit', edit_game_path(game) %>
       | <%= link_to 'Destroy', game, method: :delete, data: { confirm: 'Are you sure?' } %>
     <% end %>
+  </div>
 <% end %>
 </div>
 

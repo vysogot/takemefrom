@@ -12,18 +12,18 @@ FactoryBot.define do
 
   factory :game do
     user
-    name "MyString"
-    slug "MyString"
+    name { "MyString" }
+    slug { "MyString" }
   end
-  
+
   factory :place, aliases: [:beginning] do
     game
     sequence(:content) { |i| "Place #{i} content" }
   end
-  
+
   factory :user do
     email
-    password "foobar"
-    password_confirmation "foobar"
+    password { "foobar" }
+    password_confirmation { "foobar" }
   end
 end
