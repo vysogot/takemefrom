@@ -1,0 +1,11 @@
+{
+  "name": "takemefrom",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:vysogot/takemefrom.git",
+  "author": "Jakub Godawa <jgodawa@appriss.com>",
+  "license": "MIT",
+  "dependencies": {
+    "vue-cytoscape": "^1.0.4"
+  }
+}
