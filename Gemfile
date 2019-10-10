@@ -23,6 +23,7 @@ gem 'jquery-rails'
 gem 'jbuilder'
 gem 'turbolinks'
 gem 'coffee-rails'
+gem 'webpacker'
 
 gem 'jquery-turbolinks'
 # Use Redis adapter to run Action Cable in production

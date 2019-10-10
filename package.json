@@ -6,6 +6,15 @@
   "author": "Jakub Godawa <jgodawa@appriss.com>",
   "license": "MIT",
   "dependencies": {
-    "vue-cytoscape": "^1.0.4"
+    "@babel/preset-react": "^7.6.3",
+    "@rails/webpacker": "^4.0.7",
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+    "prop-types": "^15.7.2",
+    "react": "^16.10.2",
+    "react-cytoscape": "^1.0.6",
+    "react-dom": "^16.10.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^3.8.2"
   }
 }

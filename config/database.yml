@@ -5,7 +5,7 @@ default: &default
   host: localhost
   user: takemefrom_user
   password: password
-  port: 5496
+  port: 5432
 
 development:
   <<: *default
