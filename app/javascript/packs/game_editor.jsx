@@ -16,8 +16,31 @@ function MyApp(props) {
   return [
     <CytoscapeComponent
       elements={props.elements}
-      style={{ width: '600px', height: '600px' }}
+      className='game-editor'
       layout={{name: 'dagre'}}
+      stylesheet={[
+        {
+          selector: 'node',
+          style: {
+            //'content': 'data(content)',
+            'text-opacity': 0.5,
+            'text-valign': 'center',
+            'text-halign': 'right',
+            'background-color': '#11479e'
+          }
+        },
+
+        {
+          selector: 'edge',
+          style: {
+            //'label': 'data(label)',
+            'width': 4,
+            'target-arrow-shape': 'triangle',
+            'line-color': '#9dbaea',
+            'target-arrow-color': '#9dbaea'
+          }
+        }
+      ]}
     />,
     <pre>{JSON.stringify(props.elements, null, 2)}</pre>
   ];

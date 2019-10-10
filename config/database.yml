@@ -5,7 +5,7 @@ default: &default
   host: localhost
   user: takemefrom_user
   password: password
-  port: 5432
+  port: <%= ENV["DB_PORT"] || "5496" %>
 
 development:
   <<: *default
