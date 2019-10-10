@@ -27,6 +27,7 @@ class GamesController < ApplicationController
   def edit_react
     @nodes = @game.places_for_graph
     @edges = @game.choices_for_graph
+    @beginning_id = @game.beginning.id
     render layout: false
   end
 

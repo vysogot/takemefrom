@@ -6,51 +6,66 @@ import dagre from 'cytoscape-dagre';
 
 Cytoscape.use(dagre);
 
-function MyApp(props) {
-  // const elements = [
-  //    { data: { id: 'one', label: 'Node 1' }, position: { x: 0, y: 0 } },
-  //    { data: { id: 'two', label: 'Node 2' }, position: { x: 100, y: 0 } },
-  //    { data: { source: 'one', target: 'two', label: 'Edge from Node1 to Node2' } }
-  // ];
+class MyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.myCyRef = React.createRef();
+  }
 
-  return [
-    <CytoscapeComponent
-      elements={props.elements}
-      className='game-editor'
-      layout={{name: 'dagre'}}
-      stylesheet={[
-        {
-          selector: 'node',
-          style: {
-            //'content': 'data(content)',
-            'text-opacity': 0.5,
-            'text-valign': 'center',
-            'text-halign': 'right',
-            'background-color': '#11479e'
-          }
-        },
+  componentDidMount(){
+    this.myCyRef
+      .style()
+      .selector('node#' + this.props.beginningId)
+      .style('background-color', 'darkorange').update();
+  }
 
-        {
-          selector: 'edge',
-          style: {
-            //'label': 'data(label)',
-            'width': 4,
-            'target-arrow-shape': 'triangle',
-            'line-color': '#9dbaea',
-            'target-arrow-color': '#9dbaea'
-          }
+  render() {
+    const stylesheet = [
+      {
+        selector: 'node',
+        style: {
+          'text-opacity': 0.5,
+          'text-valign': 'center',
+          'text-halign': 'right',
+          'background-color': '#11479e'
         }
-      ]}
-    />,
-    <pre>{JSON.stringify(props.elements, null, 2)}</pre>
-  ];
+      },
+      {
+        selector: 'edge',
+        style: {
+          'width': 4,
+          'target-arrow-shape': 'triangle',
+          'line-color': '#9dbaea',
+          'target-arrow-color': '#9dbaea'
+        }
+      }
+    ]
+
+    return [
+      <CytoscapeComponent
+        elements={this.props.elements}
+        className='game-editor'
+        layout={{name: 'dagre'}}
+        cy={(cy) => this.myCyRef = cy}
+        stylesheet={stylesheet}
+      />,
+      <pre>
+        {JSON.stringify(this.props.elements, null, 2)}
+      </pre>
+    ];
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   const editor = document.getElementById('editor');
   const elements = JSON.parse(editor.dataset.elements);
+  const beginningId = editor.dataset.beginningId;
+
   ReactDOM.render(
-    <MyApp elements={elements} />,
+    <MyApp
+      elements={elements}
+      beginningId={beginningId}
+    />,
     editor,
   )
 })
