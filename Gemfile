@@ -41,8 +41,8 @@ group :development, :test do
   gem 'factory_bot_rails'
   # database_cleaner is not required, but highly recommended
   gem 'database_cleaner'
-  gem 'byebug', platform: :mri
   #gem 'rails-controller-testing'
+  gem "pry"
 end
 
 group :development do
