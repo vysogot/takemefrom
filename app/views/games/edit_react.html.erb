@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= @game.name %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application' %>
+    <%= javascript_include_tag 'jquery-2.1.4.min', 'dagre.min', 'cytoscape.min',
+      'cytoscape-dagre', 'application' %>
+
+  </head>
+  <body>
+    <div id="cy"></div>
+    <div id="boxContainer">
+      <div id="theBox"></div>
+    </div>
+    <script>
+      var nodes = <%= raw(@nodes.to_json) %>;
+      var edges = <%= raw(@edges.to_json) %>;
+      var theBeginning = { "id": "1" };
+      var placeToEdit = { "id": "1"};
+
+      var toConnect;
+      var fromPlaceId;
+
+      function setConnection(id) {
+        toConnect = true;
+        fromPlaceId = id;
+        window.cy.style()
+          .selector('node#' + id)
+          .style('background-color', '#ff5e5b').update();
+      }
+
+      function makeGraph() {
+
+        var cy = window.cy = cytoscape({
+          container: document.getElementById('cy'),
+
+          boxSelectionEnabled: false,
+          autounselectify: true,
+
+          layout: {
+            name: 'dagre'
+          },
+
+          style: [
+            {
+              selector: 'node',
+              style: {
+                //'content': 'data(content)',
+                'text-opacity': 0.5,
+                'text-valign': 'center',
+                'text-halign': 'right',
+                'background-color': '#11479e'
+              }
+            },
+
+            {
+              selector: 'edge',
+              style: {
+                //'label': 'data(label)',
+                'width': 4,
+                'target-arrow-shape': 'triangle',
+                'line-color': '#9dbaea',
+                'target-arrow-color': '#9dbaea'
+              }
+            }
+          ],
+
+          elements: {
+            nodes: nodes,
+            edges: edges
+          },
+        });
+
+        cy.ready(function() {
+          markBeginning();
+          $('#theBox').html('');
+          if (placeToEdit.id) {
+            nodeToEdit = cy.elements('node#' + placeToEdit.id)
+            placeUpdateWithStyle(nodeToEdit);
+          }
+        });
+
+        function markBeginning() {
+          cy.style()
+            .selector('node#' + theBeginning.id)
+            .style('background-color', 'darkorange').update();
+        }
+
+        function placeUpdateWithStyle(node) {
+          isBeginning = false;
+          if (node.data('id') === theBeginning.id) {
+            isBeginning = true;
+          }
+
+          placeUpdate(
+            node.data('id'),
+            node.data('content'),
+            isBeginning);
+
+          resetStyle();
+
+          cy.style()
+            .selector('node#' + node.data('id'))
+            .style('background-color', '#4CAD55').update();
+        }
+
+        cy.on('vclick', 'edge', function(evt) {
+          edge = evt.cyTarget;
+
+          choiceUpdate(
+            edge.data('id'),
+            edge.data('content'));
+
+          resetStyle();
+
+          cy.style()
+            .selector('edge#' + edge.data('id'))
+            .style('line-color', '#4CAD55')
+            .style('target-arrow-color', '#4CAD55').update();
+        });
+
+        cy.on('vclick', 'node', function(evt) {
+          nodeClicked = evt.cyTarget;
+          timeStamp = nodeClicked.clickedAt || 0;
+
+          if ($.now() - timeStamp < 1000) {
+
+            nodeClicked.clickedAt = 0;
+            addNewPlace(evt.cyTarget.data('id'));
+
+          } else {
+
+            if (toConnect) {
+              addNewEdge(fromPlaceId, nodeClicked.data('id'));
+              toConnect = false;
+            } else {
+              placeUpdateWithStyle(nodeClicked);
+            }
+
+            nodeClicked.clickedAt = $.now();
+          }
+        });
+
+        function resetStyle() {
+          cy.style()
+            .selector('node')
+            .style('background-color', '#11479e').update();
+
+          cy.style()
+            .selector('edge')
+            .style('line-color', '#9dbaea')
+            .style('target-arrow-color', '#9dbaea').update();
+
+          markBeginning();
+        }
+
+      }
+      makeGraph();
+    </script>
+
+    <%= javascript_include_tag 'graph' %>
+  </body>
+</html>

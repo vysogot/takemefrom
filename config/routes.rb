@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
   resources :places, only: [:show]
   authenticate :user do
-    resources :games
+    resources :games do
+      member do
+        get 'edit_react'
+      end
+    end
     resources :choices
     resources :places, except: [:show]
   end

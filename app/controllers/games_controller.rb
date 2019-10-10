@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: [:show, :edit, :update, :destroy, :edit_react]
 
   # GET /games
   # GET /games.json
@@ -19,6 +19,12 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
+    @nodes = @game.places_for_graph
+    @edges = @game.choices_for_graph
+    render layout: false
+  end
+
+  def edit_react
     @nodes = @game.places_for_graph
     @edges = @game.choices_for_graph
     render layout: false
