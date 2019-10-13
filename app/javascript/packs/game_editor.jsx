@@ -1,8 +1,8 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import CytoscapeComponent from 'react-cytoscapejs';
-import Cytoscape from 'cytoscape';
-import dagre from 'cytoscape-dagre';
+import React from "react";
+import ReactDOM from "react-dom";
+import CytoscapeComponent from "react-cytoscapejs";
+import Cytoscape from "cytoscape";
+import dagre from "cytoscape-dagre";
 
 Cytoscape.use(dagre);
 
@@ -12,60 +12,56 @@ class MyApp extends React.Component {
     this.myCyRef = React.createRef();
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.myCyRef
       .style()
-      .selector('node#' + this.props.beginningId)
-      .style('background-color', 'darkorange').update();
+      .selector("node#" + this.props.beginningId)
+      .style("background-color", "darkorange")
+      .update();
   }
 
   render() {
     const stylesheet = [
       {
-        selector: 'node',
+        selector: "node",
         style: {
-          'text-opacity': 0.5,
-          'text-valign': 'center',
-          'text-halign': 'right',
-          'background-color': '#11479e'
+          "text-opacity": 0.5,
+          "text-valign": "center",
+          "text-halign": "right",
+          "background-color": "#11479e"
         }
       },
       {
-        selector: 'edge',
+        selector: "edge",
         style: {
-          'width': 4,
-          'target-arrow-shape': 'triangle',
-          'line-color': '#9dbaea',
-          'target-arrow-color': '#9dbaea'
+          width: 4,
+          "target-arrow-shape": "triangle",
+          "line-color": "#9dbaea",
+          "target-arrow-color": "#9dbaea"
         }
       }
-    ]
+    ];
 
     return [
       <CytoscapeComponent
         elements={this.props.elements}
-        className='game-editor'
-        layout={{name: 'dagre'}}
-        cy={(cy) => this.myCyRef = cy}
+        className="game-editor"
+        layout={{ name: "dagre" }}
+        cy={cy => (this.myCyRef = cy)}
         stylesheet={stylesheet}
       />,
-      <pre>
-        {JSON.stringify(this.props.elements, null, 2)}
-      </pre>
+      <pre>{JSON.stringify(this.props.elements, null, 2)}</pre>
     ];
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const editor = document.getElementById('editor');
+document.addEventListener("DOMContentLoaded", () => {
+  const editor = document.getElementById("editor");
   const elements = JSON.parse(editor.dataset.elements);
   const beginningId = editor.dataset.beginningId;
 
   ReactDOM.render(
-    <MyApp
-      elements={elements}
-      beginningId={beginningId}
-    />,
-    editor,
-  )
-})
+    <MyApp elements={elements} beginningId={beginningId} />,
+    editor
+  );
+});
