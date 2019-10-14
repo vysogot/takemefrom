@@ -52,6 +52,8 @@ class MyApp extends React.Component {
       .selector("node#" + this.props.beginningId)
       .style("background-color", "darkorange")
       .update();
+
+    this.myCyRef.on("vclick", "node", this.openModal);
   }
 
   render() {
@@ -77,7 +79,6 @@ class MyApp extends React.Component {
     ];
 
     return [
-      <button onClick={this.openModal}>Open Modal</button>,
       <Modal
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
