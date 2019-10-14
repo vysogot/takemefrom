@@ -11,6 +11,8 @@
     <div id="editor"
          data-elements="<%= @elements.to_json %>"
          data-beginning-id="<%= @beginning_id %>"
+         data-cy-options="<%= @cy_options.to_json %>"
+         data-touched=<%= @game.touched? %>
          >
     </div>
   </body>

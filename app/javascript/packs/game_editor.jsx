@@ -4,6 +4,7 @@ import dagre from "cytoscape-dagre";
 import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
 import Modal from "react-modal";
+import { throwStatement } from "@babel/types";
 
 require("dagre");
 
@@ -96,7 +97,8 @@ class GameEditor extends React.Component {
       body: JSON.stringify({
         ...this.state,
         ...this.props,
-        positions: positions
+        positions: positions,
+        cyOptions: this.myCyRef.json()
       })
     });
   }
@@ -194,15 +196,11 @@ class GameEditor extends React.Component {
       <CytoscapeComponent
         elements={this.state.elements}
         className="game-editor"
-        layout={{ name: "dagre" }}
+        layout={this.props.touched ? null : { name: "dagre" }}
         cy={cy => (this.myCyRef = cy)}
         stylesheet={stylesheet}
+        {...this.props.cyOptions}
       />,
-      // <pre>
-      //   {this.myCyRef.nodes().map(e => (
-      //     <p>{e.position()}</p>
-      //   ))}
-      // </pre>,
       <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>
     ];
   }
@@ -214,9 +212,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const editor = document.getElementById("editor");
   const elements = JSON.parse(editor.dataset.elements);
   const beginningId = editor.dataset.beginningId;
+  const cyOptions = JSON.parse(editor.dataset.cyOptions);
+  const touched = JSON.parse(editor.dataset.touched);
 
   ReactDOM.render(
-    <GameEditor elements={elements} beginningId={beginningId} />,
+    <GameEditor
+      elements={elements}
+      beginningId={beginningId}
+      cyOptions={cyOptions}
+      touched={touched}
+    />,
     editor
   );
 });

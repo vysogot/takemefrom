@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy]
+  before_action :set_game, only: %i[show edit update destroy]
 
   # TODO: get rid of this
   skip_before_action :verify_authenticity_token, only: [:update]
@@ -12,8 +14,7 @@ class GamesController < ApplicationController
 
   # GET /games/1
   # GET /games/1.json
-  def show
-  end
+  def show; end
 
   # GET /games/new
   def new
@@ -24,6 +25,7 @@ class GamesController < ApplicationController
   def edit
     @elements = @game.elements
     @beginning_id = @game.beginning.id
+    @cy_options = @game.cy_options
 
     render layout: false
   end
@@ -51,13 +53,16 @@ class GamesController < ApplicationController
   def update
     params.permit!
 
-    params["elements"].each do |element|
-      unless element["data"]["id"].start_with?('edge')
-        element["position"] = params["positions"][element["data"]["id"]]
+    params['elements'].each do |element|
+      unless element['data']['id'].start_with?('edge')
+        element['position'] = params['positions'][element['data']['id']]
       end
     end
 
-    if @game.update!(elements: params["elements"])
+    if @game.update(
+      cy_options: params['cyOptions'].slice('zoom', 'pan'),
+      elements: params['elements']
+    )
       render json: @game
     else
       render json: @game.errors, status: :unprocessable_entity
@@ -75,13 +80,14 @@ class GamesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_game
-      @game = Game.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def game_params
-      params.require(:game).permit(:name, :slug, :user_id, :beginning_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_game
+    @game = Game.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def game_params
+    params.require(:game).permit(:name, :slug, :user_id, :beginning_id)
+  end
 end

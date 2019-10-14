@@ -40,6 +40,10 @@ class Game < ApplicationRecord
     new_edges
   end
 
+  def touched?
+    created_at != updated_at
+  end
+
   def to_elements
     places_for_graph + choices_for_graph
   end
