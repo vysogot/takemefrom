@@ -20,7 +20,7 @@ const customStyles = {
   }
 };
 
-class MyApp extends React.Component {
+class GameEditor extends React.Component {
   constructor(props) {
     super(props);
     this.myCyRef = React.createRef();
@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const beginningId = editor.dataset.beginningId;
 
   ReactDOM.render(
-    <MyApp elements={elements} beginningId={beginningId} />,
+    <GameEditor elements={elements} beginningId={beginningId} />,
     editor
   );
 });
