@@ -66,7 +66,7 @@ class GamesController < ApplicationController
   end
 
   def update_react
-    # require "pry"; binding.pry
+    pp params
 
     head :no_content
   end

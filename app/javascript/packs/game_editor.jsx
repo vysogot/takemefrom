@@ -63,7 +63,7 @@ class MyApp extends React.Component {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({ ...this.state, ...this.props })
     });
   }
 
