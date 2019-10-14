@@ -1,25 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import dagre from "cytoscape-dagre";
 import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
 import Modal from "react-modal";
-import { throwStatement } from "@babel/types";
+import EditNodeModal from "./GameEditor/EditNodeModal";
 
 require("dagre");
 
 Cytoscape.use(dagre);
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
-  }
-};
 
 class GameEditor extends React.Component {
   constructor(props) {
@@ -33,13 +22,8 @@ class GameEditor extends React.Component {
       editingNodeId: props.elements[0].data.id
     };
     this.openModal = this.openModal.bind(this);
-    this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.save = this.save.bind(this);
-    this.handleQuestionChange = this.handleQuestionChange.bind(this);
-    this.handleAnswerChange = this.handleAnswerChange.bind(this);
-    this.addAnswer = this.addAnswer.bind(this);
-    this.addNode = this.addNode.bind(this);
 
     this.state.elements.forEach(element => {
       this.state.questions[element.data.id] = {
@@ -50,15 +34,12 @@ class GameEditor extends React.Component {
   }
 
   openModal(e) {
+    e.preventDefault();
     this.setState({ modalIsOpen: true, editingNodeId: e.target.data("id") });
   }
 
-  afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    this.subtitle.style.color = "#f00";
-  }
-
-  closeModal() {
+  closeModal(e) {
+    e.preventDefault();
     this.setState({ modalIsOpen: false, editingNodeId: null });
   }
 
@@ -82,11 +63,6 @@ class GameEditor extends React.Component {
   }
 
   save() {
-    const positions = this.myCyRef.nodes().reduce((memo, e) => {
-      memo[e.data("id")] = e.position();
-      return memo;
-    }, {});
-
     const [_empty, _game, id, _edit] = window.location.pathname.split("/");
 
     fetch(`/games/${id}`, {
@@ -97,46 +73,9 @@ class GameEditor extends React.Component {
       body: JSON.stringify({
         ...this.state,
         ...this.props,
-        positions: positions,
         cyOptions: this.myCyRef.json()
       })
     });
-  }
-
-  addAnswer(e) {
-    e.preventDefault();
-    const q = this.state.questions[this.state.editingNodeId];
-    this.setState({
-      questions: {
-        ...this.state.questions,
-        [this.state.editingNodeId]: {
-          ...q,
-          answers: [...q.answers, ""]
-        }
-      }
-    });
-  }
-
-  handleQuestionChange(e) {
-    this.setState({
-      questions: {
-        ...this.state.questions,
-        [this.state.editingNodeId]: { content: e.target.value }
-      }
-    });
-  }
-
-  handleAnswerChange(id) {
-    return event => {
-      const question = this.state.questions[this.state.editingNodeId];
-      question.answers[id] = event.target.value;
-      this.setState({
-        questions: {
-          ...this.state.questions,
-          [this.state.editingNodeId]: question
-        }
-      });
-    };
   }
 
   render() {
@@ -165,34 +104,6 @@ class GameEditor extends React.Component {
     return [
       <button onClick={this.save}>Save</button>,
       <button onClick={this.addNode}>Addnode</button>,
-      <Modal
-        isOpen={this.state.modalIsOpen}
-        onAfterOpen={this.afterOpenModal}
-        onRequestClose={this.closeModal}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
-        <h2 ref={subtitle => (this.subtitle = subtitle)}>Question</h2>
-        <button onClick={this.closeModal}>x</button>
-        <form>
-          <textarea
-            value={this.state.questions[this.state.editingNodeId].content}
-            onChange={this.handleQuestionChange}
-          />
-
-          {this.state.questions[this.state.editingNodeId].answers.map(
-            (e, id) => (
-              <textarea
-                key={id}
-                value={e}
-                onChange={this.handleAnswerChange(e.id)}
-              />
-            )
-          )}
-
-          <button onClick={this.addAnswer}>Add answer</button>
-        </form>
-      </Modal>,
       <CytoscapeComponent
         elements={this.state.elements}
         className="game-editor"
@@ -201,7 +112,15 @@ class GameEditor extends React.Component {
         stylesheet={stylesheet}
         {...this.props.cyOptions}
       />,
-      <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>
+      <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
+      <EditNodeModal
+        isOpen={this.state.modalIsOpen}
+        onRequestClose={this.closeModal}
+        closeModal={this.closeModal}
+        question={this.state.questions[this.state.editingNodeId].content}
+        answers={this.state.questions[this.state.editingNodeId].answers}
+        onSave={this.onSaveModal}
+      />
     ];
   }
 }
