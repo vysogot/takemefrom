@@ -84,7 +84,8 @@ class MyApp extends React.Component {
           width: 4,
           "target-arrow-shape": "triangle",
           "line-color": "#9dbaea",
-          "target-arrow-color": "#9dbaea"
+          "target-arrow-color": "#9dbaea",
+          "curve-style": "bezier"
         }
       }
     ];
