@@ -4,6 +4,8 @@ import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
 import dagre from "cytoscape-dagre";
 
+require("cytoscape-dagre");
+
 Cytoscape.use(dagre);
 
 class MyApp extends React.Component {
