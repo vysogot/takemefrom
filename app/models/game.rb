@@ -39,4 +39,8 @@ class Game < ApplicationRecord
       end
     new_edges
   end
+
+  def to_elements
+    places_for_graph + choices_for_graph
+  end
 end
