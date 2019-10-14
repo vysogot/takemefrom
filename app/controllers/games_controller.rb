@@ -1,6 +1,9 @@
 class GamesController < ApplicationController
   before_action :set_game, only: [:show, :edit, :update, :destroy, :edit_react]
 
+  # TODO: get rid of this
+  skip_before_action :verify_authenticity_token, only: [:update_react]
+
   # GET /games
   # GET /games.json
   def index
@@ -60,6 +63,12 @@ class GamesController < ApplicationController
         format.json { render json: @game.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def update_react
+    # require "pry"; binding.pry
+
+    head :no_content
   end
 
   # DELETE /games/1

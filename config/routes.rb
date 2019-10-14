@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :games do
       member do
         get 'edit_react'
+        put 'update_react'
       end
     end
     resources :choices

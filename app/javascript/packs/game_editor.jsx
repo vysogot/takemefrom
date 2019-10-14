@@ -31,6 +31,7 @@ class MyApp extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.save = this.save.bind(this);
   }
 
   openModal() {
@@ -56,6 +57,16 @@ class MyApp extends React.Component {
     this.myCyRef.on("vclick", "node", this.openModal);
   }
 
+  save() {
+    fetch("update_react.json", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(this.state)
+    });
+  }
+
   render() {
     const stylesheet = [
       {
@@ -79,6 +90,7 @@ class MyApp extends React.Component {
     ];
 
     return [
+      <button onClick={this.save}>Save</button>,
       <Modal
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
@@ -86,15 +98,12 @@ class MyApp extends React.Component {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <h2 ref={subtitle => (this.subtitle = subtitle)}>Hello</h2>
-        <button onClick={this.closeModal}>close</button>
-        <div>I am a modal</div>
+        <h2 ref={subtitle => (this.subtitle = subtitle)}>Question</h2>
+        <button onClick={this.closeModal}>x</button>
         <form>
-          <input />
-          <button>tab navigation</button>
-          <button>stays</button>
-          <button>inside</button>
-          <button>the modal</button>
+          <textarea />
+
+          {/* <button onClick={this.addQuestion()}> */}
         </form>
       </Modal>,
       <CytoscapeComponent
