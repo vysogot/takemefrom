@@ -6,9 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-user = User.create!(email: "admin@takemefrom.com",
-             password: "foobar",
-             password_confirmation: "foobar")
+user = User.find_or_create_by(email: "admin@takemefrom.com") do |u|
+  u.password = "foobar"
+  u.password_confirmation = "foobar"
+end
 
 game = Game.create!(name: "Simple game", user: user)
 game.beginning.add_destination("Turn left", "You are in the temple")
