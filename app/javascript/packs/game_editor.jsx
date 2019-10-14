@@ -88,10 +88,7 @@ class MyApp extends React.Component {
         ...this.state.questions,
         [this.state.editingNodeId]: {
           ...q,
-          answers: [
-            ...q.answers,
-            { content: "", id: Math.floor(Math.random() * 100) }
-          ]
+          answers: [...q.answers, ""]
         }
       }
     });
@@ -159,15 +156,15 @@ class MyApp extends React.Component {
             onChange={this.handleQuestionChange}
           />
 
-          {this.state.questions[this.state.editingNodeId].answers.map(e => {
-            return (
+          {this.state.questions[this.state.editingNodeId].answers.map(
+            (e, id) => (
               <textarea
-                key={e.id}
-                value={e.content}
+                key={id}
+                value={e}
                 onChange={this.handleAnswerChange(e.id)}
               />
-            );
-          })}
+            )
+          )}
 
           <button onClick={this.addAnswer}>Add answer</button>
         </form>
