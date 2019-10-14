@@ -117,8 +117,7 @@ class GameEditor extends React.Component {
         isOpen={this.state.modalIsOpen}
         onRequestClose={this.closeModal}
         closeModal={this.closeModal}
-        question={this.state.questions[this.state.editingNodeId].content}
-        answers={this.state.questions[this.state.editingNodeId].answers}
+        question={this.state.questions[this.state.editingNodeId]}
         onSave={this.onSaveModal}
       />
     ];

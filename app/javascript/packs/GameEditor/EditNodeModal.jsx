@@ -7,7 +7,6 @@ export default ({
   onRequestClose,
   closeModal,
   question,
-  answers,
   onSave
 }) => {
   const customStyles = {
@@ -21,10 +20,10 @@ export default ({
     }
   };
 
-  const [state, setState] = useState({ question, answers });
+  const [state, setState] = useState(question || { content: "", answers: [] });
 
   const handleQuestionChange = e => {
-    setState({ ...state, question: e.target.value });
+    setState({ ...state, content: e.target.value });
   };
 
   const handleAnswerChange = id => e => {
@@ -55,7 +54,7 @@ export default ({
       <h2>Question</h2>
       <button onClick={closeModal}>x</button>
       <form>
-        <textarea value={state.question} onChange={handleQuestionChange} />
+        <textarea value={state.content} onChange={handleQuestionChange} />
 
         {state.answers.map((e, id) => (
           <textarea key={id} value={e} onChange={handleAnswerChange(id)} />
