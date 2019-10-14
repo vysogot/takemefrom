@@ -81,16 +81,23 @@ class GameEditor extends React.Component {
   }
 
   save() {
-    const positions = this.myCyRef.nodes().map(e => {
-      return [e.data("id"), e.position()];
-    });
+    const positions = this.myCyRef.nodes().reduce((memo, e) => {
+      memo[e.data("id")] = e.position();
+      return memo;
+    }, {});
 
-    fetch("update.json", {
+    const [_empty, _game, id, _edit] = window.location.pathname.split("/");
+
+    fetch(`/games/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ ...this.state, ...this.props, ...positions })
+      body: JSON.stringify({
+        ...this.state,
+        ...this.props,
+        positions: positions
+      })
     });
   }
 

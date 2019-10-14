@@ -25,6 +25,7 @@ class GamesController < ApplicationController
     @nodes = @game.places_for_graph
     @edges = @game.choices_for_graph
     @beginning_id = @game.beginning.id
+    # TODO pass the json from db instead of these
     render layout: false
   end
 
@@ -48,17 +49,26 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
-    pp params
+    params.permit!
 
-    respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to @game, notice: 'Game was successfully updated.' }
-        format.json { render :show, status: :ok, location: @game }
-      else
-        format.html { render :edit }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
+    # {"modalIsOpen"=>false, "elements"=>[{"data"=>{"id"=>"4", "content"=>"The beginning of ddd..."}}], "questions"=>{"4"=>{"content"=>"The beginning of ddd...", "answers"=>[]}}, "editingNodeId"=>"4", "beginningId"=>"4", "positions"=>{"4"=>{"x"=>15, "y"=>15}}, "id"=>"2", "game"=>{}}
+    
+    params["elements"].each do |element|
+      element["position"] = params["positions"][element["data"]["id"]]
     end
+
+    @game.update!(elements: params["elements"])
+    render json: @game
+
+    # respond_to do |format|
+    #   if @game.update(game_params)
+    #     format.html { redirect_to @game, notice: 'Game was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @game }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @game.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /games/1
