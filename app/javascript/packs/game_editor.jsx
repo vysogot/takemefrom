@@ -81,12 +81,16 @@ class GameEditor extends React.Component {
   }
 
   save() {
-    fetch("update_react.json", {
+    const positions = this.myCyRef.nodes().map(e => {
+      return [e.data("id"), e.position()];
+    });
+
+    fetch("update.json", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ ...this.state, ...this.props })
+      body: JSON.stringify({ ...this.state, ...this.props, ...positions })
     });
   }
 
@@ -187,6 +191,11 @@ class GameEditor extends React.Component {
         cy={cy => (this.myCyRef = cy)}
         stylesheet={stylesheet}
       />,
+      // <pre>
+      //   {this.myCyRef.nodes().map(e => (
+      //     <p>{e.position()}</p>
+      //   ))}
+      // </pre>,
       <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>
     ];
   }

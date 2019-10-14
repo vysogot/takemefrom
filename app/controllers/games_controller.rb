@@ -1,8 +1,8 @@
 class GamesController < ApplicationController
-  before_action :set_game, only: [:show, :edit, :update, :destroy, :edit_react]
+  before_action :set_game, only: [:show, :edit, :update, :destroy]
 
   # TODO: get rid of this
-  skip_before_action :verify_authenticity_token, only: [:update_react]
+  skip_before_action :verify_authenticity_token, only: [:update]
 
   # GET /games
   # GET /games.json
@@ -22,12 +22,6 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
-    @nodes = @game.places_for_graph
-    @edges = @game.choices_for_graph
-    render layout: false
-  end
-
-  def edit_react
     @nodes = @game.places_for_graph
     @edges = @game.choices_for_graph
     @beginning_id = @game.beginning.id
@@ -54,6 +48,8 @@ class GamesController < ApplicationController
   # PATCH/PUT /games/1
   # PATCH/PUT /games/1.json
   def update
+    pp params
+
     respond_to do |format|
       if @game.update(game_params)
         format.html { redirect_to @game, notice: 'Game was successfully updated.' }
@@ -63,12 +59,6 @@ class GamesController < ApplicationController
         format.json { render json: @game.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def update_react
-    pp params
-
-    head :no_content
   end
 
   # DELETE /games/1
