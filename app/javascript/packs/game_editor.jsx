@@ -38,8 +38,9 @@ class MyApp extends React.Component {
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
     this.handleAnswerChange = this.handleAnswerChange.bind(this);
     this.addAnswer = this.addAnswer.bind(this);
+    this.addNode = this.addNode.bind(this);
 
-    this.props.elements.forEach(element => {
+    this.state.elements.forEach(element => {
       this.state.questions[element.data.id] = {
         content: element.data.content,
         answers: []
@@ -58,6 +59,15 @@ class MyApp extends React.Component {
 
   closeModal() {
     this.setState({ modalIsOpen: false, editingNodeId: null });
+  }
+
+  addNode() {
+    this.setState({
+      elements: [
+        ...this.state.elements,
+        { data: { id: Math.floor(Math.random() * 100) } }
+      ]
+    });
   }
 
   componentDidMount() {
@@ -141,6 +151,7 @@ class MyApp extends React.Component {
 
     return [
       <button onClick={this.save}>Save</button>,
+      <button onClick={this.addNode}>Addnode</button>,
       <Modal
         isOpen={this.state.modalIsOpen}
         onAfterOpen={this.afterOpenModal}
@@ -176,7 +187,7 @@ class MyApp extends React.Component {
         cy={cy => (this.myCyRef = cy)}
         stylesheet={stylesheet}
       />,
-      <pre>{JSON.stringify(this.props.elements, null, 2)}</pre>
+      <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>
     ];
   }
 }
