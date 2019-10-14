@@ -53,15 +53,13 @@ class GamesController < ApplicationController
   def update
     params.permit!
 
-    params['elements'].each do |element|
-      unless element['data']['id'].start_with?('edge')
-        element['position'] = params['positions'][element['data']['id']]
-      end
+    elements = params["cyOptions"]["elements"]["nodes"].map do |node|
+      node.slice("data", "position")
     end
 
     if @game.update(
       cy_options: params['cyOptions'].slice('zoom', 'pan'),
-      elements: params['elements']
+      elements: elements
     )
       render json: @game
     else
