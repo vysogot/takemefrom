@@ -29,13 +29,20 @@ class MyApp extends React.Component {
       modalIsOpen: false,
       elements: props.elements,
       questions: {},
-      editingNodeId: null
+      editingNodeId: props.elements[0].data.id
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.save = this.save.bind(this);
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
+
+    this.props.elements.forEach(element => {
+      this.state.questions[element.data.id] = {
+        content: element.data.content,
+        answers: []
+      };
+    });
   }
 
   openModal(e) {
@@ -72,7 +79,12 @@ class MyApp extends React.Component {
   }
 
   handleQuestionChange(e) {
-    this.state.questions[this.state.editingNodeId] = e.target.value;
+    this.setState({
+      questions: {
+        ...this.state.questions,
+        [this.state.editingNodeId]: { content: e.target.value }
+      }
+    });
   }
 
   render() {
@@ -111,7 +123,7 @@ class MyApp extends React.Component {
         <button onClick={this.closeModal}>x</button>
         <form>
           <textarea
-            value={this.state.questions[this.state.editingNodeId]}
+            value={this.state.questions[this.state.editingNodeId].content}
             onChange={this.handleQuestionChange}
           />
 
