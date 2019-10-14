@@ -36,6 +36,8 @@ class MyApp extends React.Component {
     this.closeModal = this.closeModal.bind(this);
     this.save = this.save.bind(this);
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
+    this.handleAnswerChange = this.handleAnswerChange.bind(this);
+    this.addAnswer = this.addAnswer.bind(this);
 
     this.props.elements.forEach(element => {
       this.state.questions[element.data.id] = {
@@ -78,6 +80,23 @@ class MyApp extends React.Component {
     });
   }
 
+  addAnswer(e) {
+    e.preventDefault();
+    const q = this.state.questions[this.state.editingNodeId];
+    this.setState({
+      questions: {
+        ...this.state.questions,
+        [this.state.editingNodeId]: {
+          ...q,
+          answers: [
+            ...q.answers,
+            { content: "", id: Math.floor(Math.random() * 100) }
+          ]
+        }
+      }
+    });
+  }
+
   handleQuestionChange(e) {
     this.setState({
       questions: {
@@ -85,6 +104,19 @@ class MyApp extends React.Component {
         [this.state.editingNodeId]: { content: e.target.value }
       }
     });
+  }
+
+  handleAnswerChange(id) {
+    return event => {
+      const question = this.state.questions[this.state.editingNodeId];
+      question.answers[id] = event.target.value;
+      this.setState({
+        questions: {
+          ...this.state.questions,
+          [this.state.editingNodeId]: question
+        }
+      });
+    };
   }
 
   render() {
@@ -127,7 +159,17 @@ class MyApp extends React.Component {
             onChange={this.handleQuestionChange}
           />
 
-          {/* <button onClick={this.addQuestion()}> */}
+          {this.state.questions[this.state.editingNodeId].answers.map(e => {
+            return (
+              <textarea
+                key={e.id}
+                value={e.content}
+                onChange={this.handleAnswerChange(e.id)}
+              />
+            );
+          })}
+
+          <button onClick={this.addAnswer}>Add answer</button>
         </form>
       </Modal>,
       <CytoscapeComponent
