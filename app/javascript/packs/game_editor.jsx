@@ -26,16 +26,20 @@ class MyApp extends React.Component {
     this.myCyRef = React.createRef();
 
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      elements: props.elements,
+      questions: {},
+      editingNodeId: null
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.save = this.save.bind(this);
+    this.handleQuestionChange = this.handleQuestionChange.bind(this);
   }
 
-  openModal() {
-    this.setState({ modalIsOpen: true });
+  openModal(e) {
+    this.setState({ modalIsOpen: true, editingNodeId: e.target.data("id") });
   }
 
   afterOpenModal() {
@@ -44,7 +48,7 @@ class MyApp extends React.Component {
   }
 
   closeModal() {
-    this.setState({ modalIsOpen: false });
+    this.setState({ modalIsOpen: false, editingNodeId: null });
   }
 
   componentDidMount() {
@@ -65,6 +69,10 @@ class MyApp extends React.Component {
       },
       body: JSON.stringify({ ...this.state, ...this.props })
     });
+  }
+
+  handleQuestionChange(e) {
+    this.state.questions[this.state.editingNodeId] = e.target.value;
   }
 
   render() {
@@ -102,13 +110,16 @@ class MyApp extends React.Component {
         <h2 ref={subtitle => (this.subtitle = subtitle)}>Question</h2>
         <button onClick={this.closeModal}>x</button>
         <form>
-          <textarea />
+          <textarea
+            value={this.state.questions[this.state.editingNodeId]}
+            onChange={this.handleQuestionChange}
+          />
 
           {/* <button onClick={this.addQuestion()}> */}
         </form>
       </Modal>,
       <CytoscapeComponent
-        elements={this.props.elements}
+        elements={this.state.elements}
         className="game-editor"
         layout={{ name: "dagre" }}
         cy={cy => (this.myCyRef = cy)}
