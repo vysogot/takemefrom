@@ -6,6 +6,7 @@ import Cytoscape from "cytoscape";
 import Modal from "react-modal";
 import EditNodeModal from "./GameEditor/EditNodeModal";
 
+declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
 
 Cytoscape.use(dagre);
