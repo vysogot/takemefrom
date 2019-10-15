@@ -2,7 +2,7 @@
 <p>Take me from one place to another</p>
 
 <% if @game %>
-  <p class="choice"><%= link_to 'Play', place_path(@game.beginning) %></p>
+  <p class="choice"><%= link_to 'Play', game_path(@game) %></p>
 <% end %>
 <% if current_user %>
   <p class="choice"><%= link_to 'Your games', games_path %></p>
@@ -10,6 +10,3 @@
 <% else %>
   <p class="choice"><%= link_to "Log in", new_user_session_path %>
 <% end %>
-<p id="contribute">
-  <a href="http://github.com/vysogot/takemefrom">Contribute</a>
-</p>

@@ -9,7 +9,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.includes(:beginning).all
+    @games = Game.all
   end
 
   # GET /games/1
@@ -24,7 +24,7 @@ class GamesController < ApplicationController
   # GET /games/1/edit
   def edit
     @elements = @game.elements
-    @beginning_id = @game.beginning.id
+    @beginning_id = @game.beginning_id
     @cy_options = @game.cy_options
 
     render layout: false
@@ -53,12 +53,12 @@ class GamesController < ApplicationController
   def update
     params.permit!
 
-    nodes = params["cyOptions"]["elements"]["nodes"].map do |node|
-      node.slice("data", "position")
+    nodes = params['cyOptions']['elements']['nodes'].map do |node|
+      node.slice('data', 'position')
     end
 
-    edges = params["cyOptions"]["elements"]["edges"].map do |edge|
-      edge.slice("data", "position")
+    edges = params['cyOptions']['elements']['edges'].map do |edge|
+      edge.slice('data', 'position')
     end
 
     elements = nodes + edges

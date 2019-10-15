@@ -1,14 +1,12 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  resources :places, only: [:show]
   authenticate :user do
     resources :games
-    resources :choices
-    resources :places, except: [:show]
   end
+
   devise_for :users
+
   get 'welcome/index'
-
   root 'welcome#index'
-
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   sequence :email do |n|
     "email#{n}@factory.com"
@@ -12,8 +14,8 @@ FactoryBot.define do
 
   factory :game do
     user
-    name { "MyString" }
-    slug { "MyString" }
+    name { 'MyString' }
+    slug { 'MyString' }
   end
 
   factory :place, aliases: [:beginning] do
@@ -23,7 +25,7 @@ FactoryBot.define do
 
   factory :user do
     email
-    password { "foobar" }
-    password_confirmation { "foobar" }
+    password { 'foobar' }
+    password_confirmation { 'foobar' }
   end
 end

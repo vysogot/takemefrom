@@ -1,14 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Game, type: :model do
-  it "has a beginning" do
-    game = FactoryBot.create(:game)
-    place = Place.first
-    expect(game.beginning).to be_a(Place)
-    expect(game.beginning).to eq(place)
-  end
-
-  it "can be edited by the owner" do
+  it 'can be edited by the owner' do
     game = FactoryBot.create(:game)
     other_user = FactoryBot.create(:user)
 
