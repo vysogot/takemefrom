@@ -24,5 +24,8 @@
   "devDependencies": {
     "prettier": "1.18.2",
     "webpack-dev-server": "^3.8.2"
+  },
+  "scripts": {
+	  "postinstall": "npm rebuild node-sass"
   }
 }
