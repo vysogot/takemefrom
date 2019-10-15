@@ -81,7 +81,7 @@ class GameEditor extends React.Component {
     this.setState({ connectingNodeId: null });
   }
 
-  toggleConnectionMode() {
+  toggleConnectionMode(e) {
     this.setState({
       connectionMode: !this.state.connectionMode,
       connectingNodeId: null
@@ -94,10 +94,24 @@ class GameEditor extends React.Component {
       .selector("node#" + nodeId)
       .style("background-color", color)
       .update();
+
+    this.myCyRef
+      .style()
+      .selector("node#" + this.props.beginningId)
+      .style("background-color", Colors.orange)
+      .update();
+  }
+
+  colorizeBeginning() {
+    this.colorizeNode(this.props.beginningId, Colors.orange);
+  }
+
+  componentDidUpdate() {
+    this.colorizeBeginning();
   }
 
   componentDidMount() {
-    this.colorizeNode(this.props.beginningId, Colors.orange);
+    this.colorizeBeginning();
 
     this.myCyRef.on(
       "vclick",
