@@ -18,9 +18,24 @@ const Colors = {
   orange: "darkorange"
 };
 
-class GameEditor extends React.Component<any, any> {
-  myCyRef : any;
-  
+interface GameEditorProps {
+  elements: any[];
+  beginningId: string;
+  cyOptions: any;
+  touched: boolean;
+}
+
+interface GameEditorState {
+  modalIsOpen: boolean;
+  elements: any[];
+  editingNode: any;
+  connectionMode: boolean;
+  connectingNodeId?: string;
+}
+
+class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
+  myCyRef: any;
+
   constructor(props) {
     super(props);
     this.myCyRef = React.createRef();
@@ -33,7 +48,7 @@ class GameEditor extends React.Component<any, any> {
     };
   }
 
-  openModal = (e) => {
+  openModal = e => {
     e.preventDefault();
     this.setState({
       modalIsOpen: true,
@@ -41,12 +56,12 @@ class GameEditor extends React.Component<any, any> {
         elem => elem.data.id === e.target.data("id")
       )
     });
-  }
+  };
 
-  closeModal = (e) => {
+  closeModal = e => {
     e.preventDefault();
     this.setState({ modalIsOpen: false });
-  }
+  };
 
   addNode = () => {
     this.setState({
@@ -55,9 +70,9 @@ class GameEditor extends React.Component<any, any> {
         { data: { id: Math.floor(Math.random() * 100) } }
       ]
     });
-  }
+  };
 
-  addEdge = (targetId) => {
+  addEdge = targetId => {
     this.setState({
       elements: [
         ...this.state.elements,
@@ -73,20 +88,14 @@ class GameEditor extends React.Component<any, any> {
     });
 
     this.setState({ connectingNodeId: null });
-  }
+  };
 
-  toggleConnectionMode = (e) => {
+  toggleConnectionMode = e => {
     this.setState({
       connectionMode: !this.state.connectionMode,
       connectingNodeId: null
     });
-  }
-
-  editingElement = () => {
-    return this.state.elements.find(
-      e => e.data.id === this.state.editingNodeId
-    );
-  }
+  };
 
   colorizeNode = (nodeId, color) => {
     this.myCyRef
@@ -100,11 +109,11 @@ class GameEditor extends React.Component<any, any> {
       .selector("node#" + this.props.beginningId)
       .style("background-color", Colors.orange)
       .update();
-  }
+  };
 
   colorizeBeginning = () => {
     this.colorizeNode(this.props.beginningId, Colors.orange);
-  }
+  };
 
   componentDidUpdate() {
     this.colorizeBeginning();
@@ -146,9 +155,9 @@ class GameEditor extends React.Component<any, any> {
         cyOptions: this.myCyRef.json()
       })
     });
-  }
+  };
 
-  handleApplyContent = (content) => {
+  handleApplyContent = content => {
     this.setState({
       elements: this.state.elements.map(e => {
         if (e.data.id == this.state.editingNode.data.id) {
@@ -160,7 +169,7 @@ class GameEditor extends React.Component<any, any> {
         }
       })
     });
-  }
+  };
 
   render() {
     const stylesheet = [
