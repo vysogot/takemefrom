@@ -27,7 +27,7 @@ class GameEditor extends React.Component {
     this.save = this.save.bind(this);
     this.addNode = this.addNode.bind(this);
     this.toggleConnectionMode = this.toggleConnectionMode.bind(this);
-    this.colorizeNode = this.colorizeNode.bind(this)
+    this.colorizeNode = this.colorizeNode.bind(this);
 
     this.state.elements.forEach(element => {
       this.state.questions[element.data.id] = {
@@ -60,8 +60,8 @@ class GameEditor extends React.Component {
     this.setState({
       elements: [
         ...this.state.elements,
-        { data:
-          {
+        {
+          data: {
             id: `edge-${Math.floor(Math.random() * 100)}`,
             source: this.state.connectingNodeId,
             target: targetId,
@@ -69,16 +69,16 @@ class GameEditor extends React.Component {
           }
         }
       ]
-    })
+    });
 
-    this.setState({ connectingNodeId: null })
+    this.setState({ connectingNodeId: null });
   }
 
   toggleConnectionMode() {
     this.setState({
       connectionMode: !this.state.connectionMode,
       connectingNodeId: null
-    })
+    });
   }
 
   colorizeNode(nodeId, color) {
@@ -90,24 +90,26 @@ class GameEditor extends React.Component {
   }
 
   componentDidMount() {
-    const gameEditor = this;
+    this.colorizeNode(this.props.beginningId, "darkorange");
 
-    gameEditor.colorizeNode(this.props.beginningId, "darkorange")
+    this.myCyRef.on(
+      "vclick",
+      "node",
+      (e => {
+        if (this.state.connectionMode) {
+          if (this.state.connectingNodeId) {
+            this.addEdge(e.target.data("id"));
+            this.colorizeNode(e.target.data("id"), "blue");
+          } else {
+            this.setState({ connectingNodeId: e.target.data("id") });
+          }
 
-    this.myCyRef.on("vclick", "node", (e) => {
-      if (gameEditor.state.connectionMode) {
-        if (gameEditor.state.connectingNodeId) {
-          gameEditor.addEdge(e.target.data("id"))
-          gameEditor.colorizeNode(e.target.data("id"), "blue")
+          this.colorizeNode(e.target.data("id"), "#ff5e5b");
         } else {
-          gameEditor.setState({ connectingNodeId: e.target.data("id") })
+          this.openModal(e);
         }
-
-        gameEditor.colorizeNode(e.target.data("id"), "#ff5e5b")
-      } else {
-        gameEditor.openModal(e)
-      }
-    });
+      }).bind(this)
+    );
   }
 
   save() {
