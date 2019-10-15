@@ -14,3 +14,4 @@ end
 game = Game.create!(name: "Simple game", user: user)
 game.beginning.add_destination("Turn left", "You are in the temple")
 game.beginning.add_destination("Turn right", "You are in the cowshed")
+game.update(elements: game.to_elements)

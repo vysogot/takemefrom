@@ -19,12 +19,15 @@ class GameEditor extends React.Component {
       modalIsOpen: false,
       elements: props.elements,
       questions: {},
-      editingNodeId: props.elements[0].data.id
+      editingNodeId: [], //props.elements[0].data.id,
+      connectionMode: false
     };
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.save = this.save.bind(this);
     this.addNode = this.addNode.bind(this);
+    this.toggleConnectionMode = this.toggleConnectionMode.bind(this);
+    this.colorizeNode = this.colorizeNode.bind(this)
 
     this.state.elements.forEach(element => {
       this.state.questions[element.data.id] = {
@@ -53,14 +56,58 @@ class GameEditor extends React.Component {
     });
   }
 
-  componentDidMount() {
+  addEdge(targetId) {
+    this.setState({
+      elements: [
+        ...this.state.elements,
+        { data:
+          {
+            id: `edge-${Math.floor(Math.random() * 100)}`,
+            source: this.state.connectingNodeId,
+            target: targetId,
+            content: "Something"
+          }
+        }
+      ]
+    })
+
+    this.setState({ connectingNodeId: null })
+  }
+
+  toggleConnectionMode() {
+    this.setState({
+      connectionMode: !this.state.connectionMode,
+      connectingNodeId: null
+    })
+  }
+
+  colorizeNode(nodeId, color) {
     this.myCyRef
       .style()
-      .selector("node#" + this.props.beginningId)
-      .style("background-color", "darkorange")
+      .selector("node#" + nodeId)
+      .style("background-color", color)
       .update();
+  }
 
-    this.myCyRef.on("vclick", "node", this.openModal);
+  componentDidMount() {
+    const gameEditor = this;
+
+    gameEditor.colorizeNode(this.props.beginningId, "darkorange")
+
+    this.myCyRef.on("vclick", "node", (e) => {
+      if (gameEditor.state.connectionMode) {
+        if (gameEditor.state.connectingNodeId) {
+          gameEditor.addEdge(e.target.data("id"))
+          gameEditor.colorizeNode(e.target.data("id"), "blue")
+        } else {
+          gameEditor.setState({ connectingNodeId: e.target.data("id") })
+        }
+
+        gameEditor.colorizeNode(e.target.data("id"), "#ff5e5b")
+      } else {
+        gameEditor.openModal(e)
+      }
+    });
   }
 
   save() {
@@ -105,6 +152,7 @@ class GameEditor extends React.Component {
     return [
       <button onClick={this.save}>Save</button>,
       <button onClick={this.addNode}>Addnode</button>,
+      <button onClick={this.toggleConnectionMode}>Connection</button>,
       <CytoscapeComponent
         elements={this.state.elements}
         className="game-editor"
@@ -113,6 +161,7 @@ class GameEditor extends React.Component {
         stylesheet={stylesheet}
         {...this.props.cyOptions}
       />,
+      <pre>Connection mode: {this.state.connectionMode.toString()}</pre>,
       <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
       <EditNodeModal
         isOpen={this.state.modalIsOpen}

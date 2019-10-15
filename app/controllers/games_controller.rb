@@ -53,9 +53,15 @@ class GamesController < ApplicationController
   def update
     params.permit!
 
-    elements = params["cyOptions"]["elements"]["nodes"].map do |node|
+    nodes = params["cyOptions"]["elements"]["nodes"].map do |node|
       node.slice("data", "position")
     end
+
+    edges = params["cyOptions"]["elements"]["edges"].map do |edge|
+      edge.slice("data", "position")
+    end
+
+    elements = nodes + edges
 
     if @game.update(
       cy_options: params['cyOptions'].slice('zoom', 'pan'),
