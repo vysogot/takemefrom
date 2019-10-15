@@ -1,24 +1,21 @@
-<p id="notice"><%= notice %></p>
+<p id="content"><%= @place.content %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @game.name %>
+<% @place.choices.each do |choice| %>
+  <p class="choice">
+    <%= link_to choice["content"], game_path(@game, choice: choice["target"]) %>
+  </p>
+<% end %>
+
+<p class="choice">
+  <% if @place.dead_end? %>
+    There is nothing you can do here.
+  <% end %>
+
+  <%= link_to 'Go back', 'javascript:history.back()' %>
 </p>
 
-<p>
-  <strong>Slug:</strong>
-  <%= @game.slug %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @game.user_id %>
-</p>
-
-<p>
-  <strong>Beginning:</strong>
-  <%= @game.beginning_id %>
-</p>
-
-<%= link_to 'Edit', edit_game_path(@game) %> |
-<%= link_to 'Back', games_path %>
+<% if @game.editable?(current_user) %>
+  <p id="editPlace">
+    <%= link_to 'Redesign this place', edit_game_path(@game) %>
+  </p>
+<% end %>

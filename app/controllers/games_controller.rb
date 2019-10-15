@@ -14,7 +14,21 @@ class GamesController < ApplicationController
 
   # GET /games/1
   # GET /games/1.json
-  def show; end
+  def show
+    place_node = @game.elements.detect do |x|
+      x["data"]["id"] == (params["choice"] || @game.beginning_id.to_s)
+    end["data"]
+
+    choices = @game.elements.select do |x|
+      x["data"]["source"] == place_node["id"]
+    end.map {|x| x["data"]}
+
+    @place = OpenStruct.new(
+      content: place_node["content"],
+      choices: choices,
+      dead_end?: choices.blank?
+    )
+  end
 
   # GET /games/new
   def new
