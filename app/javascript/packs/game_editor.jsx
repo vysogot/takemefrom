@@ -25,8 +25,7 @@ class GameEditor extends React.Component {
     this.state = {
       modalIsOpen: false,
       elements: props.elements,
-      questions: {},
-      editingNodeId: [], //props.elements[0].data.id,
+      editingNode: props.elements[0],
       connectionMode: false
     };
     this.openModal = this.openModal.bind(this);
@@ -35,23 +34,22 @@ class GameEditor extends React.Component {
     this.addNode = this.addNode.bind(this);
     this.toggleConnectionMode = this.toggleConnectionMode.bind(this);
     this.colorizeNode = this.colorizeNode.bind(this);
-
-    this.state.elements.forEach(element => {
-      this.state.questions[element.data.id] = {
-        content: element.data.content,
-        answers: []
-      };
-    });
+    this.handleApplyContent = this.handleApplyContent.bind(this);
   }
 
   openModal(e) {
     e.preventDefault();
-    this.setState({ modalIsOpen: true, editingNodeId: e.target.data("id") });
+    this.setState({
+      modalIsOpen: true,
+      editingNode: this.state.elements.find(
+        elem => elem.data.id === e.target.data("id")
+      )
+    });
   }
 
   closeModal(e) {
     e.preventDefault();
-    this.setState({ modalIsOpen: false, editingNodeId: null });
+    this.setState({ modalIsOpen: false });
   }
 
   addNode() {
@@ -86,6 +84,12 @@ class GameEditor extends React.Component {
       connectionMode: !this.state.connectionMode,
       connectingNodeId: null
     });
+  }
+
+  editingElement() {
+    return this.state.elements.find(
+      e => e.data.id === this.state.editingNodeId
+    );
   }
 
   colorizeNode(nodeId, color) {
@@ -148,6 +152,20 @@ class GameEditor extends React.Component {
     });
   }
 
+  handleApplyContent(content) {
+    this.setState({
+      elements: this.state.elements.map(e => {
+        if (e.data.id == this.state.editingNode.data.id) {
+          const editedNode = { ...this.state.editingNode };
+          editedNode.data.content = content;
+          return editedNode;
+        } else {
+          return e;
+        }
+      })
+    });
+  }
+
   render() {
     const stylesheet = [
       {
@@ -188,9 +206,9 @@ class GameEditor extends React.Component {
       <EditNodeModal
         isOpen={this.state.modalIsOpen}
         onRequestClose={this.closeModal}
+        content={this.state.editingNode.data.content}
         closeModal={this.closeModal}
-        question={this.state.questions[this.state.editingNodeId]}
-        onSave={this.onSaveModal}
+        onApplyContent={this.handleApplyContent}
       />
     ];
   }

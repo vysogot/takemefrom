@@ -1,67 +1,62 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 
-export default ({
-  isOpen,
-  onAfterOpen,
-  onRequestClose,
-  closeModal,
-  question,
-  onSave
-}) => {
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)"
-    }
-  };
+export default class EditNodeModal extends React.Component {
+  constructor(props) {
+    super(props);
 
-  const [state, setState] = useState(question || { content: "", answers: [] });
+    this.state = { content: props.content || "" };
+    this.handleQuestionChange = this.handleQuestionChange.bind(this);
+    this.handleApplyContent = this.handleApplyContent.bind(this);
+  }
 
-  const handleQuestionChange = e => {
-    setState({ ...state, content: e.target.value });
-  };
-
-  const handleAnswerChange = id => e => {
-    setState({
-      ...state,
-      answers: state.answers.map((answer, i) => {
-        if (i === id) {
-          return e.target.value;
-        }
-        return answer;
-      })
+  handleQuestionChange(e) {
+    this.setState({
+      content: e.target.value
     });
-  };
+  }
 
-  const addAnswer = e => {
+  componentWillReceiveProps(newProps) {
+    this.setState({ content: newProps.content });
+  }
+
+  handleApplyContent(e) {
     e.preventDefault();
-    setState({ ...state, answers: [...state.answers, ""] });
-  };
 
-  return (
-    <Modal
-      isOpen={isOpen}
-      onAfterOpen={onAfterOpen}
-      onRequestClose={onRequestClose}
-      style={customStyles}
-      contentLabel="Example Modal"
-    >
-      <h2>Question</h2>
-      <button onClick={closeModal}>x</button>
-      <form>
-        <textarea value={state.content} onChange={handleQuestionChange} />
+    this.props.onApplyContent(this.state.content);
+    this.props.closeModal(e);
+  }
 
-        {state.answers.map((e, id) => (
-          <textarea key={id} value={e} onChange={handleAnswerChange(id)} />
-        ))}
+  render() {
+    const customStyles = {
+      content: {
+        top: "50%",
+        left: "50%",
+        right: "auto",
+        bottom: "auto",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)"
+      }
+    };
+    return (
+      <Modal
+        isOpen={this.props.isOpen}
+        onAfterOpen={this.props.onAfterOpen}
+        onRequestClose={this.props.onRequestClose}
+        style={customStyles}
+        contentLabel="Example Modal"
+      >
+        <h2>Question</h2>
+        <button onClick={this.props.closeModal}>x</button>
+        <form>
+          <textarea
+            value={this.state.content}
+            onChange={this.handleQuestionChange}
+          />
 
-        <button onClick={addAnswer}>Add answer</button>
-      </form>
-    </Modal>
-  );
-};
+          <button onClick={this.handleApplyContent}>Apply content</button>
+        </form>
+      </Modal>
+    );
+  }
+}
