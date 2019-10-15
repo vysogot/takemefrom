@@ -36,7 +36,7 @@ export default class EditNodeModal extends React.Component<
     });
   };
 
-  handleApplyContent = e => {
+  handleApplyContent = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     this.props.onApplyContent(this.state.content);
