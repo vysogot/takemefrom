@@ -234,7 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     <GameEditor
       elements={elements}
       beginningId={beginningId}
-      cyOptions={cyOptions}
+      cyOptions={{ ...cyOptions, maxZoom: 2, minZoom: 0.5 }}
       touched={touched}
     />,
     editor
