@@ -24,6 +24,7 @@ class GameEditor extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.save = this.save.bind(this);
+    this.addNode = this.addNode.bind(this);
 
     this.state.elements.forEach(element => {
       this.state.questions[element.data.id] = {
