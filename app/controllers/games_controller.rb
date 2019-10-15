@@ -9,7 +9,7 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @games = Game.includes(:beginning).all
   end
 
   # GET /games/1
