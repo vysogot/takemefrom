@@ -1,29 +1,47 @@
 import * as React from "react";
 import * as Modal from "react-modal";
 
-export default class EditNodeModal extends React.Component<any, any> {
+interface EditNodeModalProps {
+  content: string;
+  onApplyContent?: any;
+  closeModal?: any;
+  isOpen?: boolean;
+  onAfterOpen?: any;
+  onRequestClose?: any;
+}
+
+interface EditNodeModalState {
+  content: string;
+}
+
+export default class EditNodeModal extends React.Component<
+  EditNodeModalProps,
+  EditNodeModalState
+> {
   constructor(props) {
     super(props);
 
     this.state = { content: props.content || "" };
   }
 
-  handleQuestionChange = (e) => {
+  handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     this.setState({
       content: e.target.value
     });
-  }
+  };
 
-  componentWillReceiveProps = (newProps) => {
-    this.setState({ content: newProps.content });
-  }
+  componentWillReceiveProps = (newProps: EditNodeModalProps) => {
+    this.setState({
+      content: newProps.content
+    });
+  };
 
-  handleApplyContent = (e) => {
+  handleApplyContent = e => {
     e.preventDefault();
 
     this.props.onApplyContent(this.state.content);
     this.props.closeModal(e);
-  }
+  };
 
   render() {
     const customStyles = {
