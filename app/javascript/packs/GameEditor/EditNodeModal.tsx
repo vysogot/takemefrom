@@ -6,17 +6,15 @@ export default class EditNodeModal extends React.Component<any, any> {
     super(props);
 
     this.state = { content: props.content || "" };
-    this.handleQuestionChange = this.handleQuestionChange.bind(this);
-    this.handleApplyContent = this.handleApplyContent.bind(this);
   }
 
-  handleQuestionChange(e) {
+  handleQuestionChange = (e) => {
     this.setState({
       content: e.target.value
     });
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps = (newProps) => {
     this.setState({ content: newProps.content });
   }
 
