@@ -4,7 +4,7 @@ import dagre from "cytoscape-dagre";
 import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
 import Modal from "react-modal";
-import EditNodeModal from "./GameEditor/EditNodeModal";
+import EditElementModal from "./GameEditor/EditElementModal";
 
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
@@ -210,7 +210,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       />,
       <pre>Connection mode: {this.state.connectionMode.toString()}</pre>,
       <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
-      <EditNodeModal
+      <EditElementModal
         isOpen={this.state.modalIsOpen}
         onRequestClose={this.closeModal}
         content={this.state.editingNode.data.content}

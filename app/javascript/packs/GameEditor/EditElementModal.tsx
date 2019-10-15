@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as Modal from "react-modal";
 
-interface EditNodeModalProps {
+interface EditElementModalProps {
   content: string;
   onApplyContent?: any;
   closeModal?: any;
@@ -10,13 +10,13 @@ interface EditNodeModalProps {
   onRequestClose?: any;
 }
 
-interface EditNodeModalState {
+interface EditElementModalState {
   content: string;
 }
 
-export default class EditNodeModal extends React.Component<
-  EditNodeModalProps,
-  EditNodeModalState
+export default class EditElementModal extends React.Component<
+  EditElementModalProps,
+  EditElementModalState
 > {
   constructor(props) {
     super(props);
@@ -30,7 +30,7 @@ export default class EditNodeModal extends React.Component<
     });
   };
 
-  componentWillReceiveProps = (newProps: EditNodeModalProps) => {
+  componentWillReceiveProps = (newProps: EditElementModalProps) => {
     this.setState({
       content: newProps.content
     });
