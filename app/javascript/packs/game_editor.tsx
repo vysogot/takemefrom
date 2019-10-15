@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import dagre from "cytoscape-dagre";
 import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
@@ -17,7 +17,9 @@ const Colors = {
   orange: "darkorange"
 };
 
-class GameEditor extends React.Component {
+class GameEditor extends React.Component<any, any> {
+  private myCyRef;
+  
   constructor(props) {
     super(props);
     this.myCyRef = React.createRef();

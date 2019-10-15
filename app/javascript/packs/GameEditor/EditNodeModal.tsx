@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import Modal from "react-modal";
+import * as React from "react";
+import * as Modal from "react-modal";
 
-export default class EditNodeModal extends React.Component {
+export default class EditNodeModal extends React.Component<any, any> {
   constructor(props) {
     super(props);
 
