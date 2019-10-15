@@ -81,7 +81,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
             id: `edge-${Math.floor(Math.random() * 100)}`,
             source: this.state.connectingNodeId,
             target: targetId,
-            content: "Something"
+            content: "Edit me"
           }
         }
       ]
@@ -139,6 +139,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         }
       }).bind(this)
     );
+
+    this.myCyRef.on("vclick", "edge", this.openModal);
   }
 
   save = () => {
