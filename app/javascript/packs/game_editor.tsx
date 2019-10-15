@@ -31,6 +31,7 @@ interface GameEditorState {
   editingNode: any;
   connectionMode: boolean;
   connectingNodeId?: string;
+  deletionMode?: boolean;
 }
 
 class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
@@ -44,7 +45,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       modalIsOpen: false,
       elements: props.elements,
       editingNode: props.elements[0],
-      connectionMode: false
+      connectionMode: false,
+      deletionMode: false
     };
   }
 
@@ -63,12 +65,23 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     this.setState({ modalIsOpen: false });
   };
 
+  deleteElement = e => {
+    e.preventDefault();
+    this.setState({
+      elements: this.state.elements.filter(function(element) {
+        return element.data.id !== e.target.data("id");
+      })
+    });
+  };
+
   addNode = () => {
     this.setState({
       elements: [
         ...this.state.elements,
         { data: { id: Math.floor(Math.random() * 100) } }
-      ]
+      ],
+      connectionMode: false,
+      deletionMode: false
     });
   };
 
@@ -93,7 +106,15 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   toggleConnectionMode = e => {
     this.setState({
       connectionMode: !this.state.connectionMode,
-      connectingNodeId: null
+      connectingNodeId: null,
+      deletionMode: false
+    });
+  };
+
+  toggleDeletionMode = e => {
+    this.setState({
+      deletionMode: !this.state.deletionMode,
+      connectionMode: false
     });
   };
 
@@ -124,9 +145,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     this.myCyRef.on(
       "vclick",
-      "node",
       (e => {
-        if (this.state.connectionMode) {
+        if (this.state.connectionMode && e.target.isNode()) {
           if (this.state.connectingNodeId) {
             this.addEdge(e.target.data("id"));
             this.colorizeNode(e.target.data("id"), Colors.blue);
@@ -134,13 +154,13 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
             this.setState({ connectingNodeId: e.target.data("id") });
             this.colorizeNode(e.target.data("id"), Colors.red);
           }
+        } else if (this.state.deletionMode) {
+          this.deleteElement(e);
         } else {
           this.openModal(e);
         }
       }).bind(this)
     );
-
-    this.myCyRef.on("vclick", "edge", this.openModal);
   }
 
   save = () => {
@@ -199,7 +219,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     return [
       <button onClick={this.save}>Save</button>,
       <button onClick={this.addNode}>Addnode</button>,
-      <button onClick={this.toggleConnectionMode}>Connection</button>,
+      <button onClick={this.toggleConnectionMode}>Connection mode</button>,
+      <button onClick={this.toggleDeletionMode}>Delete mode</button>,
       <CytoscapeComponent
         elements={this.state.elements}
         className="game-editor"
@@ -209,6 +230,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         {...this.props.cyOptions}
       />,
       <pre>Connection mode: {this.state.connectionMode.toString()}</pre>,
+      <pre>Deletion mode: {this.state.deletionMode.toString()}</pre>,
       <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
       <EditElementModal
         isOpen={this.state.modalIsOpen}
