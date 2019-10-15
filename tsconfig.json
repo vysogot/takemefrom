@@ -14,7 +14,8 @@
     "**/*.spec.ts",
     "node_modules",
     "vendor",
-    "public"
+    "public",
+    "vendor/bundle"
   ],
   "compileOnSave": false
 }
