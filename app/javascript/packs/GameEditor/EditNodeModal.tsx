@@ -18,7 +18,7 @@ export default class EditNodeModal extends React.Component<any, any> {
     this.setState({ content: newProps.content });
   }
 
-  handleApplyContent(e) {
+  handleApplyContent = (e) => {
     e.preventDefault();
 
     this.props.onApplyContent(this.state.content);
