@@ -145,6 +145,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     this.myCyRef.on(
       "vclick",
+      "node, edge",
       (e => {
         if (this.state.connectionMode && e.target.isNode()) {
           if (this.state.connectingNodeId) {
