@@ -10,6 +10,13 @@ require("dagre");
 
 Cytoscape.use(dagre);
 
+const Colors = {
+  skyblue: "#9dbaea",
+  blue: "#11479e",
+  red: "#ff5e5b",
+  orange: "darkorange"
+};
+
 class GameEditor extends React.Component {
   constructor(props) {
     super(props);
@@ -90,7 +97,7 @@ class GameEditor extends React.Component {
   }
 
   componentDidMount() {
-    this.colorizeNode(this.props.beginningId, "darkorange");
+    this.colorizeNode(this.props.beginningId, Colors.orange);
 
     this.myCyRef.on(
       "vclick",
@@ -99,12 +106,11 @@ class GameEditor extends React.Component {
         if (this.state.connectionMode) {
           if (this.state.connectingNodeId) {
             this.addEdge(e.target.data("id"));
-            this.colorizeNode(e.target.data("id"), "blue");
+            this.colorizeNode(e.target.data("id"), Colors.blue);
           } else {
             this.setState({ connectingNodeId: e.target.data("id") });
+            this.colorizeNode(e.target.data("id"), Colors.red);
           }
-
-          this.colorizeNode(e.target.data("id"), "#ff5e5b");
         } else {
           this.openModal(e);
         }
@@ -136,7 +142,7 @@ class GameEditor extends React.Component {
           "text-opacity": 0.5,
           "text-valign": "center",
           "text-halign": "right",
-          "background-color": "#11479e"
+          "background-color": Colors.blue
         }
       },
       {
@@ -144,8 +150,8 @@ class GameEditor extends React.Component {
         style: {
           width: 4,
           "target-arrow-shape": "triangle",
-          "line-color": "#9dbaea",
-          "target-arrow-color": "#9dbaea",
+          "line-color": Colors.skyblue,
+          "target-arrow-color": Colors.skyblue,
           "curve-style": "bezier"
         }
       }
