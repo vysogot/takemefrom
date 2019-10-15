@@ -49,10 +49,18 @@ class GamesController < ApplicationController
   def create
     @game = Game.new(game_params)
     @game.user = current_user
+    @game.beginning_id = 1
+    @game.elements = [{
+      'data' => {
+        'id' => '1', 'content' => 'The new beginning'
+      },
+      'position' => {
+        'x' => 0, 'y' => 0
+      }
+    }]
 
     respond_to do |format|
       if @game.save
-        @game.update(elements: @game.reload.to_elements)
         format.html { redirect_to @game, notice: 'Game was successfully created.' }
         format.json { render :show, status: :created, location: @game }
       else
@@ -78,8 +86,8 @@ class GamesController < ApplicationController
     elements = nodes + edges
 
     if @game.update(
-      cy_options: params['cyOptions'].slice('zoom', 'pan'),
-      elements: elements
+        cy_options: params['cyOptions'].slice('zoom', 'pan'),
+        elements: elements
     )
       render json: @game
     else
