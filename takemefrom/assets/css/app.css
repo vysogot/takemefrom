@@ -1,3 +1,63 @@
-/* This file is for your main application css. */
+body { margin:0; padding:0; background-color: #eee; font-size: 160%; }
+a, a:link, a:active, a:visited { color: blue; text-decoration: none; }
+a:hover { color: darkblue; }
 
-@import "./phoenix.css";
+h1, h2, p, .content { font-size: 100%; font-weight: normal;
+  border-bottom: 1px solid gray; margin: 0; padding: 1em 1.5em; }
+p.notice { background-color: lightgreen; }
+ul li { margin-bottom: 1em; }
+
+#container { margin: 0 auto;
+  background-color: #fff; }
+
+label { font-size: 80%; }
+.field em { font-size: 80%; }
+input[type=text], input[type=email], input[type=password], input[type=checkbox] {
+  height: 30px; font-size: 80%; margin-bottom: 10px; margin-top: 5px;
+}
+input[type=text], input[type=email], input[type=password] { width: 30%; min-width: 300px; }
+input[type=checkbox] { vertical-align: middle; }
+input[type=submit] { font-size: 80%; }
+
+#content { background-color: #fff; }
+.choice { background-color: #eee; }
+#contribute, #editPlace { margin-top: 2em;
+  border-top: 1px solid gray; }
+#title { display: none; }
+
+#cy {
+  width: 100%;
+  height: 67vh;
+  background: #eee;
+}
+
+#boxContainer {
+  border:1px solid black;
+  background: #ccc;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 33vh;
+}
+
+#theBox {
+  padding: 1em;
+  color: black;
+}
+
+textarea {
+  width: 99%;
+  min-height: 100px;
+}
+
+a#remove {
+  color: #ff5e5b;
+}
+
+#editor div {
+  width: 100%;
+  height: 67vh;
+  /* z-index: 998; */
+  background: #eee;
+}
