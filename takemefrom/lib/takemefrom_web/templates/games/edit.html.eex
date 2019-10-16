@@ -2,7 +2,7 @@
      data-elements="<%= @elements %>"
      data-beginning-id="<%= @game.beginning_id %>"
      data-cy-options="<%= @cy_options %>"
-     data-touched=<%#= @game.touched? %>
+     data-touched="true"
      data-max-element-counter="<%= @game.max_element_counter %>"
 >
 </div>

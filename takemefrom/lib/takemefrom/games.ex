@@ -68,8 +68,22 @@ defmodule Takemefrom.Games do
 
   """
   def update_game(%Game{} = game, attrs) do
+    nodes = Enum.map(attrs["cy"]["elements"]["nodes"], fn node ->
+      Map.take(node, ["data", "position"])
+    end)
+
+    edges = Enum.map(attrs["cy"]["elements"]["edges"], fn edge ->
+      Map.take(edge, ["data", "position"])
+    end)
+
+    update_attrs = %{
+      "elements" => nodes ++ edges,
+      "cy_options" => Map.take(attrs["cy"], ["zoom", "pan"]),
+      "max_element_counter" => attrs["maxElementCounter"]
+    }
+
     game
-    |> Game.changeset(attrs)
+    |> Game.changeset(update_attrs)
     |> Repo.update()
   end
 

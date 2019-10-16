@@ -12,13 +12,16 @@ module.exports = (env, options) => ({
       new OptimizeCSSAssetsPlugin({})
     ]
   },
+  entry: './js/game_editor.tsx',
   // entry: {
   //   './js/app.js': glob.sync('./vendor/**/*.js').concat(['./js/app.js']),
   // },
-  entry: './js/app.tsx',
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')
+  },
+  resolve: {
+    extensions: [".ts", ".tsx", ".js", ".jsx"],
   },
   module: {
     rules: [

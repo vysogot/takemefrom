@@ -20,6 +20,6 @@ defmodule Takemefrom.Games.Game do
   def changeset(game, attrs) do
     game
     |> cast(attrs, [:name, :slug, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
-    |> validate_required([:name, :slug, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
+    |> validate_required([:name, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
   end
 end

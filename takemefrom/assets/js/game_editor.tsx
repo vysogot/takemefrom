@@ -176,7 +176,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   save = () => {
     const [_empty, _game, id, _edit] = window.location.pathname.split("/");
 
-    fetch(`/games/${id}`, {
+    fetch(`/api/games/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
