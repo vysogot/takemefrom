@@ -17,7 +17,7 @@ user = User.find_or_create_by(email: 'admin@takemefrom.com') do |u|
 end
 
 game = Game.create!(name: 'Tutorial', user: user)
-game.update(beginning_id: 1, elements: [{
+game.update(beginning_id: 1, max_element_counter: 100, elements: [{
   'data' => {
     'id' => '1', 'content' => 'The new beginning'
   },

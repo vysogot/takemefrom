@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_15_131537) do
+ActiveRecord::Schema.define(version: 2019_10_16_103713) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 2019_10_15_131537) do
     t.datetime "updated_at", null: false
     t.jsonb "elements"
     t.jsonb "cy_options"
+    t.integer "max_element_counter", default: 1, null: false
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

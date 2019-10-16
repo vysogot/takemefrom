@@ -37,10 +37,6 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
-    @elements = @game.elements
-    @beginning_id = @game.beginning_id
-    @cy_options = @game.cy_options
-
     render layout: false
   end
 
@@ -75,19 +71,20 @@ class GamesController < ApplicationController
   def update
     params.permit!
 
-    nodes = params['cyOptions']['elements']['nodes'].map do |node|
+    nodes = params['cy']['elements']['nodes'].map do |node|
       node.slice('data', 'position')
     end
 
-    edges = params['cyOptions']['elements']['edges'].map do |edge|
+    edges = params['cy']['elements']['edges'].map do |edge|
       edge.slice('data', 'position')
     end
 
     elements = nodes + edges
 
     if @game.update(
-        cy_options: params['cyOptions'].slice('zoom', 'pan'),
-        elements: elements
+        cy_options: params['cy'].slice('zoom', 'pan'),
+        elements: elements,
+        max_element_counter: params['maxElementCounter']
     )
       render json: @game
     else

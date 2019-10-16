@@ -23,9 +23,11 @@ interface GameEditorProps {
   beginningId: string;
   cyOptions: any;
   touched: boolean;
+  maxElementCounter: number;
 }
 
 interface GameEditorState {
+  nextId: number;
   modalIsOpen: boolean;
   elements: any[];
   editingNode: any;
@@ -42,6 +44,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     this.myCyRef = React.createRef();
 
     this.state = {
+      nextId: props.maxElementCounter + 1,
       modalIsOpen: false,
       elements: props.elements,
       editingNode: props.elements[0],
@@ -80,9 +83,10 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   addNode = () => {
     this.setState({
+      nextId: this.state.nextId + 1,
       elements: [
         ...this.state.elements,
-        { data: { id: Math.floor(Math.random() * 100) } }
+        { data: { id: `node#${this.state.nextId}` } }
       ],
       connectionMode: false,
       deletionMode: false
@@ -91,11 +95,12 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   addEdge = targetId => {
     this.setState({
+      nextId: this.state.nextId + 1,
       elements: [
         ...this.state.elements,
         {
           data: {
-            id: `edge-${Math.floor(Math.random() * 100)}`,
+            id: `edge#${this.state.nextId}`,
             source: this.state.connectingNodeId,
             target: targetId,
             content: "Edit me"
@@ -177,9 +182,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        ...this.state,
-        ...this.props,
-        cyOptions: this.myCyRef.json()
+        maxElementCounter: this.state.nextId,
+        cy: this.myCyRef.json()
       })
     });
   };
@@ -256,6 +260,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const beginningId = editor.dataset.beginningId;
   const cyOptions = JSON.parse(editor.dataset.cyOptions);
   const touched = JSON.parse(editor.dataset.touched);
+  const maxElementCounter = JSON.parse(editor.dataset.maxElementCounter);
 
   ReactDOM.render(
     <GameEditor
@@ -263,6 +268,7 @@ document.addEventListener("DOMContentLoaded", () => {
       beginningId={beginningId}
       cyOptions={{ ...cyOptions, maxZoom: 2, minZoom: 0.5 }}
       touched={touched}
+      maxElementCounter={maxElementCounter}
     />,
     editor
   );
