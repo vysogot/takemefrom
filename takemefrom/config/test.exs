@@ -4,7 +4,7 @@ use Mix.Config
 config :takemefrom, Takemefrom.Repo,
   username: "postgres",
   password: "postgres",
-  database: "takemefrom_test",
+  database: "takemefromex_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
