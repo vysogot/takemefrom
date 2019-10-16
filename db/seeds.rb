@@ -16,7 +16,7 @@ user = User.find_or_create_by(email: 'admin@takemefrom.com') do |u|
   u.password_confirmation = 'foobar'
 end
 
-game = Game.create!(name: 'Simple game', user: user)
+game = Game.create!(name: 'Tutorial', user: user)
 game.update(beginning_id: 1, elements: [{
   'data' => {
     'id' => '1', 'content' => 'The new beginning'

@@ -12,5 +12,7 @@
 <% end %>
 </div>
 
-<p class="choice"><%= link_to 'Create', new_game_path %></p>
-<p class="choice"><%= link_to "Go home", root_path %></p>
+<% if current_user %>
+  <p class="choice"><%= link_to 'Create', new_game_path %></p>
+<% end %>
+<p class="choice"><%= link_to "Go back", root_path %></p>

@@ -2,6 +2,6 @@
 
 class WelcomeController < ApplicationController
   def index
-    @game = Game.where(name: 'Simple game').first
+    @game = Game.where(name: 'Tutorial').first
   end
 end
