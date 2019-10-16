@@ -12,9 +12,10 @@ module.exports = (env, options) => ({
       new OptimizeCSSAssetsPlugin({})
     ]
   },
-  entry: {
-    './js/app.js': glob.sync('./vendor/**/*.js').concat(['./js/app.js'])
-  },
+  // entry: {
+  //   './js/app.js': glob.sync('./vendor/**/*.js').concat(['./js/app.js']),
+  // },
+  entry: './js/app.tsx',
   output: {
     filename: 'app.js',
     path: path.resolve(__dirname, '../priv/static/js')
@@ -27,6 +28,13 @@ module.exports = (env, options) => ({
         use: {
           loader: 'babel-loader'
         }
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'ts-loader'
+        },
       },
       {
         test: /\.css$/,

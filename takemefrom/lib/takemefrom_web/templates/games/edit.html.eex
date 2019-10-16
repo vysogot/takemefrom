@@ -1,1 +1,8 @@
-Hello <%= @game.name %>
+<div id="editor"
+     data-elements="<%= @elements %>"
+     data-beginning-id="<%= @game.beginning_id %>"
+     data-cy-options="<%= @cy_options %>"
+     data-touched=<%#= @game.touched? %>
+     data-max-element-counter="<%= @game.max_element_counter %>"
+>
+</div>

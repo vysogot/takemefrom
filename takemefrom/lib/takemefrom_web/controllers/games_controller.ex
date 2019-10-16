@@ -6,6 +6,9 @@ defmodule TakemefromWeb.GamesController do
   def edit(conn, params) do
     game = Games.get_game!(params["id"])
 
-    render(conn, "edit.html", game: game)
+    elements = game.elements |> Jason.encode!
+    cy_options = game.elements |> Jason.encode!
+
+    render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options)
   end
 end
