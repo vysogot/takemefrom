@@ -69,7 +69,11 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     e.preventDefault();
     this.setState({
       elements: this.state.elements.filter(function(element) {
-        return element.data.id !== e.target.data("id");
+        return (
+          element.data.id !== e.target.data("id") &&
+          element.data.source !== e.target.data("id") &&
+          element.data.target !== e.target.data("id")
+        );
       })
     });
   };
