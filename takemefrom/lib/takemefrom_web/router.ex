@@ -19,10 +19,13 @@ defmodule TakemefromWeb.Router do
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/registrations", RegistrationController, only: [:new, :create]
+    resources "/games", GamesController, only: [:edit]
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", TakemefromWeb do
-  #   pipe_through :api
-  # end
+  scope "/api", TakemefromWeb do
+    pipe_through :api
+
+    resources "/games", Api.GamesController, only: [:update]
+  end
 end
