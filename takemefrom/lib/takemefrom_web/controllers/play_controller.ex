@@ -19,8 +19,6 @@ defmodule TakemefromWeb.PlayController do
       end)
       |> Enum.map(& &1["data"])
 
-      IO.inspect choices
-
     render(conn, "show.html", game: game, content: place_node["data"]["content"], choices: choices)
   end
 end
