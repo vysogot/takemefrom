@@ -19,6 +19,7 @@ defmodule TakemefromWeb.Router do
     get "/", PageController, :index
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/registrations", RegistrationController, only: [:new, :create]
+    resources "/play", PlayController, only: [:show]
     resources "/games", GamesController, only: [:edit]
   end
 

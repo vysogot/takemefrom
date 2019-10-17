@@ -1,0 +1,19 @@
+<p id="content"><%= @content %></p>
+
+<%= for choice <- @choices do %>
+  <p class="choice">
+    <%= link choice["content"], to: "/plays/#{@game.id}?choice=#{choice["id"]}" %>
+  </p>
+<% end %>
+
+<p class="choice">
+  <% if dead_end?(@choices) do %>
+  There is nothing you can do here.
+  <% end %>
+
+  <%= link 'Go back', to: {:javascript, "history.back()"} %>
+</p>
+
+<p id="editPlace">
+  <%= link 'Redesign this place', to: "" %>
+</p>
