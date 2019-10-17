@@ -2,7 +2,7 @@
 
 <%= for choice <- @choices do %>
   <p class="choice">
-    <%= link choice["content"], to: "/plays/#{@game.id}?choice=#{choice["id"]}" %>
+    <%= link choice["content"], to: "/play/#{@game.id}?choice=#{choice["target"]}" %>
   </p>
 <% end %>
 

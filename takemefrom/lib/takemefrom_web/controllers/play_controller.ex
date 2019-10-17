@@ -15,9 +15,11 @@ defmodule TakemefromWeb.PlayController do
     choices =
       game.elements
       |> Enum.filter(fn x ->
-        x["data"]["source"] == place_node["id"]
+        x["data"]["source"] == place_node["data"]["id"]
       end)
       |> Enum.map(& &1["data"])
+
+      IO.inspect choices
 
     render(conn, "show.html", game: game, content: place_node["data"]["content"], choices: choices)
   end
