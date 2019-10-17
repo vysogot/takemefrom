@@ -2,7 +2,7 @@
 
 <%= for choice <- @choices do %>
   <p class="choice">
-    <%= link choice["content"], to: "/play/#{@game.id}?choice=#{choice["target"]}" %>
+    <%= link choice["content"], to: Routes.play_path(@conn, :show, @game.id, choice: choice["target"]) %>
   </p>
 <% end %>
 
@@ -15,5 +15,5 @@
 </p>
 
 <p id="editPlace">
-  <%= link 'Redesign this place', to: "" %>
+  <%= link 'Redesign this place', to: Routes.games_path(@conn, :edit, @game.id) %>
 </p>
