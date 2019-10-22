@@ -3,6 +3,12 @@ defmodule TakemefromWeb.GamesController do
 
   alias Takemefrom.Games
 
+  def index(conn, _params) do
+    games = Games.list_games
+
+    render(conn, "index.html", games: games)
+  end
+
   def edit(conn, params) do
     game = Games.get_game!(params["id"])
 

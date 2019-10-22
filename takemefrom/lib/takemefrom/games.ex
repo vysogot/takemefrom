@@ -7,6 +7,7 @@ defmodule Takemefrom.Games do
   alias Takemefrom.Repo
 
   alias Takemefrom.Games.Game
+  alias Takemefrom.Accounts.User
 
   @doc """
   Returns the list of games.
@@ -116,4 +117,10 @@ defmodule Takemefrom.Games do
   def change_game(%Game{} = game) do
     Game.changeset(game, %{})
   end
+
+  def editable?(%Game{} = game, %User{} = user) do
+     game.user == user || user.email == "admin@takemefrom.com"
+  end
+
+  def editable?(_, nil), do: false
 end

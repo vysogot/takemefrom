@@ -21,7 +21,7 @@ defmodule TakemefromWeb.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/play", PlayController, only: [:show]
-    resources "/games", GamesController, only: [:new, :edit, :index, :create]
+    resources "/games", GamesController, only: [:new, :edit, :index, :create, :delete]
   end
 
   # Other scopes may use custom stacks.
