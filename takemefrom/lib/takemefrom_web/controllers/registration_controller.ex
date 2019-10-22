@@ -3,6 +3,7 @@ defmodule TakemefromWeb.RegistrationController do
 
   alias Takemefrom.Accounts
   alias Takemefrom.Accounts.User
+  alias TakemefromWeb.Auth
 
   def new(conn, _params) do
     changeset = Accounts.change_registration(%User{}, %{})
@@ -13,6 +14,7 @@ defmodule TakemefromWeb.RegistrationController do
     case Accounts.register_user(user_params) do
       {:ok, user} ->
         conn
+        |> Auth.login(user)
         |> put_flash(:info, "#{user.email} created!")
         |> redirect(to: Routes.page_path(conn, :index))
 
