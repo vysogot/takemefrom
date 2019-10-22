@@ -6,9 +6,6 @@ import Cytoscape from "cytoscape";
 import Modal from "react-modal";
 import EditElementModal from "./GameEditor/EditElementModal";
 
-require("phoenix_html")
-require("../css/app.css")
-
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
 
@@ -256,23 +253,26 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  Modal.setAppElement("#editor");
-
   const editor = document.getElementById("editor");
-  const elements = JSON.parse(editor.dataset.elements);
-  const beginningId = editor.dataset.beginningId;
-  const cyOptions = JSON.parse(editor.dataset.cyOptions);
-  const touched = JSON.parse(editor.dataset.touched);
-  const maxElementCounter = JSON.parse(editor.dataset.maxElementCounter);
 
-  ReactDOM.render(
-    <GameEditor
-      elements={elements}
-      beginningId={beginningId}
-      cyOptions={{ ...cyOptions, maxZoom: 2, minZoom: 0.5 }}
-      touched={touched}
-      maxElementCounter={maxElementCounter}
-    />,
-    editor
-  );
+  if (editor) {
+    Modal.setAppElement("#editor");
+
+    const elements = JSON.parse(editor.dataset.elements);
+    const beginningId = editor.dataset.beginningId;
+    const cyOptions = JSON.parse(editor.dataset.cyOptions);
+    const touched = JSON.parse(editor.dataset.touched);
+    const maxElementCounter = JSON.parse(editor.dataset.maxElementCounter);
+
+    ReactDOM.render(
+      <GameEditor
+        elements={elements}
+        beginningId={beginningId}
+        cyOptions={{ ...cyOptions, maxZoom: 2, minZoom: 0.5 }}
+        touched={touched}
+        maxElementCounter={maxElementCounter}
+      />,
+      editor
+    );
+  }
 });
