@@ -1,0 +1,17 @@
+<h1>New Game</h1>
+
+<div class="content">
+<%= form_for @conn, Routes.games_path(@conn, :create), [as: :games], fn f -> %>
+  <div class="field">
+    <%= label f, :name %><br />
+    <%= text_input f, :name %>
+  </div>
+
+  <div class="actions">
+    <%= submit "Create game" %>
+  </div>
+<% end %>
+</div>
+
+<p class="choice"><%= link "Browse", to: Routes.games_path(@conn, :index) %></p>
+<p class="choice"><%= link "Go home", to: Routes.page_path(@conn, :index) %></p>

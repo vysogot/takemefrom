@@ -9,7 +9,6 @@ defmodule Takemefrom.Games.Game do
     field :max_element_counter, :integer
     field :name, :string
     field :slug, :string
-    # field :user_id, :integer
 
     timestamps()
 
@@ -21,5 +20,12 @@ defmodule Takemefrom.Games.Game do
     game
     |> cast(attrs, [:name, :slug, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
     |> validate_required([:name, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
+  end
+
+  @doc false
+  def create_changeset(game, attrs) do
+    game
+    |> cast(attrs, [:name, :slug, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
+    |> validate_required([:name, :user_id])
   end
 end

@@ -10,6 +10,25 @@ defmodule TakemefromWeb.GamesController do
     render(conn, "index.html", games: games)
   end
 
+  def new(conn, _params) do
+    render(conn, "new.html")
+  end
+
+  def create(conn, params) do
+    game = Games.create_game(conn.assigns.current_user, params["games"])
+
+    case game do
+      {:ok, game} ->
+        conn
+        |> put_flash(:info, "Game created!")
+        |> redirect(to: Routes.games_path(conn, :edit, game))
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "Invalid game name")
+        |> render("new.html")
+    end
+  end
+
   def edit(conn, params) do
     game = Games.get_game!(params["id"])
 

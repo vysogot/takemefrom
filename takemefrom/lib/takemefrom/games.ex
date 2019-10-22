@@ -8,6 +8,7 @@ defmodule Takemefrom.Games do
 
   alias Takemefrom.Games.Game
   alias Takemefrom.Accounts.User
+  alias Ecto.Changeset
 
   @doc """
   Returns the list of games.
@@ -51,9 +52,20 @@ defmodule Takemefrom.Games do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_game(attrs \\ %{}) do
+  def create_game(%User{} = user, attrs \\ %{}) do
+    attrs = Map.put(attrs, "user_id", user.id)
+
     %Game{}
-    |> Game.changeset(attrs)
+    |> Game.create_changeset(attrs)
+    |> Changeset.change(
+      elements: [%{
+          data: %{ id: 1, content: "The new beginning" },
+          position: %{ x: 0, y: 0 }
+        }],
+      beginning_id: 1,
+      cy_options: %{},
+      max_element_counter: 1
+    )
     |> Repo.insert()
   end
 
