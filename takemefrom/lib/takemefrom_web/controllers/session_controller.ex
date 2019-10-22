@@ -21,6 +21,9 @@ defmodule TakemefromWeb.SessionController do
     end
   end
 
-  def delete(_conn, _params) do
+  def delete(conn, _params) do
+    conn
+    |> Auth.logout()
+    |> redirect(to: Routes.page_path(conn, :index))
   end
 end

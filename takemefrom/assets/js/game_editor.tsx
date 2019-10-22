@@ -6,6 +6,8 @@ import Cytoscape from "cytoscape";
 import Modal from "react-modal";
 import EditElementModal from "./GameEditor/EditElementModal";
 
+require("phoenix_html")
+
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
 
