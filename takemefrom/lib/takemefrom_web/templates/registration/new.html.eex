@@ -1,8 +1,8 @@
-<h1>Log in</h1>
+<h1>Sign Up</h1>
 
 <div class="content">
 
-  <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+  <%= form_for @conn, Routes.registration_path(@conn, :create), [as: :user], fn f -> %>
     <div class="field">
       <%= label f, :email %><br />
       <%= email_input f, :email %>
@@ -14,10 +14,10 @@
     </div>
 
     <div class="actions">
-      <%= submit "Log in" %>
+      <%= submit "Sign Up" %>
     </div>
   <% end %>
 </div>
 
-<p class="choice"><%= link "Sign up", to: Routes.registration_path(@conn, :new) %></p>
+<p class="choice"><%= link "Log in", to: Routes.session_path(@conn, :new) %></p>
 <p class="choice"><%= link "Go home", to: Routes.page_path(@conn, :index) %></p>
