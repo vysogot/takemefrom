@@ -1,7 +1,7 @@
 defmodule TakemefromWeb.SessionController do
   use TakemefromWeb, :controller
   alias Takemefrom.Accounts
-  alias TakemefromWeb.Auth
+  alias TakemefromWeb.Sessions
 
   def new(conn, _params) do
     render(conn, "new.html")
@@ -11,7 +11,7 @@ defmodule TakemefromWeb.SessionController do
     case Accounts.authenticate_by_email_and_pass(email, pass) do
       {:ok, user} ->
         conn
-        |> Auth.login(user)
+        |> Sessions.login(user)
         |> put_flash(:info, "Welcome back!")
         |> redirect(to: Routes.page_path(conn, :index))
       {:error, _reason} ->
@@ -23,7 +23,7 @@ defmodule TakemefromWeb.SessionController do
 
   def delete(conn, _params) do
     conn
-    |> Auth.logout()
+    |> Sessions.logout()
     |> redirect(to: Routes.page_path(conn, :index))
   end
 end
