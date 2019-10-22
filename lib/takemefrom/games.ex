@@ -58,10 +58,12 @@ defmodule Takemefrom.Games do
     %Game{}
     |> Game.create_changeset(attrs)
     |> Changeset.change(
-      elements: [%{
-          data: %{ id: 1, content: "The new beginning" },
-          position: %{ x: 0, y: 0 }
-        }],
+      elements: [
+        %{
+          data: %{id: 1, content: "The new beginning"},
+          position: %{x: 0, y: 0}
+        }
+      ],
       beginning_id: 1,
       cy_options: %{},
       max_element_counter: 1
@@ -82,13 +84,15 @@ defmodule Takemefrom.Games do
 
   """
   def update_game(%Game{} = game, attrs) do
-    nodes = Enum.map(attrs["cy"]["elements"]["nodes"], fn node ->
-      Map.take(node, ["data", "position"])
-    end)
+    nodes =
+      Enum.map(attrs["cy"]["elements"]["nodes"], fn node ->
+        Map.take(node, ["data", "position"])
+      end)
 
-    edges = Enum.map(attrs["cy"]["elements"]["edges"], fn edge ->
-      Map.take(edge, ["data", "position"])
-    end)
+    edges =
+      Enum.map(attrs["cy"]["elements"]["edges"], fn edge ->
+        Map.take(edge, ["data", "position"])
+      end)
 
     update_attrs = %{
       "elements" => nodes ++ edges,
@@ -131,7 +135,7 @@ defmodule Takemefrom.Games do
   end
 
   def editable?(%Game{} = game, %User{} = user) do
-     game.user == user || user.email == "admin@takemefrom.com"
+    game.user == user || user.email == "admin@takemefrom.com"
   end
 
   def editable?(_, nil), do: false

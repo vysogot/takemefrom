@@ -31,7 +31,9 @@ defmodule Takemefrom.Accounts.User do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: passwd}} ->
         put_change(changeset, :encrypted_password, Pbkdf2.hash_pwd_salt(passwd))
-      _ -> changeset
+
+      _ ->
+        changeset
     end
   end
 end

@@ -13,6 +13,5 @@ defmodule Takemefrom.Repo.Migrations.CreateGames do
 
       timestamps()
     end
-
   end
 end

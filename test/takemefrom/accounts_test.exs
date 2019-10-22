@@ -7,7 +7,10 @@ defmodule Takemefrom.AccountsTest do
     alias Takemefrom.Accounts.User
 
     @valid_attrs %{email: "some email", encrypted_password: "some encrypted_password"}
-    @update_attrs %{email: "some updated email", encrypted_password: "some updated encrypted_password"}
+    @update_attrs %{
+      email: "some updated email",
+      encrypted_password: "some updated encrypted_password"
+    }
     @invalid_attrs %{email: nil, encrypted_password: nil}
 
     def user_fixture(attrs \\ %{}) do

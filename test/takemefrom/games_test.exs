@@ -6,9 +6,33 @@ defmodule Takemefrom.GamesTest do
   describe "games" do
     alias Takemefrom.Games.Game
 
-    @valid_attrs %{beginning_id: 42, cy_options: %{}, elements: %{}, max_element_counter: 42, name: "some name", slug: "some slug", user_id: 42}
-    @update_attrs %{beginning_id: 43, cy_options: %{}, elements: %{}, max_element_counter: 43, name: "some updated name", slug: "some updated slug", user_id: 43}
-    @invalid_attrs %{beginning_id: nil, cy_options: nil, elements: nil, max_element_counter: nil, name: nil, slug: nil, user_id: nil}
+    @valid_attrs %{
+      beginning_id: 42,
+      cy_options: %{},
+      elements: %{},
+      max_element_counter: 42,
+      name: "some name",
+      slug: "some slug",
+      user_id: 42
+    }
+    @update_attrs %{
+      beginning_id: 43,
+      cy_options: %{},
+      elements: %{},
+      max_element_counter: 43,
+      name: "some updated name",
+      slug: "some updated slug",
+      user_id: 43
+    }
+    @invalid_attrs %{
+      beginning_id: nil,
+      cy_options: nil,
+      elements: nil,
+      max_element_counter: nil,
+      name: nil,
+      slug: nil,
+      user_id: nil
+    }
 
     def game_fixture(attrs \\ %{}) do
       {:ok, game} =

@@ -18,14 +18,37 @@ defmodule Takemefrom.Games.Game do
   @doc false
   def changeset(game, attrs) do
     game
-    |> cast(attrs, [:name, :slug, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
-    |> validate_required([:name, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
+    |> cast(attrs, [
+      :name,
+      :slug,
+      :user_id,
+      :beginning_id,
+      :max_element_counter,
+      :cy_options,
+      :elements
+    ])
+    |> validate_required([
+      :name,
+      :user_id,
+      :beginning_id,
+      :max_element_counter,
+      :cy_options,
+      :elements
+    ])
   end
 
   @doc false
   def create_changeset(game, attrs) do
     game
-    |> cast(attrs, [:name, :slug, :user_id, :beginning_id, :max_element_counter, :cy_options, :elements])
+    |> cast(attrs, [
+      :name,
+      :slug,
+      :user_id,
+      :beginning_id,
+      :max_element_counter,
+      :cy_options,
+      :elements
+    ])
     |> validate_required([:name, :user_id])
   end
 end

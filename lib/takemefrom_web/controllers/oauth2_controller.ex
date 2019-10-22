@@ -4,6 +4,6 @@ defmodule TakemefromWeb.Oauth2Controller do
   alias Takemefrom.GitHub
 
   def github(conn, _params) do
-    redirect(conn, external: GitHub.authorize_url!)
+    redirect(conn, external: GitHub.authorize_url!())
   end
 end
