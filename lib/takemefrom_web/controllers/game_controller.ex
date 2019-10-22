@@ -1,4 +1,4 @@
-defmodule TakemefromWeb.GamesController do
+defmodule TakemefromWeb.GameController do
   use TakemefromWeb, :controller
   alias Takemefrom.Games
 
@@ -21,7 +21,7 @@ defmodule TakemefromWeb.GamesController do
       {:ok, game} ->
         conn
         |> put_flash(:info, "Game created!")
-        |> redirect(to: Routes.games_path(conn, :edit, game))
+        |> redirect(to: Routes.game_path(conn, :edit, game))
 
       {:error, _reason} ->
         conn

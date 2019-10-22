@@ -3,10 +3,10 @@
 
 <%= if @game do %>
   <p class="choice"><%= link 'Play', to: Routes.play_path(@conn, :show, @game) %></p>
-  <p class="choice"><%= link 'Browse', to: Routes.games_path(@conn, :index) %></p>
+  <p class="choice"><%= link 'Browse', to: Routes.game_path(@conn, :index) %></p>
 <% end %>
 <%= if @current_user do %>
-  <p class="choice"><%= link 'Create', to: Routes.games_path(@conn, :new) %></p>
+  <p class="choice"><%= link 'Create', to: Routes.game_path(@conn, :new) %></p>
   <p class="choice"><%= link "Log out", to: Routes.session_path(@conn, :delete, @current_user), method: "delete" %></p>
 <% else %>
   <p class="choice"><%= link "Log in", to: Routes.session_path(@conn, :new) %></p>

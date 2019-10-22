@@ -15,5 +15,5 @@
 </p>
 
 <p id="editPlace">
-  <%= link 'Redesign this place', to: Routes.games_path(@conn, :edit, @game.id) %>
+  <%= link 'Redesign this place', to: Routes.game_path(@conn, :edit, @game.id) %>
 </p>

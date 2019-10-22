@@ -21,7 +21,7 @@ defmodule TakemefromWeb.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/play", PlayController, only: [:show]
-    resources "/games", GamesController, only: [:new, :edit, :index, :create, :delete]
+    resources "/games", GameController, only: [:new, :edit, :index, :create, :delete]
 
     get "/oauth2/github", Oauth2Controller, :github
 
