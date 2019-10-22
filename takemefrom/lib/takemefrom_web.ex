@@ -24,6 +24,7 @@ defmodule TakemefromWeb do
       import Plug.Conn
       import TakemefromWeb.Gettext
       alias TakemefromWeb.Router.Helpers, as: Routes
+      alias TakemefromWeb.Plugs.AuthenticateUser
     end
   end
 

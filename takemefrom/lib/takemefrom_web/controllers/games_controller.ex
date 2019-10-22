@@ -1,7 +1,8 @@
 defmodule TakemefromWeb.GamesController do
   use TakemefromWeb, :controller
-
   alias Takemefrom.Games
+
+  plug AuthenticateUser when action in [:index, :edit]
 
   def index(conn, _params) do
     games = Games.list_games
