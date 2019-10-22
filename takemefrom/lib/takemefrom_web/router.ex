@@ -22,6 +22,10 @@ defmodule TakemefromWeb.Router do
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/play", PlayController, only: [:show]
     resources "/games", GamesController, only: [:new, :edit, :index, :create, :delete]
+
+    get "/oauth2/github", Oauth2Controller, :github
+
+    get "/oauth2/github/callback", Oauth2CallbacksController, :github
   end
 
   # Other scopes may use custom stacks.
