@@ -11,16 +11,14 @@
 # and so on) as they will fail if something goes wrong.
 
 alias Takemefrom.Repo
+alias Takemefrom.Accounts
 alias Takemefrom.Accounts.User
 alias Takemefrom.Games.Game
 
 Repo.delete_all User
 Repo.delete_all Game
 
-user = %User{
-  email: "admin@takemefrom.com",
-  encrypted_password: "123" # TODO: this should really be encrypted
-} |> Repo.insert!
+{:ok, user} = Accounts.register_user(%{email: "admin@takemefrom.com", password: "foobar"})
 
 %Game{
   name: "Tutorial",
