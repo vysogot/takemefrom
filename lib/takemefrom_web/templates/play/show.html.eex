@@ -1,8 +1,8 @@
-<p id="content"><%= @content %></p>
+<p id="content"><%= raw @content %></p>
 
 <%= for choice <- @choices do %>
   <p class="choice">
-    <%= link choice["content"], to: Routes.play_path(@conn, :show, @game.id, choice: choice["target"]) %>
+    <%= link raw(choice["content"]), to: Routes.play_path(@conn, :show, @game.id, choice: choice["target"]) %>
   </p>
 <% end %>
 

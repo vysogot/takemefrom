@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as Modal from "react-modal";
+import TrixInput from "./TrixInput.jsx";
 
 interface EditElementModalProps {
   content: string;
@@ -24,10 +25,8 @@ export default class EditElementModal extends React.Component<
     this.state = { content: props.content || "" };
   }
 
-  handleQuestionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    this.setState({
-      content: e.target.value
-    });
+  handleQuestionChange = (content: string) => {
+    this.setState({ content });
   };
 
   componentWillReceiveProps = (newProps: EditElementModalProps) => {
@@ -65,7 +64,7 @@ export default class EditElementModal extends React.Component<
         <h2>Question</h2>
         <button onClick={this.props.closeModal}>x</button>
         <form>
-          <textarea
+          <TrixInput
             value={this.state.content}
             onChange={this.handleQuestionChange}
           />
