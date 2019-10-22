@@ -41,11 +41,11 @@ interface GameEditorState {
 }
 
 class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
-  myCyRef: any;
+  cy: any;
 
   constructor(props) {
     super(props);
-    this.myCyRef = React.createRef();
+    this.cy = React.createRef();
 
     this.state = {
       nextId: props.maxElementCounter + 1,
@@ -133,13 +133,13 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   };
 
   colorizeNode = (nodeId, color) => {
-    this.myCyRef
+    this.cy
       .style()
       .selector("node#" + nodeId)
       .style("background-color", color)
       .update();
 
-    this.myCyRef
+    this.cy
       .style()
       .selector("node#" + this.props.beginningId)
       .style("background-color", Colors.orange)
@@ -157,7 +157,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   componentDidMount() {
     this.colorizeBeginning();
 
-    this.myCyRef.on(
+    this.cy.on(
       "vclick",
       "node, edge",
       (e => {
@@ -177,21 +177,17 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       }).bind(this)
     );
 
-    this.myCyRef.ready(() => {
-      this.myCyRef.elements().forEach(ele => {
+    this.cy.ready(() => {
+      this.cy.elements().forEach(ele => {
         this.makePopper(ele);
       });
     });
 
-    this.myCyRef.elements().unbind("mouseover");
-    this.myCyRef
-      .elements()
-      .bind("mouseover", event => event.target.tippy.show());
+    this.cy.elements().unbind("mouseover");
+    this.cy.elements().bind("mouseover", event => event.target.tippy.show());
 
-    this.myCyRef.elements().unbind("mouseout");
-    this.myCyRef
-      .elements()
-      .bind("mouseout", event => event.target.tippy.hide());
+    this.cy.elements().unbind("mouseout");
+    this.cy.elements().bind("mouseout", event => event.target.tippy.hide());
   }
 
   makePopper = ele => {
@@ -220,7 +216,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       },
       body: JSON.stringify({
         maxElementCounter: this.state.nextId,
-        cy: this.myCyRef.json()
+        cy: this.cy.json()
       })
     });
   };
@@ -271,7 +267,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         elements={this.state.elements}
         className="game-editor"
         layout={this.props.touched ? null : { name: "dagre" }}
-        cy={cy => (this.myCyRef = cy)}
+        cy={cy => (this.cy = cy)}
         stylesheet={stylesheet}
         {...this.props.cyOptions}
       />,
