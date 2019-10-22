@@ -1,13 +1,13 @@
 <h1 id="title">Take me from</h1>
 <p>Take me from one place to another</p>
 
-<% if false do %>
-  <p class="choice"><%#  %>= link_to 'Play', game_path(@game) %></p>
-  <p class="choice"><%#  %>= link_to 'Browse', games_path %></p>
+<%= if @game do %>
+  <p class="choice"><%= link 'Play', to: Routes.play_path(@conn, :show, @game) %></p>
+  <p class="choice"><%= link 'Browse', to: Routes.games_path(@conn, :index) %></p>
 <% end %>
-<% if false do %>
-  <p class="choice"><%#  %>= link_to 'Create', new_game_path %></p>
-  <p class="choice"><%#  %>= link_to "Log out", destroy_user_session_path, method: :delete %>
+<%= if @user do %>
+  <p class="choice"><%= link 'Create', to: Routes.game_path(@conn, :new) %></p>
+  <p class="choice"><%= link "Log out", to: Routes.session_path(@conn, :delete) %></p>
 <% else %>
-  <p class="choice"><%#  %>= link_to "Log in", new_user_session_path %>
+  <p class="choice"><%= link "Log in", to: Routes.session_path(@conn, :new) %></p>
 <% end %>
