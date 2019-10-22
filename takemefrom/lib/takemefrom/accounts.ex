@@ -4,6 +4,8 @@ defmodule Takemefrom.Accounts do
 
   alias Takemefrom.Accounts.User
 
+  def get_user!(id), do: Repo.get!(User, id)
+
   def change_registration(%User{} = user, params) do
     User.registration_changeset(user, params)
   end
