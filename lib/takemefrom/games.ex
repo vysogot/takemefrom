@@ -85,12 +85,12 @@ defmodule Takemefrom.Games do
   """
   def update_game(%Game{} = game, attrs) do
     nodes =
-      Enum.map(attrs["cy"]["elements"]["nodes"], fn node ->
+      Enum.map(attrs["cy"]["elements"]["nodes"] || [], fn node ->
         Map.take(node, ["data", "position"])
       end)
 
     edges =
-      Enum.map(attrs["cy"]["elements"]["edges"], fn edge ->
+      Enum.map(attrs["cy"]["elements"]["edges"] || [], fn edge ->
         Map.take(edge, ["data", "position"])
       end)
 

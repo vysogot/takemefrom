@@ -1,4 +1,4 @@
-defmodule TakemefromWeb.Api.GamesController do
+defmodule TakemefromWeb.Api.GameController do
   use TakemefromWeb, :controller
 
   alias Takemefrom.Games

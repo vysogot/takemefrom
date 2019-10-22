@@ -32,6 +32,6 @@ defmodule TakemefromWeb.Router do
   scope "/api", TakemefromWeb do
     pipe_through :api
 
-    resources "/games", Api.GamesController, only: [:update]
+    resources "/games", Api.GameController, only: [:update]
   end
 end
