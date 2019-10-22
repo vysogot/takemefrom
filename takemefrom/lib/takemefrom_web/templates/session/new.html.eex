@@ -1,0 +1,20 @@
+<h1>Log in</h1>
+
+<div class="content">
+
+  <%= form_for @conn, Routes.session_path(@conn, :create), [as: :session], fn f -> %>
+    <div class="field">
+      <%= label f, :email %><br />
+      <%= email_input f, :email %>
+    </div>
+
+    <div class="field">
+      <%= label f, :password %><br />
+      <%= password_input f, :password, autocomplete: "off" %>
+    </div>
+
+    <div class="actions">
+      <%= submit "Log in" %>
+    </div>
+  <% end %>
+</div>

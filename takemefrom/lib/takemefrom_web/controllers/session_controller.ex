@@ -7,13 +7,13 @@ defmodule TakemefromWeb.SessionController do
     render(conn, "new.html")
   end
 
-  def create(conn, %{"session" => %{"username" => username, "password" => pass}}) do
-    case Accounts.authenticate_by_username_and_pass(username, pass) do
+  def create(conn, %{"session" => %{"email" => email, "password" => pass}}) do
+    case Accounts.authenticate_by_email_and_pass(email, pass) do
       {:ok, user} ->
         conn
         |> Auth.login(user)
         |> put_flash(:info, "Welcome back!")
-        |> redirect(to: Routes.page_path(:index))
+        |> redirect(to: Routes.page_path(conn, :index))
       {:error, _reason} ->
         conn
         |> put_flash(:error, "Invalid username/password combination")
@@ -21,6 +21,6 @@ defmodule TakemefromWeb.SessionController do
     end
   end
 
-  def destroy(_conn, _params) do
+  def delete(_conn, _params) do
   end
 end

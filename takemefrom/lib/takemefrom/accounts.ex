@@ -20,8 +20,8 @@ defmodule Takemefrom.Accounts do
     Repo.get_by(User, opts)
   end
 
-  def authenticate_by_username_and_pass(username, given_pass) do
-    user = get_user_by(username: username)
+  def authenticate_by_email_and_pass(email, given_pass) do
+    user = get_user_by(email: email)
 
     cond do
       user && Pbkdf2.verify_pass(given_pass, user.encrypted_password) ->

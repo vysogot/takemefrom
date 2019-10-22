@@ -4,8 +4,7 @@ defmodule TakemefromWeb.PageController do
 
   def index(conn, _params) do
     game = Games.get_by_name!("Tutorial")
-    user = conn.assigns[:current_user]
 
-    render(conn, "index.html", game: game, user: user)
+    render(conn, "index.html", game: game)
   end
 end
