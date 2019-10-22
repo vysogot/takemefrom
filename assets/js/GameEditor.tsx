@@ -5,11 +5,15 @@ import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
 import Modal from "react-modal";
 import EditElementModal from "./GameEditor/EditElementModal";
+import popper from "cytoscape-popper";
+import tippy from "tippy.js";
+// import "tippy.js/dist/tippy.css";
 
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
 
 Cytoscape.use(dagre);
+Cytoscape.use(popper);
 
 const Colors = {
   skyblue: "#9dbaea",
@@ -55,6 +59,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   openModal = e => {
     e.preventDefault();
+
     this.setState({
       modalIsOpen: true,
       editingNode: this.state.elements.find(
@@ -171,7 +176,39 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         }
       }).bind(this)
     );
+
+    this.myCyRef.ready(() => {
+      this.myCyRef.elements().forEach(ele => {
+        this.makePopper(ele);
+      });
+    });
+
+    this.myCyRef.elements().unbind("mouseover");
+    this.myCyRef
+      .elements()
+      .bind("mouseover", event => event.target.tippy.show());
+
+    this.myCyRef.elements().unbind("mouseout");
+    this.myCyRef
+      .elements()
+      .bind("mouseout", event => event.target.tippy.hide());
   }
+
+  makePopper = ele => {
+    let ref = ele.popperRef(); // used only for positioning
+
+    ele.tippy = tippy(ref, {
+      // tippy options:
+      content: () => {
+        let content = document.createElement("div");
+
+        content.innerHTML = ele.data("content");
+
+        return content;
+      },
+      trigger: "manual" // probably want manual mode
+    });
+  };
 
   save = () => {
     const [_empty, _game, id, _edit] = window.location.pathname.split("/");
