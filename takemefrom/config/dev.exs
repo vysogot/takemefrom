@@ -65,6 +65,12 @@ config :takemefrom, TakemefromWeb.Endpoint,
     ]
   ]
 
+config :oauth2, :github, [
+  client_id: "c9ea69e0f8a4b68c",
+  client_secret: "8fafecf3b620fbd7432826b9b73038d5e270815f",
+  redirect_uri: "http://localhost:4000/oauth2/github/callback"
+]
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
@@ -74,8 +80,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-config :oauth2, :github,
-  client_id: "",
-  client_secret: "",
-  redirect_uri: "http://localhost:4000/oauth2/github/callback"
