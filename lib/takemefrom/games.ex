@@ -53,20 +53,20 @@ defmodule Takemefrom.Games do
 
   """
   def create_game(%User{} = user, attrs \\ %{}) do
-    attrs = Map.put(attrs, :user_id, user.id)
-
     %Game{}
-    |> Game.create_changeset(attrs)
-    |> Changeset.change(
-      elements: [
-        %{
-          data: %{id: 1, content: "The new beginning"},
-          position: %{x: 0, y: 0}
-        }
-      ],
-      beginning_id: 1,
-      cy_options: %{},
-      max_element_counter: 1
+    |> Game.create_changeset(
+      Enum.into(attrs, %{
+        user_id: user.id,
+        elements: [
+          %{
+            data: %{id: 1, content: "The new beginning"},
+            position: %{x: 0, y: 0}
+          }
+        ],
+        beginning_id: 1,
+        cy_options: %{},
+        max_element_counter: 1
+      })
     )
     |> Repo.insert()
   end
@@ -100,9 +100,10 @@ defmodule Takemefrom.Games do
       "max_element_counter" => attrs["maxElementCounter"]
     }
 
-    case editable?(game, user) do
-      false -> false
-      true -> game |> Game.changeset(update_attrs) |> Repo.update()
+    if editable?(game, user) do
+      game |> Game.changeset(update_attrs) |> Repo.update()
+    else
+      false
     end
   end
 
