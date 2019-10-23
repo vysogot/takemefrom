@@ -56,6 +56,7 @@ defmodule Takemefrom.GamesTest do
     test "create_game/1 with valid data creates a game", context do
       assert {:ok, %Game{} = game} = Games.create_game(context[:user], @valid_attrs)
       assert game.name == "some name"
+      assert game.slug == "some-name"
       assert game.beginning_id == 1
       assert game.cy_options == %{}
 

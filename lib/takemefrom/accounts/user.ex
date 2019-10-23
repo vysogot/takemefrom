@@ -26,6 +26,7 @@ defmodule Takemefrom.Accounts.User do
     |> cast(attrs, [:password])
     |> validate_required([:password])
     |> validate_length(:password, min: 6, max: 100)
+    |> unique_constraint(:email)
     |> put_pass_hash()
   end
 

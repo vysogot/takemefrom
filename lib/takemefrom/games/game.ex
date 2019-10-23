@@ -52,5 +52,20 @@ defmodule Takemefrom.Games.Game do
       :elements
     ])
     |> validate_required([:name, :user_id])
+    |> slugify_attr(:name)
+    |> validate_required([:slug])
+  end
+
+  defp slugify_attr(changeset, attr) do
+    case fetch_change(changeset, attr) do
+      {:ok, changed_attr} -> put_change(changeset, :slug, slugify(changed_attr))
+      :error -> changeset
+    end
+  end
+
+  defp slugify(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
   end
 end
