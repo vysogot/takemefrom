@@ -1,4 +1,6 @@
 defmodule TakemefromWeb.Sessions do
+  @moduledoc false
+
   use TakemefromWeb, :controller
 
   def login(conn, user) do

@@ -1,4 +1,6 @@
 defmodule Takemefrom.GitHub do
+  @moduledoc false
+
   use OAuth2.Strategy
 
   def client do

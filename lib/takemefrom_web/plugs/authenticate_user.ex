@@ -1,4 +1,6 @@
 defmodule TakemefromWeb.Plugs.AuthenticateUser do
+  @moduledoc false
+
   import Plug.Conn
   import Phoenix.Controller
 

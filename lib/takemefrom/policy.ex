@@ -1,4 +1,6 @@
 defmodule Takemefrom.Policy do
+  @moduledoc false
+
   alias Takemefrom.Accounts.User
 
   alias Takemefrom.Games.Game

@@ -120,9 +120,10 @@ defmodule Takemefrom.Games do
 
   """
   def delete_game(%User{} = user, %Game{} = game) do
-    cond do
-      editable?(game, user) -> Repo.delete(game)
-      true -> false
+    if editable?(game, user) do
+      Repo.delete(game)
+    else
+      false
     end
   end
 
