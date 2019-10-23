@@ -53,7 +53,7 @@ defmodule Takemefrom.Games do
 
   """
   def create_game(%User{} = user, attrs \\ %{}) do
-    attrs = Map.put(attrs, "user_id", user.id)
+    attrs = Map.put(attrs, :user_id, user.id)
 
     %Game{}
     |> Game.create_changeset(attrs)
@@ -139,7 +139,7 @@ defmodule Takemefrom.Games do
   end
 
   def editable?(%Game{} = game, %User{} = user) do
-    game.user == user || user.email == "admin@takemefrom.com"
+    game.user_id == user.id || user.email == "admin@takemefrom.com"
   end
 
   def editable?(_, nil), do: false

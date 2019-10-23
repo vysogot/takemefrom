@@ -2,28 +2,31 @@ defmodule Takemefrom.GamesTest do
   use Takemefrom.DataCase
 
   alias Takemefrom.Games
+  alias Takemefrom.Accounts
+
+  setup do
+    {:ok, user} = Accounts.register_user(%{"email" => "foo@bar", "password" => "foobar"})
+    {:ok, user: user}
+  end
 
   describe "games" do
     alias Takemefrom.Games.Game
 
     @valid_attrs %{
-      beginning_id: 42,
-      cy_options: %{},
-      elements: %{},
-      max_element_counter: 42,
       name: "some name",
-      slug: "some slug",
-      user_id: 42
     }
     @update_attrs %{
-      beginning_id: 43,
-      cy_options: %{},
-      elements: %{},
-      max_element_counter: 43,
-      name: "some updated name",
-      slug: "some updated slug",
-      user_id: 43
+      "cy" => %{
+        "elements" => %{
+          "nodes" => [],
+          "edges" => []
+        },
+        "zoom" => 1,
+        "pan" => 1
+      },
+      "maxElementCounter" => 1
     }
+
     @invalid_attrs %{
       beginning_id: nil,
       cy_options: nil,
@@ -34,66 +37,51 @@ defmodule Takemefrom.GamesTest do
       user_id: nil
     }
 
-    def game_fixture(attrs \\ %{}) do
-      {:ok, game} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Games.create_game()
-
+    def game_fixture(user, attrs \\ %{}) do
+      game_attrs = Enum.into(attrs, @valid_attrs)
+      {:ok, game} = Games.create_game(user, game_attrs)
       game
     end
 
-    test "list_games/0 returns all games" do
-      game = game_fixture()
-      assert Games.list_games() == [game]
+    test "list_games/0 returns all games", context do
+      game = game_fixture(context[:user])
+      assert Games.list_games() |> Enum.map(&(&1.id)) == [game.id]
     end
 
-    test "get_game!/1 returns the game with given id" do
-      game = game_fixture()
-      assert Games.get_game!(game.id) == game
+    test "get_game!/1 returns the game with given id", context do
+      game = game_fixture(context[:user])
+      assert Games.get_game!(game.id).id == game.id
     end
 
-    test "create_game/1 with valid data creates a game" do
-      assert {:ok, %Game{} = game} = Games.create_game(@valid_attrs)
-      assert game.beginning_id == 42
-      assert game.cy_options == %{}
-      assert game.elements == %{}
-      assert game.max_element_counter == 42
+    test "create_game/1 with valid data creates a game", context do
+      assert {:ok, %Game{} = game} = Games.create_game(context[:user], @valid_attrs)
       assert game.name == "some name"
-      assert game.slug == "some slug"
-      assert game.user_id == 42
-    end
-
-    test "create_game/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Games.create_game(@invalid_attrs)
-    end
-
-    test "update_game/2 with valid data updates the game" do
-      game = game_fixture()
-      assert {:ok, %Game{} = game} = Games.update_game(game, @update_attrs)
-      assert game.beginning_id == 43
+      assert game.beginning_id == 1
       assert game.cy_options == %{}
-      assert game.elements == %{}
-      assert game.max_element_counter == 43
-      assert game.name == "some updated name"
-      assert game.slug == "some updated slug"
-      assert game.user_id == 43
+      assert game.elements == [%{:data => %{content: "The new beginning", id: 1}, :position => %{x: 0, y: 0}}]
+      assert game.max_element_counter == 1
+      assert game.user_id == context[:user].id
     end
 
-    test "update_game/2 with invalid data returns error changeset" do
-      game = game_fixture()
-      assert {:error, %Ecto.Changeset{}} = Games.update_game(game, @invalid_attrs)
-      assert game == Games.get_game!(game.id)
+    test "create_game/1 with invalid data returns error changeset", context do
+      assert {:error, %Ecto.Changeset{}} = Games.create_game(context[:user], @invalid_attrs)
     end
 
-    test "delete_game/1 deletes the game" do
-      game = game_fixture()
-      assert {:ok, %Game{}} = Games.delete_game(game)
+    test "update_game/2 with valid data updates the game", context do
+      game = game_fixture(context[:user])
+      assert {:ok, %Game{} = game} = Games.update_game(context[:user], game, @update_attrs)
+      assert game.cy_options == %{"zoom" => 1, "pan" => 1}
+      assert game.elements == []
+    end
+
+    test "delete_game/1 deletes the game", context do
+      game = game_fixture(context[:user])
+      assert {:ok, %Game{}} = Games.delete_game(context[:user], game)
       assert_raise Ecto.NoResultsError, fn -> Games.get_game!(game.id) end
     end
 
-    test "change_game/1 returns a game changeset" do
-      game = game_fixture()
+    test "change_game/1 returns a game changeset", context do
+      game = game_fixture(context[:user])
       assert %Ecto.Changeset{} = Games.change_game(game)
     end
   end
