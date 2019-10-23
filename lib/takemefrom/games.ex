@@ -117,8 +117,11 @@ defmodule Takemefrom.Games do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_game(%Game{} = game) do
-    Repo.delete(game)
+  def delete_game(%User{} = user, %Game{} = game) do
+    cond do
+      editable?(game, user) -> Repo.delete(game)
+      true -> false
+    end
   end
 
   @doc """

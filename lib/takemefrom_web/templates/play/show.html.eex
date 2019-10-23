@@ -14,6 +14,8 @@
   <%= link 'Go back', to: {:javascript, "history.back()"} %>
 </p>
 
-<p id="editPlace">
-  <%= link 'Redesign this place', to: Routes.game_path(@conn, :edit, @game.id) %>
-</p>
+<%= if Games.editable?(@game, @current_user) do %>
+  <p id="editPlace">
+    <%= link 'Edit this game', to: Routes.game_path(@conn, :edit, @game.id) %>
+  </p>
+<% end %>

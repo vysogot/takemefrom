@@ -2,7 +2,7 @@ defmodule TakemefromWeb.GameController do
   use TakemefromWeb, :controller
   alias Takemefrom.Games
 
-  plug AuthenticateUser when action in [:index, :edit]
+  plug AuthenticateUser when action in [:delete, :edit]
 
   def index(conn, _params) do
     games = Games.list_games()
@@ -37,5 +37,26 @@ defmodule TakemefromWeb.GameController do
     cy_options = game.elements |> Jason.encode!()
 
     render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options)
+  end
+
+  def delete(conn, params) do
+    game = Games.get_game!(params["id"])
+
+    case Games.delete_game(conn.assigns.current_user, game) do
+      {:ok, _game} ->
+        conn
+        |> put_flash(:info, "Game deleted!")
+        |> redirect(to: Routes.game_path(conn, :index))
+
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "The game could not be deleted, try later")
+        |> redirect(to: Routes.game_path(conn, :index))
+
+      false ->
+        conn
+        |> put_flash(:error, "You can't delete this game")
+        |> redirect(to: Routes.game_path(conn, :index))
+    end
   end
 end
