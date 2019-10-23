@@ -83,7 +83,7 @@ defmodule Takemefrom.Games do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_game(%Game{} = game, attrs) do
+  def update_game(%User{} = user, %Game{} = game, attrs) do
     nodes =
       Enum.map(attrs["cy"]["elements"]["nodes"] || [], fn node ->
         Map.take(node, ["data", "position"])
@@ -100,9 +100,10 @@ defmodule Takemefrom.Games do
       "max_element_counter" => attrs["maxElementCounter"]
     }
 
-    game
-    |> Game.changeset(update_attrs)
-    |> Repo.update()
+    case editable?(game, user) do
+      false -> false
+      true -> game |> Game.changeset(update_attrs) |> Repo.update()
+    end
   end
 
   @doc """
