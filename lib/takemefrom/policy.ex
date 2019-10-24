@@ -13,6 +13,10 @@ defmodule Takemefrom.Policy do
     user.id == game.user_id
   end
 
+  def can?(:delete, %User{} = user, %Game{} = game) do
+    user.id == game.user_id
+  end
+
   def can?(_action, _user, _resource) do
     false
   end
