@@ -29,6 +29,7 @@ defmodule TakemefromWeb.Api.GameControllerTest do
 
       conn =
         put(conn, Routes.game_path(conn, :update, game), %{
+          maxElementCounter: 1,
           cy: %{elements: %{nodes: [], edges: []}, zoom: 1, pan: 1}
         })
 

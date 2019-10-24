@@ -6,12 +6,18 @@ defmodule TakemefromWeb.Api.GameController do
 
   plug AuthenticateUser when action in [:update]
 
+  def show(conn, params) do
+    game = Games.get_game!(params["id"])
+
+    render(conn, "show.json", game: game)
+  end
+
   def update(conn, params) do
     game = Games.get_game!(params["id"])
 
     with :ok <- Authorization.authorize(conn, :edit, game) do
-      Games.update_game(game, params)
-      send_resp(conn, 200, "")
+      {:ok, game} = Games.update_game(game, params)
+      render(conn, "show.json", game: game)
     end
   end
 end

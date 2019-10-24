@@ -39,7 +39,12 @@ defmodule TakemefromWeb.GameController do
       cy_options = game.cy_options |> Jason.encode!()
       touched? = Games.touched?(game) |> Jason.encode!()
 
-      render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options, touched?: touched?)
+      render(conn, "edit.html",
+        game: game,
+        elements: elements,
+        cy_options: cy_options,
+        touched?: touched?
+      )
     end
   end
 
