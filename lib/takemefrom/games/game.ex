@@ -51,7 +51,7 @@ defmodule Takemefrom.Games.Game do
       :cy_options,
       :elements
     ])
-    |> validate_required([:name, :user_id])
+    |> validate_required([:name])
     |> slugify_attr(:name)
     |> validate_required([:slug])
   end

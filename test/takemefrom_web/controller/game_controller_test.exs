@@ -23,4 +23,20 @@ defmodule TakemefromWeb.GameControllerTest do
       assert response(conn, 200)
     end
   end
+
+  describe "create/2" do
+    setup %{conn: conn, login_as: email} do
+      user = user_fixture(%{email: email})
+      conn = assign(conn, :current_user, user)
+
+      {:ok, conn: conn, user: user}
+    end
+
+    @tag login_as: "user@takemefrom.com"
+    test "returns 200", %{conn: conn} do
+      conn = post(conn, Routes.game_path(conn, :create), %{games: %{name: "some new game"}})
+
+      assert response(conn, 302)
+    end
+  end
 end

@@ -54,20 +54,17 @@ defmodule Takemefrom.Games do
   """
   def create_game(%User{} = user, attrs \\ %{}) do
     %Game{}
-    |> Game.create_changeset(
-      Enum.into(attrs, %{
-        user_id: user.id,
-        elements: [
-          %{
-            data: %{id: 1, content: "The new beginning"},
-            position: %{x: 0, y: 0}
-          }
-        ],
-        beginning_id: 1,
-        cy_options: %{},
-        max_element_counter: 1
-      })
-    )
+    |> Game.create_changeset(attrs)
+    |> Changeset.put_assoc(:user, user)
+    |> Changeset.put_change(:elements, [
+      %{
+        data: %{id: 1, content: "The new beginning"},
+        position: %{x: 0, y: 0}
+      }
+    ])
+    |> Changeset.put_change(:beginning_id, 1)
+    |> Changeset.put_change(:cy_options, %{})
+    |> Changeset.put_change(:max_element_counter, 1)
     |> Repo.insert()
   end
 
