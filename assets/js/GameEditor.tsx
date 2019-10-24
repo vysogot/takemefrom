@@ -235,6 +235,10 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     });
   };
 
+  modeClassName = mode => {
+    return mode ? "modeOn" : ""
+  }
+
   render() {
     const stylesheet = [
       {
@@ -259,10 +263,22 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     ];
 
     return [
-      <button onClick={this.save}>Save</button>,
-      <button onClick={this.addNode}>Addnode</button>,
-      <button onClick={this.toggleConnectionMode}>Connection mode</button>,
-      <button onClick={this.toggleDeletionMode}>Delete mode</button>,
+      <div className="buttonContainer">
+        <button onClick={this.save}>Save</button>
+        <button onClick={this.addNode}>Add</button>
+        <button
+          className={this.modeClassName(this.state.connectionMode)}
+          onClick={this.toggleConnectionMode}
+        >
+          Connect
+        </button>
+        <button
+          className={this.modeClassName(this.state.deletionMode)}
+          onClick={this.toggleDeletionMode}
+        >
+          Delete
+        </button>
+      </div>,
       <CytoscapeComponent
         elements={this.state.elements}
         className="game-editor"
@@ -271,9 +287,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         stylesheet={stylesheet}
         {...this.props.cyOptions}
       />,
-      <pre>Connection mode: {this.state.connectionMode.toString()}</pre>,
-      <pre>Deletion mode: {this.state.deletionMode.toString()}</pre>,
-      <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
+      // <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
       <EditElementModal
         isOpen={this.state.modalIsOpen}
         onRequestClose={this.closeModal}
