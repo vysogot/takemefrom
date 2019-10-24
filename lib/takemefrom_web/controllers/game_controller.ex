@@ -34,7 +34,7 @@ defmodule TakemefromWeb.GameController do
     game = Games.get_game!(params["id"])
 
     elements = game.elements |> Jason.encode!()
-    cy_options = game.elements |> Jason.encode!()
+    cy_options = game.cy_options |> Jason.encode!()
 
     render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options)
   end
