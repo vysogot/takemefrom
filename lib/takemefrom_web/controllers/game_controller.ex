@@ -46,6 +46,7 @@ defmodule TakemefromWeb.GameController do
     Authorization.authorize(conn, :delete, game)
 
     Games.delete_game(conn.assigns.current_user, game)
+
     conn
     |> put_flash(:info, "Game deleted!")
     |> redirect(to: Routes.game_path(conn, :index))

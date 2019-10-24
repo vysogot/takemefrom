@@ -4,6 +4,8 @@ defmodule TakemefromWeb.Api.GameController do
   alias Takemefrom.Games
   alias TakemefromWeb.Authorization
 
+  plug AuthenticateUser when action in [:update]
+
   def update(conn, params) do
     game = Games.get_game!(params["id"])
     Authorization.authorize(conn, :edit, game)
