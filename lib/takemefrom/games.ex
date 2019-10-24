@@ -83,7 +83,7 @@ defmodule Takemefrom.Games do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_game(%User{} = user, %Game{} = game, attrs) do
+  def update_game(%Game{} = game, attrs) do
     nodes =
       Enum.map(attrs["cy"]["elements"]["nodes"] || [], fn node ->
         Map.take(node, ["data", "position"])
@@ -100,11 +100,7 @@ defmodule Takemefrom.Games do
       "max_element_counter" => attrs["maxElementCounter"]
     }
 
-    if editable?(game, user) do
-      game |> Game.changeset(update_attrs) |> Repo.update()
-    else
-      false
-    end
+    game |> Game.changeset(update_attrs) |> Repo.update()
   end
 
   @doc """
@@ -119,12 +115,8 @@ defmodule Takemefrom.Games do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_game(%User{} = user, %Game{} = game) do
-    if editable?(game, user) do
-      Repo.delete(game)
-    else
-      false
-    end
+  def delete_game(%Game{} = game) do
+    Repo.delete(game)
   end
 
   @doc """
@@ -139,10 +131,4 @@ defmodule Takemefrom.Games do
   def change_game(%Game{} = game) do
     Game.changeset(game, %{})
   end
-
-  def editable?(%Game{} = game, %User{} = user) do
-    game.user_id == user.id || user.email == "admin@takemefrom.com"
-  end
-
-  def editable?(_, nil), do: false
 end

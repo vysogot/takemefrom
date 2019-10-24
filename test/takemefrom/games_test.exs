@@ -74,14 +74,14 @@ defmodule Takemefrom.GamesTest do
 
     test "update_game/2 with valid data updates the game", context do
       game = game_fixture(context[:user])
-      assert {:ok, %Game{} = game} = Games.update_game(context[:user], game, @update_attrs)
+      assert {:ok, %Game{} = game} = Games.update_game(game, @update_attrs)
       assert game.cy_options == %{"zoom" => 1, "pan" => 1}
       assert game.elements == []
     end
 
     test "delete_game/1 deletes the game", context do
       game = game_fixture(context[:user])
-      assert {:ok, %Game{}} = Games.delete_game(context[:user], game)
+      assert {:ok, %Game{}} = Games.delete_game(game)
       assert_raise Ecto.NoResultsError, fn -> Games.get_game!(game.id) end
     end
 

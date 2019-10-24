@@ -2,13 +2,13 @@ defmodule TakemefromWeb.Api.GameController do
   use TakemefromWeb, :controller
 
   alias Takemefrom.Games
+  alias TakemefromWeb.Authorization
 
   def update(conn, params) do
     game = Games.get_game!(params["id"])
+    Authorization.authorize(conn, :edit, game)
 
-    case Games.update_game(conn.assigns.current_user, game, params) do
-      {:ok, _} -> send_resp(conn, 200, "")
-      false -> send_resp(conn, 401, "Can't be done")
-    end
+    Games.update_game(game, params)
+    send_resp(conn, 200, "")
   end
 end
