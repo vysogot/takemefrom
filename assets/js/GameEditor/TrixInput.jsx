@@ -42,6 +42,11 @@ export default class TrixInput extends React.Component {
       }
     });
 
+    upload.on("httpUploadProgress", event => {
+      const progress = (event.loaded / event.total) * 100;
+      return attachment.setUploadProgress(progress);
+    });
+
     const promise = upload.promise();
 
     promise.then(
