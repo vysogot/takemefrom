@@ -43,6 +43,7 @@ defmodule TakemefromWeb do
       import TakemefromWeb.ErrorHelpers
       import TakemefromWeb.Gettext
       alias TakemefromWeb.Router.Helpers, as: Routes
+      alias Takemefrom.Policy
     end
   end
 

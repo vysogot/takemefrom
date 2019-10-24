@@ -4,7 +4,7 @@
 <%= for game <- @games do %>
   <p class="choice">
     <%= link game.name, to: Routes.play_path(@conn, :show, game) %>
-    <%= if Games.editable?(game, @current_user) do %>
+    <%= if Policy.can?(:edit, @current_user, game) do %>
       | <%= link 'Edit', to: Routes.game_path(@conn, :edit, game) %>
       | <%= link 'Destroy', to: Routes.game_path(@conn, :delete, game), method: :delete, data: [confirm: "Are you sure?"] %>
     <% end %>

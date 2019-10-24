@@ -4,9 +4,16 @@ defmodule Takemefrom.Policy do
   alias Takemefrom.Accounts.User
 
   alias Takemefrom.Games.Game
-  def can?(:edit, %User{} = user, %Game{} = game), do: user.id == game.user_id
+
+  def can?(_, %User{email: "admin@takemefrom.com"} = _user, _) do
+    true
+  end
+
+  def can?(:edit, %User{} = user, %Game{} = game) do
+    user.id == game.user_id
+  end
 
   def can?(_action, _user, _resource) do
-    true
+    false
   end
 end

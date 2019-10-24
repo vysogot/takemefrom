@@ -11,18 +11,38 @@ defmodule TakemefromWeb.Api.GameControllerTest do
     game
   end
 
-  describe "update/2" do
-    setup do
-      {:ok, user} = Accounts.register_user(%{"email" => "foo@bar", "password" => "foobar"})
+  describe "unauthenticated user" do
+    test "fails if user is not logged in", %{conn: conn} do
+      {:ok, user} = Accounts.register_user(%{"email" => "some@other.com", "password" => "foobar"})
       game = game_fixture(user)
-      {:ok, game: game}
-    end
-
-    test "fails if user is not logged in", %{conn: conn, game: game} do
-      conn = put(conn, Routes.game_path(conn, :update, game), %{cy: %{elements: %{nodes: [], edges: []}}})
+      conn =
+        put(conn, Routes.game_path(conn, :update, game), %{
+              cy: %{elements: %{nodes: [], edges: []}}
+            })
 
       assert response(conn, 302)
       assert conn.halted
+    end
+  end
+
+  describe "update/2" do
+    setup %{conn: conn, login_as: email} do
+      {:ok, user} = Accounts.register_user(%{"email" => email, "password" => "foobar"})
+      conn = assign(conn, :current_user, user)
+
+      {:ok, conn: conn, user: user}
+    end
+
+    @tag login_as: "user@takemefrom.com"
+    test "updates elements and stores zoom, pan", %{conn: conn, user: user} do
+      assert 1
+      game = game_fixture(user)
+      conn =
+        put(conn, Routes.game_path(conn, :update, game), %{
+              cy: %{elements: %{nodes: [], edges: []}, zoom: 1, pan: 1}
+            })
+
+      assert response(conn, 200)
     end
   end
 end
