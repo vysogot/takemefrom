@@ -37,8 +37,9 @@ defmodule TakemefromWeb.GameController do
     with :ok <- Authorization.authorize(conn, :edit, game) do
       elements = game.elements |> Jason.encode!()
       cy_options = game.cy_options |> Jason.encode!()
+      touched? = Games.touched?(game) |> Jason.encode!()
 
-      render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options)
+      render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options, touched?: touched?)
     end
   end
 

@@ -68,6 +68,10 @@ defmodule Takemefrom.Games do
     |> Repo.insert()
   end
 
+  def touched?(game) do
+    game.inserted_at != game.updated_at
+  end
+
   @doc """
   Updates a game.
 
