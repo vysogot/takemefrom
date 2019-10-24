@@ -33,22 +33,22 @@ defmodule TakemefromWeb.GameController do
 
   def edit(conn, params) do
     game = Games.get_game!(params["id"])
-    Authorization.authorize(conn, :edit, game)
+    with :ok <- Authorization.authorize(conn, :edit, game) do
+      elements = game.elements |> Jason.encode!()
+      cy_options = game.cy_options |> Jason.encode!()
 
-    elements = game.elements |> Jason.encode!()
-    cy_options = game.cy_options |> Jason.encode!()
-
-    render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options)
+      render(conn, "edit.html", game: game, elements: elements, cy_options: cy_options)
+    end
   end
 
   def delete(conn, params) do
     game = Games.get_game!(params["id"])
-    Authorization.authorize(conn, :delete, game)
+    with :ok <- Authorization.authorize(conn, :delete, game) do
+      Games.delete_game(game)
 
-    Games.delete_game(conn.assigns.current_user, game)
-
-    conn
-    |> put_flash(:info, "Game deleted!")
-    |> redirect(to: Routes.game_path(conn, :index))
+      conn
+      |> put_flash(:info, "Game deleted!")
+      |> redirect(to: Routes.game_path(conn, :index))
+    end
   end
 end

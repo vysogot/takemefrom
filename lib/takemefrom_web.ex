@@ -25,6 +25,8 @@ defmodule TakemefromWeb do
       import TakemefromWeb.Gettext
       alias TakemefromWeb.Router.Helpers, as: Routes
       alias TakemefromWeb.Plugs.AuthenticateUser
+
+      action_fallback TakemefromWeb.FallbackController
     end
   end
 

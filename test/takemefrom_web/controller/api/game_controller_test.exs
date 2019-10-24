@@ -35,7 +35,6 @@ defmodule TakemefromWeb.Api.GameControllerTest do
 
     @tag login_as: "user@takemefrom.com"
     test "updates elements and stores zoom, pan", %{conn: conn, user: user} do
-      assert 1
       game = game_fixture(user)
       conn =
         put(conn, Routes.game_path(conn, :update, game), %{
@@ -43,6 +42,18 @@ defmodule TakemefromWeb.Api.GameControllerTest do
             })
 
       assert response(conn, 200)
+    end
+
+    @tag login_as: "user@takemefrom.com"
+    test "forbids if game belongs to some other user", %{conn: conn} do
+      {:ok, user} = Accounts.register_user(%{email: "someother@email.com", password: "foobar"})
+      game = game_fixture(user)
+      conn =
+        put(conn, Routes.game_path(conn, :update, game), %{
+              cy: %{elements: %{nodes: [], edges: []}, zoom: 1, pan: 1}
+            })
+
+      assert response(conn, 403)
     end
   end
 end
