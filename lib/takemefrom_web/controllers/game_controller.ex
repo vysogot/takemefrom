@@ -3,7 +3,7 @@ defmodule TakemefromWeb.GameController do
   alias Takemefrom.Games
   alias TakemefromWeb.Authorization
 
-  plug AuthenticateUser when action in [:delete, :edit]
+  plug AuthenticateUser when action in [:new, :create, :edit, :delete]
 
   def index(conn, _params) do
     games = Games.list_games()

@@ -1,8 +1,6 @@
 defmodule TakemefromWeb.Api.GameControllerTest do
   use TakemefromWeb.ConnCase
 
-  alias Takemefrom.Accounts
-
   test "fails if user is not logged in", %{conn: conn} do
     Enum.each(
       [
