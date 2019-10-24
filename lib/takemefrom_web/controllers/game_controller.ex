@@ -33,6 +33,7 @@ defmodule TakemefromWeb.GameController do
 
   def edit(conn, params) do
     game = Games.get_game!(params["id"])
+
     with :ok <- Authorization.authorize(conn, :edit, game) do
       elements = game.elements |> Jason.encode!()
       cy_options = game.cy_options |> Jason.encode!()
@@ -43,6 +44,7 @@ defmodule TakemefromWeb.GameController do
 
   def delete(conn, params) do
     game = Games.get_game!(params["id"])
+
     with :ok <- Authorization.authorize(conn, :delete, game) do
       Games.delete_game(game)
 

@@ -12,9 +12,6 @@ defmodule Takemefrom.GamesTest do
   describe "games" do
     alias Takemefrom.Games.Game
 
-    @valid_attrs %{
-      name: "some name"
-    }
     @update_attrs %{
       "cy" => %{
         "elements" => %{
@@ -37,12 +34,6 @@ defmodule Takemefrom.GamesTest do
       user_id: nil
     }
 
-    def game_fixture(user, attrs \\ %{}) do
-      game_attrs = Enum.into(attrs, @valid_attrs)
-      {:ok, game} = Games.create_game(user, game_attrs)
-      game
-    end
-
     test "list_games/0 returns all games", context do
       game = game_fixture(context[:user])
       assert Games.list_games() |> Enum.map(& &1.id) == [game.id]
@@ -54,7 +45,7 @@ defmodule Takemefrom.GamesTest do
     end
 
     test "create_game/1 with valid data creates a game", context do
-      assert {:ok, %Game{} = game} = Games.create_game(context[:user], @valid_attrs)
+      assert {:ok, %Game{} = game} = Games.create_game(context[:user], %{name: "some name"})
       assert game.name == "some name"
       assert game.slug == "some-name"
       assert game.beginning_id == 1

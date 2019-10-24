@@ -8,6 +8,7 @@ defmodule TakemefromWeb.Api.GameController do
 
   def update(conn, params) do
     game = Games.get_game!(params["id"])
+
     with :ok <- Authorization.authorize(conn, :edit, game) do
       Games.update_game(game, params)
       send_resp(conn, 200, "")

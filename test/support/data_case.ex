@@ -22,6 +22,7 @@ defmodule Takemefrom.DataCase do
       import Ecto.Changeset
       import Ecto.Query
       import Takemefrom.DataCase
+      import Takemefrom.Fixtures
     end
   end
 

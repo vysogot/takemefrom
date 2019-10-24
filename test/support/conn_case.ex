@@ -23,6 +23,7 @@ defmodule TakemefromWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint TakemefromWeb.Endpoint
+      import Takemefrom.Fixtures
     end
   end
 

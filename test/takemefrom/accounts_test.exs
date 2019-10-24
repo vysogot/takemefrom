@@ -5,21 +5,11 @@ defmodule Takemefrom.AccountsTest do
   alias Takemefrom.Accounts.User
 
   describe "users" do
-    @valid_attrs %{email: "some@email", password: "foobar"}
-
-    def user_fixture(attrs \\ %{}) do
-      {:ok, user} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Accounts.register_user()
-
-      user
-    end
-
     test "register_user/1 creates new user" do
-      {:ok, user} = Accounts.register_user(@valid_attrs)
+      attrs = %{email: "some@email", password: "foobar"}
+      {:ok, user} = Accounts.register_user(attrs)
 
-      assert user.email == @valid_attrs[:email]
+      assert user.email == attrs[:email]
     end
 
     test "get_user!/1 returns the user with given id" do
