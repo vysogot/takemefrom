@@ -24,7 +24,7 @@ defmodule TakemefromWeb.GameControllerTest do
     end
   end
 
-  describe "create/2" do
+  describe "new/2" do
     setup %{conn: conn, login_as: email} do
       user = user_fixture(%{email: email})
       conn = assign(conn, :current_user, user)
@@ -34,7 +34,57 @@ defmodule TakemefromWeb.GameControllerTest do
 
     @tag login_as: "user@takemefrom.com"
     test "returns 200", %{conn: conn} do
+      conn = get(conn, Routes.game_path(conn, :new))
+
+      assert response(conn, 200)
+    end
+  end
+
+  describe "create/2" do
+    setup %{conn: conn, login_as: email} do
+      user = user_fixture(%{email: email})
+      conn = assign(conn, :current_user, user)
+
+      {:ok, conn: conn, user: user}
+    end
+
+    @tag login_as: "user@takemefrom.com"
+    test "returns 302", %{conn: conn} do
       conn = post(conn, Routes.game_path(conn, :create), %{games: %{name: "some new game"}})
+
+      assert response(conn, 302)
+    end
+  end
+
+  describe "edit/2" do
+    setup %{conn: conn, login_as: email} do
+      user = user_fixture(%{email: email})
+      conn = assign(conn, :current_user, user)
+
+      {:ok, conn: conn, user: user}
+    end
+
+    @tag login_as: "user@takemefrom.com"
+    test "returns 200", %{conn: conn, user: user} do
+      game = game_fixture(user)
+      conn = get(conn, Routes.game_path(conn, :edit, game))
+
+      assert response(conn, 200)
+    end
+  end
+
+  describe "delete/2" do
+    setup %{conn: conn, login_as: email} do
+      user = user_fixture(%{email: email})
+      conn = assign(conn, :current_user, user)
+
+      {:ok, conn: conn, user: user}
+    end
+
+    @tag login_as: "user@takemefrom.com"
+    test "returns 200", %{conn: conn, user: user} do
+      game = game_fixture(user)
+      conn = delete(conn, Routes.game_path(conn, :delete, game))
 
       assert response(conn, 302)
     end
