@@ -3,7 +3,7 @@ defmodule TakemefromWeb.PageController do
   alias Takemefrom.Games
 
   def index(conn, _params) do
-    game = Games.get_by_name!("Tutorial")
+    game = Games.get_by!(slug: "tutorial")
 
     render(conn, "index.html", game: game)
   end

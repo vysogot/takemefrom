@@ -38,7 +38,7 @@ defmodule Takemefrom.Games do
 
   """
   def get_game!(id), do: Repo.get!(Game, id)
-  def get_by_name!(name), do: Repo.get_by!(Game, name: name)
+  def get_by!(opts), do: Repo.get_by!(Game, opts)
 
   @doc """
   Creates a game.

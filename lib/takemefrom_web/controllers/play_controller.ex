@@ -4,7 +4,7 @@ defmodule TakemefromWeb.PlayController do
   alias Takemefrom.Games
 
   def show(conn, params) do
-    game = Games.get_game!(params["id"])
+    game = Games.get_by!(slug: params["id"])
 
     place_node =
       game.elements
