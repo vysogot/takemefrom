@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import EditElementModal from "./GameEditor/EditElementModal";
 import popper from "cytoscape-popper";
 import tippy from "tippy.js";
-// import "tippy.js/dist/tippy.css";
+// import bulma from "bulma.js";
 
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");

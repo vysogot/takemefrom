@@ -4,6 +4,7 @@
     <title>Take me from</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
+    <%= render_existing @view_module, "styles." <> @view_template, assigns %>
   </head>
   <body>
     <div id="container">
@@ -17,6 +18,7 @@
       <%= render @view_module, @view_template, assigns %>
 
       <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+      <%= render_existing @view_module, "scripts." <> @view_template, assigns %>
     </div>
   </body>
 </html>
