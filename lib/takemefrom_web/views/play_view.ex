@@ -7,7 +7,11 @@ defmodule TakemefromWeb.PlayView do
 
   def sanitize({ :safe, html }) do
     regex = ~r"block-->(.+?)<\/div>"
-    [_, inner] = Regex.run(regex, html)
-    raw(inner)
+    if result = Regex.run(regex, html) do
+      [_, inner] = result
+      raw(inner)
+    else
+      html
+    end
   end
 end
