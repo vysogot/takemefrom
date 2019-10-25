@@ -2,7 +2,7 @@
 
 <%= for choice <- @choices do %>
   <p class="choice">
-    <%= link raw(choice["content"]), to: Routes.play_path(@conn, :show, @game.id, choice: choice["target"]) %>
+    <%= link sanitize(raw(choice["content"])), to: Routes.play_path(@conn, :show, @game.id, choice: choice["target"]) %>
   </p>
 <% end %>
 
