@@ -4,6 +4,6 @@
      data-cy-options="<%= @cy_options %>"
      data-touched="<%= @touched? %>"
      data-max-element-counter="<%= @game.max_element_counter %>"
-     data-game-id="<%= @game.id %>"
+     data-game-id="<%= @game.slug %>"
 >
 </div>

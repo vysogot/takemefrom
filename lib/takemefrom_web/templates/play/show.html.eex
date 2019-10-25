@@ -16,6 +16,6 @@
 
 <%= if Policy.can?(:edit, @current_user, @game) do %>
   <p class="navigation">
-    <%= link 'Edit this game', to: Routes.game_path(@conn, :edit, @game.id) %>
+    <%= link 'Edit this game', to: Routes.game_path(@conn, :edit, @game) %>
   </p>
 <% end %>
