@@ -28,7 +28,7 @@ interface GameEditorProps {
   cyOptions: any;
   touched: boolean;
   maxElementCounter: number;
-  gameId: number;
+  gameId: string;
 }
 
 interface GameEditorState {
@@ -157,7 +157,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   enableSaveButton = () => {
     this.setState({ isSaved: false, saveButtonLabel: "Save" });
-  }
+  };
 
   componentDidUpdate() {
     this.colorizeBeginning();
@@ -166,7 +166,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   componentDidMount() {
     this.colorizeBeginning();
 
-    this.cy.on("data dragfree add remove viewport", this.enableSaveButton)
+    this.cy.on("data dragfree add remove viewport", this.enableSaveButton);
 
     this.cy.on(
       "vclick",
@@ -218,9 +218,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   };
 
   save = () => {
-    const [_empty, _game, id, _edit] = window.location.pathname.split("/");
-
-    fetch(`/api/games/${id}`, {
+    fetch(`/api/games/${this.props.gameId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -230,12 +228,12 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         cy: this.cy.json()
       })
     })
-    .then((response) => response.json())
-    .then((json) => {
-      if (json.id !== undefined) {
-        this.setState({ isSaved: true, saveButtonLabel: "Saved" })
-      }
-    });
+      .then(response => response.json())
+      .then(json => {
+        if (json.id !== undefined) {
+          this.setState({ isSaved: true, saveButtonLabel: "Saved" });
+        }
+      });
   };
 
   handleApplyContent = content => {
@@ -256,8 +254,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   };
 
   modeClassName = mode => {
-    return mode ? "modeOn" : ""
-  }
+    return mode ? "modeOn" : "";
+  };
 
   render() {
     const stylesheet = [
@@ -284,7 +282,9 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     return [
       <div className="buttonContainer">
-        <button onClick={this.save} disabled={this.state.isSaved}>{this.state.saveButtonLabel}</button>
+        <button onClick={this.save} disabled={this.state.isSaved}>
+          {this.state.saveButtonLabel}
+        </button>
         <button onClick={this.addNode}>Add</button>
         <button
           className={this.modeClassName(this.state.connectionMode)}
@@ -330,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cyOptions = JSON.parse(editor.dataset.cyOptions);
     const touched = JSON.parse(editor.dataset.touched);
     const maxElementCounter = JSON.parse(editor.dataset.maxElementCounter);
-    const gameId = JSON.parse(editor.dataset.gameId);
+    const gameId = editor.dataset.gameId;
 
     ReactDOM.render(
       <GameEditor
