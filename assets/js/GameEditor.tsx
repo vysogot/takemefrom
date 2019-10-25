@@ -38,6 +38,8 @@ interface GameEditorState {
   connectionMode: boolean;
   connectingNodeId?: string;
   deletionMode?: boolean;
+  isSaved: boolean;
+  saveButtonLabel: string;
 }
 
 class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
@@ -53,7 +55,9 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       elements: props.elements,
       editingNode: props.elements[0],
       connectionMode: false,
-      deletionMode: false
+      deletionMode: false,
+      saveButtonLabel: "Saved",
+      isSaved: true
     };
   }
 
@@ -150,12 +154,18 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     this.colorizeNode(this.props.beginningId, Colors.orange);
   };
 
+  enableSaveButton = () => {
+    this.setState({ isSaved: false, saveButtonLabel: "Save" });
+  }
+
   componentDidUpdate() {
     this.colorizeBeginning();
   }
 
   componentDidMount() {
     this.colorizeBeginning();
+
+    this.cy.on("data dragfree add remove viewport", this.enableSaveButton)
 
     this.cy.on(
       "vclick",
@@ -218,11 +228,20 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         maxElementCounter: this.state.nextId,
         cy: this.cy.json()
       })
+    })
+    .then((response) => response.json())
+    .then((json) => {
+      if (json.id !== undefined) {
+        this.setState({ isSaved: true, saveButtonLabel: "Saved" })
+      }
     });
   };
 
   handleApplyContent = content => {
+    // for some reason using enableSaveButton here doesn't work
     this.setState({
+      isSaved: false,
+      saveButtonLabel: "Save",
       elements: this.state.elements.map(e => {
         if (e.data.id == this.state.editingNode.data.id) {
           const editedNode = { ...this.state.editingNode };
@@ -264,7 +283,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     return [
       <div className="buttonContainer">
-        <button onClick={this.save}>Save</button>
+        <button onClick={this.save} disabled={this.state.isSaved}>{this.state.saveButtonLabel}</button>
         <button onClick={this.addNode}>Add</button>
         <button
           className={this.modeClassName(this.state.connectionMode)}
@@ -287,7 +306,6 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         stylesheet={stylesheet}
         {...this.props.cyOptions}
       />,
-      // <pre>{JSON.stringify(this.state.elements, null, 2)}</pre>,
       <EditElementModal
         isOpen={this.state.modalIsOpen}
         onRequestClose={this.closeModal}
