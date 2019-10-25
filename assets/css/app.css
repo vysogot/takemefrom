@@ -37,3 +37,7 @@ button.modeOn {
 .buttonContainer a {
   font-size: 70%;
 }
+
+.trix-button-row {
+  flex-wrap: wrap !important;
+}
