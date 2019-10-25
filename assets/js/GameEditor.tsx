@@ -39,6 +39,7 @@ interface GameEditorState {
   deletionMode?: boolean;
   isSaved: boolean;
   saveButtonLabel: string;
+  layout?: any;
 }
 
 class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
@@ -56,7 +57,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       connectionMode: false,
       deletionMode: false,
       saveButtonLabel: "Saved",
-      isSaved: true
+      isSaved: true,
+      layout: null
     };
   }
 
@@ -255,6 +257,10 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     return mode ? "modeOn" : "";
   };
 
+  reset = () => {
+    this.setState({ layout: { name: "dagre" } });
+  };
+
   render() {
     const stylesheet = [
       {
@@ -296,12 +302,15 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         >
           Delete
         </button>
+        <button onClick={this.reset}>Reset</button>
         <a href={`/play/${this.props.gameId}`}>Play</a>
       </div>,
       <CytoscapeComponent
         elements={this.state.elements}
         className="game-editor"
-        layout={this.props.touched ? null : { name: "dagre" }}
+        layout={
+          this.state.layout || (this.props.touched ? null : { name: "dagre" })
+        }
         cy={cy => (this.cy = cy)}
         stylesheet={stylesheet}
         {...this.props.cyOptions}
