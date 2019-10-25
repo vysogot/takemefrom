@@ -1,6 +1,6 @@
 import * as React from "react";
-import * as Modal from "react-modal";
 import TrixInput from "./TrixInput.jsx";
+import Modal from "react-responsive-modal";
 
 interface EditElementModalProps {
   content: string;
@@ -43,19 +43,9 @@ export default class EditElementModal extends React.Component<
   };
 
   render() {
-    const customStyles = {
-      content: {}
-    };
     return (
-      <Modal
-        isOpen={this.props.isOpen}
-        onAfterOpen={this.props.onAfterOpen}
-        onRequestClose={this.props.onRequestClose}
-        style={customStyles}
-        contentLabel="Example Modal"
-      >
+      <Modal open={this.props.isOpen} onClose={this.props.closeModal}>
         <h2>Question</h2>
-        <button onClick={this.props.closeModal}>x</button>
         <form>
           <TrixInput
             value={this.state.content}

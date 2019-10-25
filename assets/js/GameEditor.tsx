@@ -3,11 +3,9 @@ import * as ReactDOM from "react-dom";
 import dagre from "cytoscape-dagre";
 import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
-import Modal from "react-modal";
 import EditElementModal from "./GameEditor/EditElementModal";
 import popper from "cytoscape-popper";
 import tippy from "tippy.js";
-// import bulma from "bulma.js";
 
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
@@ -310,7 +308,6 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       />,
       <EditElementModal
         isOpen={this.state.modalIsOpen}
-        onRequestClose={this.closeModal}
         content={this.state.editingNode.data.content}
         closeModal={this.closeModal}
         onApplyContent={this.handleApplyContent}
@@ -323,8 +320,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const editor = document.getElementById("editor");
 
   if (editor) {
-    Modal.setAppElement("#editor");
-
     const elements = JSON.parse(editor.dataset.elements);
     const beginningId = editor.dataset.beginningId;
     const cyOptions = JSON.parse(editor.dataset.cyOptions);
