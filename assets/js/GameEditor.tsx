@@ -28,6 +28,7 @@ interface GameEditorProps {
   cyOptions: any;
   touched: boolean;
   maxElementCounter: number;
+  gameId: number;
 }
 
 interface GameEditorState {
@@ -297,6 +298,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         >
           Delete
         </button>
+        <a href={`/play/${this.props.gameId}`}>Play</a>
       </div>,
       <CytoscapeComponent
         elements={this.state.elements}
@@ -328,6 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const cyOptions = JSON.parse(editor.dataset.cyOptions);
     const touched = JSON.parse(editor.dataset.touched);
     const maxElementCounter = JSON.parse(editor.dataset.maxElementCounter);
+    const gameId = JSON.parse(editor.dataset.gameId);
 
     ReactDOM.render(
       <GameEditor
@@ -336,6 +339,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cyOptions={{ ...cyOptions, maxZoom: 2, minZoom: 0.5 }}
         touched={touched}
         maxElementCounter={maxElementCounter}
+        gameId={gameId}
       />,
       editor
     );

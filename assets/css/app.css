@@ -21,6 +21,8 @@ input[type=submit] { font-size: 80%; }
 
 #content { background-color: #fff; }
 .choice { background-color: #eee; }
+.choice.light { background-color: #fff }
+
 #contribute, #editPlace { margin-top: 2em;
   border-top: 1px solid gray; }
 #title { display: none; }
@@ -75,4 +77,8 @@ button.modeOn {
 .buttonContainer button {
   margin-right: 5px;
   font-size: 60%;
+}
+
+.buttonContainer a {
+  font-size: 70%;
 }

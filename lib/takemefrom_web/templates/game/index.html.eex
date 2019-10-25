@@ -1,6 +1,5 @@
 <h1>Games</h1>
 
-<div class="content">
 <%= for game <- @games do %>
   <p class="choice">
     <%= link game.name, to: Routes.play_path(@conn, :show, game) %>
@@ -10,4 +9,5 @@
     <% end %>
   </p>
 <% end %>
-</div>
+
+<p class="choice light"><%= link "Go back", to: Routes.page_path(@conn, :index) %></p>

@@ -8,6 +8,7 @@ defmodule Takemefrom.Games do
 
   alias Takemefrom.Games.Game
   alias Takemefrom.Accounts.User
+  alias Ecto.Changeset
 
   @doc """
   Returns the list of games.
