@@ -248,11 +248,9 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       });
   };
 
-  handleApplyContent = content => {
-    // for some reason using enableSaveButton here doesn't work
+  handleApplyContent = (content: string) => {
+    this.enableSaveButton()
     this.setState({
-      isSaved: false,
-      saveButtonLabel: "Save",
       elements: this.state.elements.map(e => {
         if (e.data.id == this.state.editingNode.data.id) {
           const editedNode = { ...this.state.editingNode };
