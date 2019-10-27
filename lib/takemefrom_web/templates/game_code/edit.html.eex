@@ -1,0 +1,28 @@
+<h1>Game Code Editor</h1>
+
+<div class="content">
+
+  <%= form_for @conn, Routes.game_game_code_path(@conn, :update, @game), [as: :game], fn f -> %>
+    <div class="field">
+      <%= label f, :elements %><br />
+      <%= textarea f, :elements, value: @content %>
+    </div>
+
+    <div class="actions">
+      <%= submit "Submit" %>
+    </div>
+  <% end %>
+</div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.0/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/mode/javascript/javascript.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.0/codemirror.min.css" />
+
+<script>
+ var textarea = document.getElementById('game_elements')
+ var editor = CodeMirror.fromTextArea(textarea, {
+   lineNumbers: true,
+   mode: "javascript"
+ });
+</script>
