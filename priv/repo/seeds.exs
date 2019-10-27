@@ -292,5 +292,5 @@ Repo.delete_all(Game)
           "y" => 0
         }
       }
-    ] }
-  )
+    ]
+  })

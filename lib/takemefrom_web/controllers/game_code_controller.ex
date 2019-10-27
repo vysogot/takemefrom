@@ -16,7 +16,7 @@ defmodule TakemefromWeb.GameCodeController do
   def update(conn, params) do
     game = Games.get_by!(slug: params["game_id"])
 
-    elements = params["game"]["elements"] |> Jason.decode!
+    elements = params["game"]["elements"] |> Jason.decode!()
     Games.update_elements(game, elements)
 
     redirect(conn, to: Routes.game_path(conn, :edit, game))

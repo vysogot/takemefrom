@@ -53,12 +53,14 @@ defmodule Takemefrom.Games do
 
   """
   def create_game(%User{} = user, attrs \\ %{}) do
-    elements = attrs[:elements] || [
-      %{
-        data: %{id: 1, content: "The new beginning"},
-        position: %{x: 0, y: 0}
-      }
-    ]
+    elements =
+      attrs[:elements] ||
+        [
+          %{
+            data: %{id: 1, content: "The new beginning"},
+            position: %{x: 0, y: 0}
+          }
+        ]
 
     %Game{}
     |> Game.create_changeset(attrs)
