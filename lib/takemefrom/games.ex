@@ -106,6 +106,10 @@ defmodule Takemefrom.Games do
     game |> Game.changeset(update_attrs) |> Repo.update()
   end
 
+  def update_elements(%Game{} = game, elements) do
+    game |> Game.changeset(%{elements: elements}) |> Repo.update()
+  end
+
   @doc """
   Deletes a Game.
 
