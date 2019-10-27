@@ -21,6 +21,7 @@ defmodule TakemefromWeb.GameController do
     case game do
       {:ok, game} ->
         conn
+        |> put_flash(:notice, "Your game has been created!")
         |> redirect(to: Routes.game_path(conn, :edit, game))
 
       {:error, _reason} ->

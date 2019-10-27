@@ -134,7 +134,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   toggleConnectionMode = e => {
     this.setState({
-      mode: 'connection',
+      mode: (this.isConnectionMode() ? null : 'connection'),
       connectingNodeId: null
     });
   };
@@ -274,12 +274,12 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
   hint = () => {
     if (this.isConnectionMode()) {
       if (this.state.connectingNodeId) {
-        return (<p>Great! Now select the other node to connect them together.</p>)
+        return ("Great! Now select the other node to connect them together.")
       } else {
-        return (<p>Cool, select the starting node.</p>)
+        return ("Cool, select the starting node.")
       }
     } else if (this.isDeletionMode()) {
-      return (<p>Click on the node/edge  in order to delete it</p>);
+      return ("Click on the node/edge  in order to delete it");
     } else {
       return null;
     }
@@ -310,7 +310,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     return (
       <div>
-        {this.state.notice && <p className="notice">{this.state.notice}</p>}
+        <div className="editorNotice">{this.state.notice}{this.hint()}</div>
         <div className="buttonContainer">
           <button onClick={this.save} disabled={this.state.isSaved}>
             {this.state.saveButtonLabel}
@@ -331,7 +331,6 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
           <button onClick={this.reset}>Reset</button>
           <a href={`/play/${this.props.gameId}`}>Play</a>
         </div>
-        {this.hint()}
         <CytoscapeComponent
           elements={this.state.elements}
           className="game-editor"

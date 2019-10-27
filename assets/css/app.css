@@ -5,7 +5,8 @@ a:hover { color: darkblue; }
 h1, h2, p, .content { font-size: 100%; font-weight: normal;
   border-bottom: 1px solid gray; margin: 0; padding: 1em 1.5em; }
   p { background-color: #fff; }
-p.notice { background-color: lightgreen; }
+.notice { background-color: lightgreen; }
+.editorNotice { height: 3vh; text-align: center; font-size: 70%; padding-top:10px; }
 #title {display: none}
 
 #content { background-color: #fff; }

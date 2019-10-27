@@ -22,7 +22,7 @@ Repo.delete_all(Game)
 {:ok, user} = Accounts.register_user(%{email: "admin@takemefrom.com", password: "foobar"})
 
 {:ok, game} =
-  Games.create_game(user,
+  Games.create_game(user, %{
     name: "Tutorial",
     user: user,
     beginning_id: 1,
@@ -292,5 +292,5 @@ Repo.delete_all(Game)
           "y" => 0
         }
       }
-    ]
+    ] }
   )

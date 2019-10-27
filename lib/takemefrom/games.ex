@@ -53,15 +53,17 @@ defmodule Takemefrom.Games do
 
   """
   def create_game(%User{} = user, attrs \\ %{}) do
-    %Game{}
-    |> Game.create_changeset(attrs)
-    |> Changeset.put_assoc(:user, user)
-    |> Changeset.put_change(:elements, [
+    elements = attrs[:elements] || [
       %{
         data: %{id: 1, content: "The new beginning"},
         position: %{x: 0, y: 0}
       }
-    ])
+    ]
+
+    %Game{}
+    |> Game.create_changeset(attrs)
+    |> Changeset.put_assoc(:user, user)
+    |> Changeset.put_change(:elements, elements)
     |> Changeset.put_change(:beginning_id, 1)
     |> Changeset.put_change(:cy_options, %{})
     |> Changeset.put_change(:max_element_counter, 1)
