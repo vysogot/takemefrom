@@ -16,9 +16,18 @@ defmodule TakemefromWeb.GameCodeController do
   def update(conn, params) do
     game = Games.get_by!(slug: params["game_id"])
 
-    elements = params["game"]["elements"] |> Jason.decode!()
-    Games.update_elements(game, elements)
+    case params["game"]["elements"] |> Jason.decode do
+      {:ok, elements} ->
+        Games.update_elements(game, elements)
 
-    redirect(conn, to: Routes.game_path(conn, :edit, game))
+        conn
+        |> put_flash(:notice, "Your game has been created!")
+        |> redirect(to: Routes.game_path(conn, :edit, game))
+
+      {:error, _reason} ->
+        conn
+        |> put_flash(:error, "Invalid JSON provided")
+        |> render("edit.html", game: game, content: params["game"]["elements"])
+    end
   end
 end
