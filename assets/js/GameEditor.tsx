@@ -20,6 +20,8 @@ const Colors = {
   orange: "darkorange"
 };
 
+type Mode = null | 'connection' | 'deletion';
+
 interface GameEditorProps {
   elements: any[];
   beginningId: string;
@@ -33,13 +35,13 @@ interface GameEditorState {
   nextId: number;
   modalIsOpen: boolean;
   elements: any[];
+  mode: Mode
   editingNode: any;
-  connectionMode: boolean;
   connectingNodeId?: string;
-  deletionMode?: boolean;
   isSaved: boolean;
   saveButtonLabel: string;
   layout?: any;
+  notice?: string;
 }
 
 class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
@@ -54,12 +56,19 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       modalIsOpen: false,
       elements: props.elements,
       editingNode: props.elements[0],
-      connectionMode: false,
-      deletionMode: false,
+      mode: null,
       saveButtonLabel: "Saved",
       isSaved: true,
-      layout: null
+      layout: null,
+      notice: null
     };
+  }
+
+  emitNotice = (notice: string) => {
+    this.setState({ notice });
+    setTimeout(() => {
+      this.setState({ notice: null })
+    }, 5000);
   }
 
   openModal = e => {
@@ -98,8 +107,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         ...this.state.elements,
         { data: { id: `node#${this.state.nextId}` } }
       ],
-      connectionMode: false,
-      deletionMode: false
+      mode: null,
     });
   };
 
@@ -124,16 +132,17 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   toggleConnectionMode = e => {
     this.setState({
-      connectionMode: !this.state.connectionMode,
-      connectingNodeId: null,
-      deletionMode: false
+      mode: 'connection',
+      connectingNodeId: null
     });
   };
 
+  isConnectionMode = () => (this.state.mode == 'connection');
+  isDeletionMode = () => (this.state.mode == 'deletion');
+
   toggleDeletionMode = e => {
     this.setState({
-      deletionMode: !this.state.deletionMode,
-      connectionMode: false
+      mode: (this.isDeletionMode() ? null : 'deletion'),
     });
   };
 
@@ -172,7 +181,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       "vclick",
       "node, edge",
       (e => {
-        if (this.state.connectionMode && e.target.isNode()) {
+        if (this.isConnectionMode() && e.target.isNode()) {
           if (this.state.connectingNodeId) {
             this.addEdge(e.target.data("id"));
             this.colorizeNode(e.target.data("id"), Colors.blue);
@@ -180,7 +189,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
             this.setState({ connectingNodeId: e.target.data("id") });
             this.colorizeNode(e.target.data("id"), Colors.red);
           }
-        } else if (this.state.deletionMode) {
+        } else if (this.isDeletionMode()) {
           this.deleteElement(e);
         } else {
           this.openModal(e);
@@ -231,6 +240,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       .then(response => response.json())
       .then(json => {
         if (json.id !== undefined) {
+          this.emitNotice("Your work has been saved");
           this.setState({ isSaved: true, saveButtonLabel: "Saved" });
         }
       });
@@ -261,6 +271,20 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
     this.setState({ layout: { name: "dagre" } });
   };
 
+  hint = () => {
+    if (this.isConnectionMode()) {
+      if (this.state.connectingNodeId) {
+        return (<p>Great! Now select the other node to connect them together.</p>)
+      } else {
+        return (<p>Cool, select the starting node.</p>)
+      }
+    } else if (this.isDeletionMode()) {
+      return (<p>Click on the node/edge  in order to delete it</p>);
+    } else {
+      return null;
+    }
+  }
+
   render() {
     const stylesheet = [
       {
@@ -284,44 +308,48 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       }
     ];
 
-    return [
-      <div className="buttonContainer">
-        <button onClick={this.save} disabled={this.state.isSaved}>
-          {this.state.saveButtonLabel}
-        </button>
-        <button onClick={this.addNode}>Add</button>
-        <button
-          className={this.modeClassName(this.state.connectionMode)}
-          onClick={this.toggleConnectionMode}
-        >
-          Connect
-        </button>
-        <button
-          className={this.modeClassName(this.state.deletionMode)}
-          onClick={this.toggleDeletionMode}
-        >
-          Delete
-        </button>
-        <button onClick={this.reset}>Reset</button>
-        <a href={`/play/${this.props.gameId}`}>Play</a>
-      </div>,
-      <CytoscapeComponent
-        elements={this.state.elements}
-        className="game-editor"
-        layout={
-          this.state.layout || (this.props.touched ? null : { name: "dagre" })
-        }
-        cy={cy => (this.cy = cy)}
-        stylesheet={stylesheet}
-        {...this.props.cyOptions}
-      />,
-      <EditElementModal
-        isOpen={this.state.modalIsOpen}
-        content={this.state.editingNode.data.content}
-        closeModal={this.closeModal}
-        onApplyContent={this.handleApplyContent}
-      />
-    ];
+    return (
+      <div>
+        {this.state.notice && <p class="notice">{this.state.notice}</p>}
+        <div className="buttonContainer">
+          <button onClick={this.save} disabled={this.state.isSaved}>
+            {this.state.saveButtonLabel}
+          </button>
+          <button onClick={this.addNode}>Add</button>
+          <button
+            className={this.modeClassName(this.isConnectionMode())}
+            onClick={this.toggleConnectionMode}
+          >
+            Connect
+          </button>
+          <button
+            className={this.modeClassName(this.isDeletionMode())}
+            onClick={this.toggleDeletionMode}
+          >
+            Delete
+          </button>
+          <button onClick={this.reset}>Reset</button>
+          <a href={`/play/${this.props.gameId}`}>Play</a>
+        </div>
+        {this.hint()}
+        <CytoscapeComponent
+          elements={this.state.elements}
+          className="game-editor"
+          layout={
+            this.state.layout || (this.props.touched ? null : { name: "dagre" })
+          }
+          cy={cy => (this.cy = cy)}
+          stylesheet={stylesheet}
+          {...this.props.cyOptions}
+        />
+        <EditElementModal
+          isOpen={this.state.modalIsOpen}
+          content={this.state.editingNode.data.content}
+          closeModal={this.closeModal}
+          onApplyContent={this.handleApplyContent}
+        />
+      </div>
+    )
   }
 }
 
