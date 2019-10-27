@@ -20,7 +20,9 @@ const Colors = {
   orange: "darkorange"
 };
 
-type Mode = null | 'connection' | 'deletion';
+type Mode = null
+| 'connection'
+| 'deletion';
 
 interface GameEditorProps {
   elements: any[];
@@ -310,7 +312,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     return (
       <div>
-        {this.state.notice && <p class="notice">{this.state.notice}</p>}
+        {this.state.notice && <p className="notice">{this.state.notice}</p>}
         <div className="buttonContainer">
           <button onClick={this.save} disabled={this.state.isSaved}>
             {this.state.saveButtonLabel}
