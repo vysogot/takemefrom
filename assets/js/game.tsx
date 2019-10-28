@@ -23,7 +23,7 @@ class Game extends React.Component<any, any> {
 
   takeChoice = (event, choice) => {
     event.preventDefault();
-    this.props.channel.push("take-choice", { choice_id: choice.target });
+    this.props.channel.push("take-choice", { choice_id: choice.id, target_id: choice.target });
   };
 
   render() {

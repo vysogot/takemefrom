@@ -15,19 +15,19 @@ defmodule TakemefromWeb.GameChannel do
 
     push(socket, "beginning", initial_state)
     if !socket.assigns.observer do
-      broadcast(socket, "observe-choice", initial_state)
+      broadcast(socket, "observe-choice", %{ new_place: initial_state.place, choice_id: 0 })
     end
 
     {:noreply, socket}
   end
 
-  def handle_in("take-choice", %{"choice_id" => choice_id}, socket) do
+  def handle_in("take-choice", %{"choice_id" => choice_id, "target_id" => target_id}, socket) do
     game = Games.get_by!(slug: "tutorial")
 
-    new_place = Games.get_place(game, choice_id)
+    new_place = Games.get_place(game, target_id)
 
     push(socket, "choice-taken", new_place)
-    broadcast(socket, "observe-choice", new_place)
+    broadcast(socket, "observe-choice", %{ new_place: new_place.place, choice_id: choice_id })
     {:noreply, socket}
   end
 end

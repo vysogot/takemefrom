@@ -56,6 +56,15 @@ class GameObserver extends React.Component<
       .update();
   };
 
+  colorizeEdge = (edgeId, color) => {
+    this.cy
+      .style()
+      .selector("edge#" + edgeId)
+      .style("line-color", color)
+      .style("target-arrow-color", color)
+      .update();
+  };
+
   componentDidMount() {
     this.cy.ready(() => {
       this.cy.elements().forEach(ele => {
@@ -71,8 +80,10 @@ class GameObserver extends React.Component<
 
     this.cy.center();
 
-    this.props.channel.on("observe-choice", ({ place }) => {
-      this.colorizeNode(place.id, Colors.blue);
+    this.props.channel.on("observe-choice", ({ new_place, choice_id }) => {
+      this.colorizeNode(new_place.id, Colors.blue);
+      console.log(choice_id)
+      this.colorizeEdge(choice_id, Colors.blue);
     });
   }
 
@@ -89,11 +100,23 @@ class GameObserver extends React.Component<
   };
 
   render() {
+    const stylesheet = [
+      {
+        selector: "edge",
+        style: {
+          width: 4,
+          "target-arrow-shape": "triangle",
+          "curve-style": "bezier"
+        }
+      }
+    ];
+
     return (
       <div>
         <CytoscapeComponent
           elements={this.state.elements}
           className="game-editor"
+          stylesheet={stylesheet}
           layout={null}
           cy={cy => (this.cy = cy)}
           {...this.props.cyOptions}
