@@ -11,20 +11,9 @@ defmodule TakemefromWeb.GameChannel do
   def handle_info({:after_join, game_session_name}, socket) do
     game = Games.get_by!(slug: "tutorial")
 
-    place_node =
-      game.elements
-      |> Enum.find(fn x ->
-        x["data"]["id"] == Integer.to_string(game.beginning_id)
-      end)
+    initial_state = Games.get_beginning(game)
 
-    choices =
-      game.elements
-      |> Enum.filter(fn x ->
-        x["data"]["source"] == place_node["data"]["id"]
-      end)
-      |> Enum.map(& &1["data"])
-
-    push(socket, "beginning", %{place_node: place_node, choices: choices})
+    push(socket, "beginning", initial_state)
     {:noreply, socket}
   end
 end

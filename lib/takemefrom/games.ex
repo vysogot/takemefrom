@@ -76,6 +76,30 @@ defmodule Takemefrom.Games do
     game.inserted_at != game.updated_at
   end
 
+  def get_beginning(game) do
+    get_place(game, game.beginning_id)
+  end
+
+  def get_place(game, place_id) do
+    place =
+      game.elements
+      |> Enum.find(fn x ->
+        x["data"]["id"] == Integer.to_string(place_id)
+      end)
+
+    choices =
+      game.elements
+      |> Enum.filter(fn x ->
+        x["data"]["source"] == place["data"]["id"]
+      end)
+      |> Enum.map(& &1["data"])
+
+    %{
+      place: place,
+      choices: choices
+    }
+  end
+
   @doc """
   Updates a game.
 
