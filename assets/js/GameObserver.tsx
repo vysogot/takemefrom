@@ -5,6 +5,7 @@ import CytoscapeComponent from "react-cytoscapejs";
 import Cytoscape from "cytoscape";
 import popper from "cytoscape-popper";
 import tippy from "tippy.js";
+import { Socket } from "phoenix";
 
 declare function require(path: string): any; // move it somewhere else .d.ts I guess
 require("dagre");
@@ -23,6 +24,7 @@ interface GameObserverProps {
   elements: any[];
   beginningId: string;
   cyOptions: any;
+  channel: any;
 }
 
 interface GameObserverState {
@@ -42,7 +44,6 @@ class GameObserver extends React.Component<
 
     this.state = {
       elements: props.elements,
-      mode: null,
       layout: null
     };
   }
@@ -126,7 +127,7 @@ class GameObserver extends React.Component<
       <div>
         <CytoscapeComponent
           elements={this.state.elements}
-          className="game-editor"
+          className="game-observer"
           layout={null}
           cy={cy => (this.cy = cy)}
           stylesheet={stylesheet}
@@ -138,20 +139,33 @@ class GameObserver extends React.Component<
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const editor = document.getElementById("game-observer");
+  const observer = document.getElementById("game-observer");
 
-  if (editor) {
-    const elements = JSON.parse(editor.dataset.elements);
-    const beginningId = editor.dataset.beginningId;
-    const cyOptions = JSON.parse(editor.dataset.cyOptions);
+  if (observer) {
+    const elements = JSON.parse(observer.dataset.elements);
+    const beginningId = observer.dataset.beginningId;
+    const cyOptions = JSON.parse(observer.dataset.cyOptions);
+    const gameSessionName = observer.dataset.gameSessionName;
+
+    const socket = new Socket();
+    const channel = socket.channel(`games:${gameSessionName}`);
+    channel
+      .join()
+      .receive("ok", response => {
+        console.log("Joined " + gameSessionName);
+      })
+      .receive("error", response => {
+        console.log(response);
+      });
 
     ReactDOM.render(
       <GameObserver
         elements={elements}
         beginningId={beginningId}
         cyOptions={{ ...cyOptions, maxZoom: 2, minZoom: 0.5 }}
+        channel={channel}
       />,
-      editor
+      observer
     );
   }
 });
