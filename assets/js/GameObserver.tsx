@@ -146,8 +146,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const beginningId = observer.dataset.beginningId;
     const cyOptions = JSON.parse(observer.dataset.cyOptions);
     const gameSessionName = observer.dataset.gameSessionName;
+    const token = observer.dataset.token;
 
-    const socket = new Socket();
+    const socket = new Socket("/socket", { params: { token } });
     const channel = socket.channel(`games:${gameSessionName}`);
     channel
       .join()
