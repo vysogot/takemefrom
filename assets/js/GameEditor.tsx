@@ -210,6 +210,8 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
     this.cy.elements().unbind("mouseout");
     this.cy.elements().bind("mouseout", event => event.target.tippy.hide());
+
+    this.cy.center();
   }
 
   makePopper = ele => {
@@ -265,10 +267,6 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
 
   modeClassName = mode => {
     return mode ? "modeOn" : "";
-  };
-
-  reset = () => {
-    this.setState({ layout: { name: "dagre" } });
   };
 
   hint = () => {
@@ -328,7 +326,6 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
           >
             Delete
           </button>
-          <button onClick={this.reset}>Reset</button>
           <a href={`/play/${this.props.gameId}`}>Play</a>
         </div>
         <CytoscapeComponent
