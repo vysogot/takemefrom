@@ -12,19 +12,19 @@ class Game extends React.Component<any, any> {
     this.state = {
       place: props.place,
       choices: props.choices
-    }
+    };
   }
 
   componentDidMount() {
-    this.props.channel.on("choice-taken", ({place, choices}) => {
-      this.setState({ place, choices })
-    })
+    this.props.channel.on("choice-taken", ({ place, choices }) => {
+      this.setState({ place, choices });
+    });
   }
 
   takeChoice = (event, choice) => {
     event.preventDefault();
-    this.props.channel.push("take-choice", { choice_id: choice.target })
-  }
+    this.props.channel.push("take-choice", { choice_id: choice.target });
+  };
 
   render() {
     return (
@@ -32,16 +32,20 @@ class Game extends React.Component<any, any> {
         <p
           id="content"
           dangerouslySetInnerHTML={{
-            __html: this.state.place.data.content
+            __html: this.state.place.content
           }}
         />
         {this.state.choices.map(choice => {
-          return (<p className="choice">
-            <a onClick={e => this.takeChoice(e, choice)}
-                      dangerouslySetInnerHTML={{
-                        __html: choice.content
-                      }} />
-          </p>)
+          return (
+            <p className="choice">
+              <a
+                onClick={e => this.takeChoice(e, choice)}
+                dangerouslySetInnerHTML={{
+                  __html: choice.content
+                }}
+              />
+            </p>
+          );
         })}
       </div>
     );
@@ -64,7 +68,7 @@ if (gameContainer) {
       console.log(response);
     });
 
-  channel.on("beginning", ({place, choices}) => {
+  channel.on("beginning", ({ place, choices }) => {
     ReactDOM.render(
       <Game place={place} choices={choices} channel={channel} />,
       gameContainer

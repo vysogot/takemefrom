@@ -32,6 +32,7 @@ defmodule TakemefromWeb.Router do
       post "/code", GameCodeController, :update
 
       resources "/play", PlayV2Controller, only: [:show]
+      resources "/observe", ObserveController, only: [:show]
     end
 
     get "/oauth2/github", Oauth2Controller, :github

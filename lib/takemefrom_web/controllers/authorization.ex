@@ -1,4 +1,4 @@
-defmodule TakemefromWeb.Authorization do
+ defmodule TakemefromWeb.Authorization do
   use Phoenix.Controller
 
   alias Takemefrom.Policy
