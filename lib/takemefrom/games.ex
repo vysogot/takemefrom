@@ -87,13 +87,13 @@ defmodule Takemefrom.Games do
   def get_place(game, place_id) do
     place =
       game.elements
-      |> Enum.find(& &1["data"]["id"] == place_id)
+      |> Enum.find(&(&1["data"]["id"] == place_id))
       |> Map.get("data")
       |> Map.take(["id", "content"])
 
     choices =
       game.elements
-      |> Enum.filter(& &1["data"]["source"] == place["id"])
+      |> Enum.filter(&(&1["data"]["source"] == place["id"]))
       |> Enum.map(&(&1["data"] |> Map.take(["id", "content", "target"])))
 
     %{

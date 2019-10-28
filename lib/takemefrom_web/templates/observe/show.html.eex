@@ -1,0 +1,6 @@
+<div id="game-observer"
+     data-elements="<%= @elements %>"
+     data-cy-options="<%= @cy_options %>"
+     data-beginning-id="<%= @beginning_id %>"
+>
+</div>
