@@ -1,4 +1,5 @@
 <div id="game-container"
      data-token=<%= @token %>
-     data-game-name=<%= @game_name %>
+     data-game-session-name=<%= @game_session_name %>
+     data-game-slug=<%= @game_slug %>
 </div>

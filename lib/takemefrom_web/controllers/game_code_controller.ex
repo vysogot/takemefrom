@@ -16,7 +16,7 @@ defmodule TakemefromWeb.GameCodeController do
   def update(conn, params) do
     game = Games.get_by!(slug: params["game_id"])
 
-    case params["game"]["elements"] |> Jason.decode do
+    case params["game"]["elements"] |> Jason.decode() do
       {:ok, elements} ->
         Games.update_elements(game, elements)
 

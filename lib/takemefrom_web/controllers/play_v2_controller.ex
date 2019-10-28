@@ -6,7 +6,8 @@ defmodule TakemefromWeb.PlayV2Controller do
 
     conn
     |> assign(:token, token)
-    |> assign(:game_name, params["id"])
+    |> assign(:game_session_name, params["id"])
+    |> assign(:game_slug, params["game_id"])
     |> render("show.html")
   end
 end
