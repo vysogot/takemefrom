@@ -14,6 +14,10 @@ defmodule TakemefromWeb.GameChannel do
     initial_state = Games.get_beginning(game)
 
     push(socket, "beginning", initial_state)
+    if !socket.assigns.observer do
+      broadcast(socket, "observe-choice", initial_state)
+    end
+
     {:noreply, socket}
   end
 

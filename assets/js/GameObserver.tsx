@@ -54,12 +54,6 @@ class GameObserver extends React.Component<
       .selector("node#" + nodeId)
       .style("background-color", color)
       .update();
-
-    this.cy
-      .style()
-      .selector("node#" + this.props.beginningId)
-      .style("background-color", Colors.orange)
-      .update();
   };
 
   componentDidMount() {
@@ -119,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const gameSessionName = observer.dataset.gameSessionName;
     const token = observer.dataset.token;
 
-    const socket = new Socket("/socket", { params: { token } });
+    const socket = new Socket("/socket", { params: { token, observer: true } });
     socket.connect();
     const channel = socket.channel(`games:${gameSessionName}`);
     channel
