@@ -1,6 +1,8 @@
 defmodule TakemefromWeb.UserSocket do
   use Phoenix.Socket
 
+  channel "games:*", TakemefromWeb.GameChannel
+
   ## Channels
   # channel "room:*", TakemefromWeb.RoomChannel
 

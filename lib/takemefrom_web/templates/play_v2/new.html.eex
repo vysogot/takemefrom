@@ -1,0 +1,24 @@
+<h1>Join the game</h1>
+
+<div class="content">
+
+  <%= form_for @conn, Routes.session_path(@conn, :show), [as: :player, method: "GET"], fn f -> %>
+    <div class="field">
+      <%= label f, :email %><br />
+      <%= email_input f, :email %>
+    </div>
+
+    <div class="field">
+      <%= label f, :password %><br />
+      <%= password_input f, :password, autocomplete: "off" %>
+    </div>
+
+    <div class="actions">
+      <%= submit "Log in" %>
+    </div>
+  <% end %>
+</div>
+
+<p class="choice"><%= link "Sign up", to: Routes.registration_path(@conn, :new) %></p>
+<p class="choice"><%= link "Github", to: Routes.oauth2_path(@conn, :github) %></p>
+<p class="choice light"><%= link "Go back", to: Routes.page_path(@conn, :index) %></p>

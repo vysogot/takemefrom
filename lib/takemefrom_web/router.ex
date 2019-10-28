@@ -23,13 +23,15 @@ defmodule TakemefromWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/sessions", SessionController, only: [:new, :create, :delete], singleton: true
     resources "/registrations", RegistrationController, only: [:new, :create]
     resources "/play", PlayController, only: [:show]
 
     resources "/games", GameController, only: [:new, :edit, :index, :create, :delete] do
       get "/code", GameCodeController, :edit
       post "/code", GameCodeController, :update
+
+      resources "/play", PlayV2Controller, only: [:show]
     end
 
     get "/oauth2/github", Oauth2Controller, :github

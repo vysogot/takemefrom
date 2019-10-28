@@ -1,0 +1,4 @@
+<div id="game-container"
+     data-token=<%= @token %>
+     data-game-name=<%= @game_name %>
+</div>
