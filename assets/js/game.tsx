@@ -1,6 +1,26 @@
 import { Socket } from "phoenix";
 
+import * as React from "react";
+import * as ReactDOM from "react-dom";
+
 const gameContainer = document.getElementById("game-container");
+
+class Game extends React.Component<any, any> {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <p
+        id="content"
+        dangerouslySetInnerHTML={{
+          __html: this.props.beginning.place.data.content
+        }}
+      />
+    );
+  }
+}
 
 if (gameContainer) {
   const token = gameContainer.dataset.token;
@@ -20,5 +40,10 @@ if (gameContainer) {
 
   channel.on("beginning", beginning => {
     console.log(beginning);
+
+    ReactDOM.render(
+      <Game beginning={beginning} channel={channel} />,
+      gameContainer
+    );
   });
 }
