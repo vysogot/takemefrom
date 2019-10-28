@@ -80,11 +80,15 @@ defmodule Takemefrom.Games do
     get_place(game, game.beginning_id)
   end
 
+  def get_place(game, place_id) when is_integer(place_id) do
+    get_place(game, Integer.to_string(place_id))
+  end
+
   def get_place(game, place_id) do
     place =
       game.elements
       |> Enum.find(fn x ->
-        x["data"]["id"] == Integer.to_string(place_id)
+        x["data"]["id"] == place_id
       end)
 
     choices =

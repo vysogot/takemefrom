@@ -8,16 +8,42 @@ const gameContainer = document.getElementById("game-container");
 class Game extends React.Component<any, any> {
   constructor(props) {
     super(props);
+
+    this.state = {
+      place: props.place,
+      choices: props.choices
+    }
+  }
+
+  componentDidMount() {
+    this.props.channel.on("choice-taken", ({place, choices}) => {
+      this.setState({ place, choices })
+    })
+  }
+
+  takeChoice = (event, choice) => {
+    event.preventDefault();
+    this.props.channel.push("take-choice", { choice_id: choice.target })
   }
 
   render() {
     return (
-      <p
-        id="content"
-        dangerouslySetInnerHTML={{
-          __html: this.props.beginning.place.data.content
-        }}
-      />
+      <div>
+        <p
+          id="content"
+          dangerouslySetInnerHTML={{
+            __html: this.state.place.data.content
+          }}
+        />
+        {this.state.choices.map(choice => {
+          return (<p className="choice">
+            <a onClick={e => this.takeChoice(e, choice)}
+                      dangerouslySetInnerHTML={{
+                        __html: choice.content
+                      }} />
+          </p>)
+        })}
+      </div>
     );
   }
 }
@@ -38,11 +64,9 @@ if (gameContainer) {
       console.log(response);
     });
 
-  channel.on("beginning", beginning => {
-    console.log(beginning);
-
+  channel.on("beginning", ({place, choices}) => {
     ReactDOM.render(
-      <Game beginning={beginning} channel={channel} />,
+      <Game place={place} choices={choices} channel={channel} />,
       gameContainer
     );
   });

@@ -16,4 +16,13 @@ defmodule TakemefromWeb.GameChannel do
     push(socket, "beginning", initial_state)
     {:noreply, socket}
   end
+
+  def handle_in("take-choice", %{"choice_id" => choice_id}, socket) do
+    game = Games.get_by!(slug: "tutorial")
+
+    new_place = Games.get_place(game, choice_id)
+
+    push(socket, "choice-taken", new_place)
+    {:noreply, socket}
+  end
 end
