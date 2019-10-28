@@ -23,6 +23,7 @@ defmodule TakemefromWeb.GameChannel do
     new_place = Games.get_place(game, choice_id)
 
     push(socket, "choice-taken", new_place)
+    broadcast(socket, "observe-choice", new_place)
     {:noreply, socket}
   end
 end

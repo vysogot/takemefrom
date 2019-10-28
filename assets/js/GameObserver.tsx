@@ -62,17 +62,7 @@ class GameObserver extends React.Component<
       .update();
   };
 
-  colorizeBeginning = () => {
-    this.colorizeNode(this.props.beginningId, Colors.orange);
-  };
-
-  componentDidUpdate() {
-    this.colorizeBeginning();
-  }
-
   componentDidMount() {
-    this.colorizeBeginning();
-
     this.cy.ready(() => {
       this.cy.elements().forEach(ele => {
         this.makePopper(ele);
@@ -86,6 +76,10 @@ class GameObserver extends React.Component<
     this.cy.elements().bind("mouseout", event => event.target.tippy.hide());
 
     this.cy.center();
+
+    this.props.channel.on("observe-choice", ({ place }) => {
+      this.colorizeNode(place.id, Colors.blue);
+    });
   }
 
   makePopper = ele => {
@@ -101,36 +95,13 @@ class GameObserver extends React.Component<
   };
 
   render() {
-    const stylesheet = [
-      {
-        selector: "node",
-        style: {
-          "text-opacity": 0.5,
-          "text-valign": "center",
-          "text-halign": "right",
-          "background-color": Colors.blue
-        }
-      },
-      {
-        selector: "edge",
-        style: {
-          width: 4,
-          "target-arrow-shape": "triangle",
-          "line-color": Colors.skyblue,
-          "target-arrow-color": Colors.skyblue,
-          "curve-style": "bezier"
-        }
-      }
-    ];
-
     return (
       <div>
         <CytoscapeComponent
           elements={this.state.elements}
-          className="game-observer"
+          className="game-editor"
           layout={null}
           cy={cy => (this.cy = cy)}
-          stylesheet={stylesheet}
           {...this.props.cyOptions}
         />
       </div>
@@ -149,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const token = observer.dataset.token;
 
     const socket = new Socket("/socket", { params: { token } });
+    socket.connect();
     const channel = socket.channel(`games:${gameSessionName}`);
     channel
       .join()
