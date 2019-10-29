@@ -8,7 +8,7 @@ defmodule TakemefromWeb.GameChannel do
     {:ok, socket}
   end
 
-  def handle_info({:after_join, game_session_name}, socket) do
+  def handle_info({:after_join, _game_session_name}, socket) do
     game = Games.get_by!(slug: "tutorial")
 
     initial_state = Games.get_beginning(game)
