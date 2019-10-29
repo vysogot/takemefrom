@@ -9,7 +9,7 @@ defmodule TakemefromWeb.GameChannel do
   end
 
   def handle_info({:after_join, _game_session_name}, socket) do
-    game = Games.get_by!(slug: "tutorial")
+    game = Games.get_by!(slug: socket.assigns.game_slug)
 
     initial_state = Games.get_beginning(game)
 
@@ -22,7 +22,7 @@ defmodule TakemefromWeb.GameChannel do
   end
 
   def handle_in("take-choice", %{"choice_id" => choice_id, "target_id" => target_id}, socket) do
-    game = Games.get_by!(slug: "tutorial")
+    game = Games.get_by!(slug: socket.assigns.game_slug)
 
     new_place = Games.get_place(game, target_id)
 

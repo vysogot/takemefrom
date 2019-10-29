@@ -18,7 +18,12 @@ defmodule TakemefromWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(params, socket, _connect_info) do
-    {:ok, assign(socket, :observer, params["observer"])}
+    {:ok, data} = Phoenix.Token.verify(socket, "player_salt", params["token"], max_age: 86400)
+
+    assignments = assign(socket, :observer, params["observer"])
+    |> assign(:game_slug, data[:game_slug])
+
+    {:ok, assignments}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

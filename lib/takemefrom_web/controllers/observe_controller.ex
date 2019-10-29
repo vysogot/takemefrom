@@ -5,7 +5,11 @@ defmodule TakemefromWeb.ObserveController do
 
   def show(conn, params) do
     game = Games.get_by!(slug: params["game_id"])
-    token = Phoenix.Token.sign(TakemefromWeb.Endpoint, "user salt", :rand.uniform(9999))
+
+    token = Phoenix.Token.sign(conn, "player_salt", %{
+      player_id: :rand.uniform(9999),
+      game_slug: params["game_id"]
+    })
 
     conn
     |> assign(:token, token)
