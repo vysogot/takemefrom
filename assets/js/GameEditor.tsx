@@ -107,7 +107,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
       nextId: this.state.nextId + 1,
       elements: [
         ...this.state.elements,
-        { data: { id: `node#${this.state.nextId}` } }
+        { data: { id: `node-${this.state.nextId}` } }
       ],
       mode: null,
     });
@@ -120,7 +120,7 @@ class GameEditor extends React.Component<GameEditorProps, GameEditorState> {
         ...this.state.elements,
         {
           data: {
-            id: `edge#${this.state.nextId}`,
+            id: `edge-${this.state.nextId}`,
             source: this.state.connectingNodeId,
             target: targetId,
             content: "Edit me"
