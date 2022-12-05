@@ -1,0 +1,55 @@
+body { margin:0; padding:0; background-color: #eee; font-size: 160%; }
+a, a:link, a:active, a:visited { color: blue; text-decoration: none; }
+a:hover { color: darkblue; }
+
+h1, h2, p, .content { font-size: 100%; font-weight: normal;
+  border-bottom: 1px solid gray; margin: 0; padding: 1em 1.5em; }
+  p { background-color: #fff; }
+.notice { background-color: lightgreen; }
+.editorNotice { height: 3vh; text-align: center; font-size: 70%; padding-top:10px; }
+#title {display: none}
+
+#content { background-color: #fff; }
+.choice { background-color: #eee; }
+.navigation { background-color: #fff }
+
+.game-editor {
+  margin: auto auto;
+  width: 98%;
+  height: 90vh;
+  /* z-index: 998; */
+  background: #eee;
+}
+
+button.modeOn {
+  background-color: lightgoldenrodyellow;
+}
+
+.buttonContainer {
+  text-align: center;
+  padding: 1vh 0 2vh 0;
+}
+
+.buttonContainer button {
+  margin-right: 5px;
+  font-size: 60%;
+}
+
+.buttonContainer a {
+  font-size: 70%;
+}
+
+.trix-button-row {
+  flex-wrap: wrap !important;
+}
+
+.CodeMirror {
+  font-family:
+    "SFMono-Regular",
+    Consolas,
+    "Liberation Mono",
+    Menlo,
+    Courier,
+    monospace !important;
+  font-size: 20px !important;
+}

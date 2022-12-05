@@ -10,6 +10,10 @@ defmodule Takemefrom.Application do
     children = [
       # Start the Ecto repository
       Takemefrom.Repo,
+      # Start the Telemetry supervisor
+      TakemefromWeb.Telemetry,
+      # Start the PubSub system
+      {Phoenix.PubSub, name: Takemefrom.PubSub},
       # Start the endpoint when the application starts
       TakemefromWeb.Endpoint
       # Starts a worker by calling: Takemefrom.Worker.start_link(arg)
